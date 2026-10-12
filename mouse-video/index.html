@@ -24,7 +24,7 @@
 <body>
 <main>
   <h1>Move right.</h1>
-  <p>حرّك الماوس ناحية اليمين والفيديو يشتغل. ناحية الشمال مفيش حاجة بتحصل.</p>
+  <p>حرّك الماوس ناحية اليمين والفيديو يشتغل. ولما تحركه شمال أو تخرجه برا الصفحة الفيديو يرجع لورا.</p>
 </main>
 
 <aside class="side">
@@ -44,24 +44,25 @@
   v.addEventListener('loadedmetadata', () => { dur = v.duration; });
   if (v.readyState >= 1) dur = v.duration;
 
-  // only rightward motion advances; leftward motion is ignored
+  // rightward motion plays, leftward motion rewinds
   addEventListener('mousemove', e => {
     if (lastX !== null) {
       const dx = e.clientX - lastX;
-      if (dx > 0 && dur) {
-        target = Math.min(dur - 0.04, target + (dx / innerWidth) * dur * SENS);
-        hint.style.opacity = 0;
+      if (dur) {
+        // right = forward, left = rewind
+        target = Math.max(0, Math.min(dur - 0.04, target + (dx / innerWidth) * dur * SENS));
+        if (dx > 0) hint.style.opacity = 0;
       }
     }
     lastX = e.clientX;
   });
-  addEventListener('mouseleave', () => { lastX = null; });
+  addEventListener('mouseleave', () => { lastX = null; target = 0; hint.style.opacity = 1; });  // mouse left the page: rewind
 
-  // touch: rightward swipe only
+  // touch: swipe right plays, swipe left rewinds
   addEventListener('touchmove', e => {
     const x = e.touches[0].clientX;
-    if (lastX !== null && x > lastX && dur)
-      target = Math.min(dur - 0.04, target + ((x - lastX) / innerWidth) * dur * SENS);
+    if (lastX !== null && dur)
+      target = Math.max(0, Math.min(dur - 0.04, target + ((x - lastX) / innerWidth) * dur * SENS));
     lastX = x;
   }, {passive:true});
   addEventListener('touchend', () => { lastX = null; });

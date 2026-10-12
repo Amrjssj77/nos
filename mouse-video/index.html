@@ -39,6 +39,7 @@
   const fill = document.getElementById('fill');
   const hint = document.getElementById('hint');
   const SENS = 1.4;          // video seconds per full screen-width of rightward movement
+  const BACK = 3;            // rewind is 3x faster than forward
   let dur = 0, target = 0, cur = 0, lastX = null;
 
   v.addEventListener('loadedmetadata', () => { dur = v.duration; });
@@ -50,7 +51,7 @@
       const dx = e.clientX - lastX;
       if (dur) {
         // right = forward, left = rewind
-        target = Math.max(0, Math.min(dur - 0.04, target + (dx / innerWidth) * dur * SENS));
+        target = Math.max(0, Math.min(dur - 0.04, target + (dx / innerWidth) * dur * SENS * (dx < 0 ? BACK : 1)));
         if (dx > 0) hint.style.opacity = 0;
       }
     }
@@ -62,13 +63,13 @@
   addEventListener('touchmove', e => {
     const x = e.touches[0].clientX;
     if (lastX !== null && dur)
-      target = Math.max(0, Math.min(dur - 0.04, target + ((x - lastX) / innerWidth) * dur * SENS));
+      target = Math.max(0, Math.min(dur - 0.04, target + ((x - lastX) / innerWidth) * dur * SENS * (x < lastX ? BACK : 1)));
     lastX = x;
   }, {passive:true});
   addEventListener('touchend', () => { lastX = null; });
 
   (function tick() {
-    cur += (target - cur) * 0.12;            // smooth easing
+    cur += (target - cur) * (target < cur ? 0.35 : 0.12);   // faster easing when rewinding
     if (Math.abs(target - cur) < 0.001) cur = target;
     if (dur && Math.abs(v.currentTime - cur) > 0.01) v.currentTime = cur;
     fill.style.width = dur ? (cur / dur * 100) + '%' : 0;

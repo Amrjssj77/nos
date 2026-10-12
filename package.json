@@ -1,0 +1,11 @@
+{
+  "name": "nos",
+  "private": true,
+  "scripts": {
+    "build:chairs": "esbuild src/chairs.js --bundle --minify --format=iife --outfile=site/chairs.bundle.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "three": "0.160.0"
+  }
+}

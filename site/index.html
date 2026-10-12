@@ -32,6 +32,22 @@
   #rail i span { position:absolute; left:0; top:0; width:1px; background:#fff; height:0; }
   #loader { position:fixed; inset:0; z-index:10; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; font-size:12px; letter-spacing:.4em; text-transform:uppercase; transition:opacity .6s; }
   #loader div { width:180px; height:1px; background:rgba(255,255,255,.2); } #loader div span { display:block; height:1px; width:0; background:var(--gold); }
+  #seats { position:relative; background:radial-gradient(ellipse at 50% 0%, #2a0d0b 0%, var(--bg) 62%); padding:clamp(64px,10vw,130px) clamp(20px,5vw,72px); }
+  #seats header { text-align:center; margin-bottom:clamp(32px,5vw,64px); }
+  #seats header small { display:block; font-size:12px; letter-spacing:.4em; text-transform:uppercase; opacity:.8; margin-bottom:14px; }
+  #seats header h2 { font-family:'Cormorant Garamond',Georgia,serif; font-weight:300; font-size:clamp(38px,6vw,80px); line-height:1; }
+  #seats header .ar { font-family:'Amiri',serif; color:var(--gold); font-size:clamp(18px,2.2vw,28px); margin-top:14px; }
+  .seat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)); gap:clamp(20px,3vw,40px); max-width:1200px; margin:0 auto; }
+  .seat-card { border:1px solid rgba(217,174,85,.25); border-radius:6px; background:rgba(255,255,255,.025); overflow:hidden; }
+  .seat-card canvas { display:block; width:100%; height:clamp(380px,60vh,560px); cursor:grab; touch-action:pan-y; }
+  .seat-card canvas.grab { cursor:grabbing; }
+  .seat-card .meta { padding:18px 22px 22px; border-top:1px solid rgba(217,174,85,.18); }
+  .seat-card h3 { font-family:'Cormorant Garamond',Georgia,serif; font-weight:300; font-size:clamp(26px,3vw,36px); }
+  .seat-card p { margin-top:6px; opacity:.75; font-size:14px; line-height:1.5; }
+  .seat-card .hint2 { margin-top:12px; font-size:11px; letter-spacing:.3em; text-transform:uppercase; opacity:.55; }
+  .seat-card button { margin-top:14px; background:none; color:var(--gold); border:1px solid var(--gold); padding:9px 18px; font:inherit; font-size:13px; letter-spacing:.08em; cursor:pointer; border-radius:2px; }
+  .seat-card button:hover { background:rgba(217,174,85,.12); }
+  .nogl { padding:60px 20px; text-align:center; opacity:.7; }
   @media (max-width:640px){ #rail{display:none;} }
 </style>
 </head>
@@ -59,6 +75,24 @@
     <div id="rail"><i><span id="fill"></span></i><em id="num" style="font-style:normal">01 / 05</em></div>
   </div>
 </div>
+<section id="seats">
+  <header>
+    <small>The Seating · 360°</small>
+    <h2>Take a Seat</h2>
+    <p class="ar">اسحب لتدوير الكرسي ٣٦٠°</p>
+  </header>
+  <div class="seat-grid">
+    <article class="seat-card">
+      <canvas id="chair-throne" aria-label="3D model of a carved mahogany throne with tufted red velvet"></canvas>
+      <div class="meta"><h3>The Royal Chair</h3><p>Carved mahogany, tufted red velvet — الكرسي الملكي</p><p class="hint2">Drag to rotate · اسحب</p></div>
+    </article>
+    <article class="seat-card">
+      <canvas id="chair-cinema" aria-label="3D model of a red cinema seat with cup holder"></canvas>
+      <div class="meta"><h3>The Auditorium Seat</h3><p>Tip-up theatre seat with cup holder — كرسي القاعة</p><button id="seat-toggle" type="button">Lower seat · نزّل الكرسي</button><p class="hint2">Drag to rotate · اسحب</p></div>
+    </article>
+  </div>
+</section>
+<script src="chairs.bundle.js"></script>
 <script>
 const FILES = ['videos/01.mp4','videos/02.mp4','videos/03.mp4','videos/04.mp4','videos/05.mp4'];
 const N = FILES.length;

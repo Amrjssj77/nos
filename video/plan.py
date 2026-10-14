@@ -39,7 +39,7 @@ for sec in range(13):
         if is_map: b['map']=mapstart[first]
         else:
             b['crop']=pool[pi%len(pool)];pi+=1
-            b['crop2']=pool[(pi+1)%len(pool)] if random.random()<.55 else None
+            b['crop2']=pool[(pi+1)%len(pool)] if (SUF or random.random()<.55) else None
         b['bg']=bi%3;b['idx']=bi;bi+=1
         beats.append(b)
 # continuous timing
@@ -54,13 +54,14 @@ for b in beats:
         big_side=1 if i%2==0 else -1
         cx=360+big_side*0
         L.append(dict(t='img',file=f"assets/cards{SUF}/{b['crop']}_L.png",pos=[LAY['card'][0]+random.randint(-12,12),LAY['card'][1]+random.randint(-10,10)],a=0.0,z=[1.0,1.07],drift=[random.randint(-10,10),random.randint(-8,8)],ent='slam'))
-        if b['crop2'] and d>6:
+        if b['crop2'] and d>(4 if SUF else 6):
             side=random.choice([-1,1])
             L.append(dict(t='img',file=f"assets/cards{SUF}/{b['crop2']}_S.png",pos=list(random.choice(LAY['card2'])) if SUF else [360+side*190,745+random.randint(-25,10)],a=1.2+random.random()*1.2,z=[1.0,1.04],drift=[0,-6],ent='slide'))
         dn=random.choice(DOODLES[sec]);dp=random.choice(pos_d)
         L.append(dict(t='draw',file=f'assets/icons/{dn}.png',pos=list(dp),a=min(1.5+random.random()*1.5,d-1.0),s=random.uniform(.55,.8),dur=.7))
     else:
         L.append(dict(t='map',kind=b['map'],a=0.0,dur=d))
+        if SUF: L.append(dict(t='img',file=f"assets/cards{SUF}/{POOL[sec][i%len(POOL[sec])]}_S.png",pos=[1000,300],a=1.0,z=[1.0,1.05],drift=[0,-8],ent='slide'))
     # callouts
     nslot=0
     for si in b['sents']:

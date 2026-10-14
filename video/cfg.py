@@ -2,7 +2,7 @@ import os
 SUF='w' if os.environ.get('LAYOUT')=='wide' else ''
 W,H=(1280,720) if SUF else (720,1280)
 FPS=24
-LAY=dict(card=(360,485),card2=[(190,745),(530,745)],doodle=[(630,170),(90,150),(640,800),(80,790)],slots=[(300,815),(430,210),(290,640),(440,350)],date=(360,125),big=(360,560),cta=(360,640),capy=1020,mapc=(360,500),maps=1.0,capw=660,chunk=6) if not SUF else dict(card=(420,335),card2=[(1010,235)],doodle=[(1200,90),(60,90),(1215,410),(60,430)],slots=[(990,440),(1000,560),(950,330),(960,470)],date=(1000,110),big=(640,330),cta=(640,360),capy=655,mapc=(430,350),maps=0.78,capw=1120,chunk=8)
+LAY=dict(card=(360,485),card2=[(190,745),(530,745)],doodle=[(630,170),(90,150),(640,800),(80,790)],slots=[(300,815),(430,210),(290,640),(440,350)],date=(360,125),big=(360,560),cta=(360,640),capy=1020,mapc=(360,500),maps=1.0,capw=660,chunk=6) if not SUF else dict(card=(440,335),card2=[(1010,235)],doodle=[(1200,90),(60,90),(1215,410),(60,430)],slots=[(990,440),(1000,560),(950,330),(960,470)],date=(1000,110),big=(640,330),cta=(640,360),capy=655,mapc=(400,335),maps=0.7,capw=1120,chunk=8)
 SEC_TITLES=["THE HOOK","WHO DECIDES?","LAND OF THE BOW","KUSH RULES EGYPT","MEROË & THE KANDAKES","ROME ENTERS EGYPT","WHO WAS AMANIRENAS?","THE STRIKE ON ASWAN","PETRONIUS STRIKES BACK","“GO TO CAESAR”","THE BURIED HEAD","LEGACY","THE END"]
 # crops: name -> (source, box)
 CROPS={

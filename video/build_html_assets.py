@@ -113,21 +113,23 @@ def shot(pg,htmltxt,path):
     pg.locator('#el').screenshot(path=path,omit_background=True)
 if __name__=='__main__':
     al=json.load(open('align.json'))
-    chunks=make_chunks(al['sents'])
-    json.dump(chunks,open('chunks.json','w'))
+    chunks=make_chunks(al['sents'],LAY['chunk'])
+    json.dump(chunks,open(f'chunks{SUF}.json','w'))
+    os.makedirs(f'assets/cap{SUF}',exist_ok=True)
     with sync_playwright() as p:
         b=p.chromium.launch(executable_path='/opt/pw-browsers/chromium-1194/chrome-linux/chrome',args=['--no-sandbox','--allow-file-access-from-files']);pg=b.new_page(viewport={'width':900,'height':1000})
-        for n in ICONS: shot(pg,icon_html(n),f'assets/icons/{n}.png')
-        for k in ('nile','campaign','embassy'): shot(pg,map_html(k),f'assets/maps/{k}.png')
-        for i,c in enumerate(CALL):
-            shot(pg,note_html(c[2],c[3]),f'assets/notes/{i}.png')
+        if not SUF:
+            for n in ICONS: shot(pg,icon_html(n),f'assets/icons/{n}.png')
+            for k in ('nile','campaign','embassy'): shot(pg,map_html(k),f'assets/maps/{k}.png')
+            for i,c in enumerate(CALL):
+                shot(pg,note_html(c[2],c[3]),f'assets/notes/{i}.png')
         cap_css="""<style>@font-face{font-family:Oswald;font-weight:700;src:url('file://%s/oswald/files/oswald-latin-700-normal.woff2')}
-        .cap{display:inline-block;width:660px;text-align:center;font-family:Oswald;font-weight:700;font-size:50px;line-height:1.12;color:#fff;text-transform:uppercase;letter-spacing:.5px;paint-order:stroke fill;-webkit-text-stroke:9px #000;padding:6px 10px}
-        .k{color:#ffd23f}</style>"""%FD
+        .cap{display:inline-block;width:%dpx;text-align:center;font-family:Oswald;font-weight:700;font-size:%dpx;line-height:1.12;color:#fff;text-transform:uppercase;letter-spacing:.5px;paint-order:stroke fill;-webkit-text-stroke:9px #000;padding:6px 10px}
+        .k{color:#ffd23f}</style>"""%(FD,LAY['capw'],50 if not SUF else 46)
         for i,c in enumerate(chunks):
             toks=c['text'].split()
             s=' '.join(f'<span class="k">{html.escape(t)}</span>' if is_key(t) else html.escape(t) for t in toks)
             open('/tmp/_t.html','w').write(cap_css+f'<body style="margin:0;background:transparent"><div class="cap" id="el">{s}</div></body>');pg.goto('file:///tmp/_t.html');pg.evaluate("document.fonts.ready")
-            pg.locator('#el').screenshot(path=f'assets/cap/{i}.png',omit_background=True)
+            pg.locator('#el').screenshot(path=f'assets/cap{SUF}/{i}.png',omit_background=True)
         b.close()
     print(len(chunks),'caption chunks')

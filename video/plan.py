@@ -2,7 +2,7 @@ import json,random,bisect
 from cfg import *
 random.seed(3)
 al=json.load(open('align.json'));S=al['sents'];T=1853.664
-chunks=json.load(open('chunks.json'))
+chunks=json.load(open(f'chunks{SUF}.json'))
 DOODLES={0:['crown','arrow','star'],1:['quest','circle','under'],2:['boat','pyramid','bow','arrow'],3:['pyramid','crown','hourglass','arrow'],4:['ankh','eye','bow','pyramid'],5:['column','sword','arrow','crown'],6:['quest','eye','circle'],7:['sword','x','arrow'],8:['sword','x','arrow','boat'],9:['boat','arrow','hourglass'],10:['eye','circle','arrow'],11:['crown','ankh','star'],12:['crown','star','arrow']}
 def secsents(sec): return [i for i,s in enumerate(S) if s['sec']==sec]
 beats=[]
@@ -46,17 +46,17 @@ for sec in range(13):
 beats[0]['start']=0.0
 for i,b in enumerate(beats): b['end']=beats[i+1]['start'] if i+1<len(beats) else T
 # layers
-pos_d=[(630,170),(90,150),(640,800),(80,790)]
+pos_d=LAY['doodle']
 for b in beats:
     L=[];d=b['end']-b['start'];sec=b['sec'];i=b['idx']
     b['tag']=sec
     if b['kind']=='photo':
         big_side=1 if i%2==0 else -1
         cx=360+big_side*0
-        L.append(dict(t='img',file=f"assets/cards/{b['crop']}_L.png",pos=[360+random.randint(-12,12),485+random.randint(-10,10)],a=0.0,z=[1.0,1.07],drift=[random.randint(-10,10),random.randint(-8,8)],ent='slam'))
+        L.append(dict(t='img',file=f"assets/cards{SUF}/{b['crop']}_L.png",pos=[LAY['card'][0]+random.randint(-12,12),LAY['card'][1]+random.randint(-10,10)],a=0.0,z=[1.0,1.07],drift=[random.randint(-10,10),random.randint(-8,8)],ent='slam'))
         if b['crop2'] and d>6:
             side=random.choice([-1,1])
-            L.append(dict(t='img',file=f"assets/cards/{b['crop2']}_S.png",pos=[360+side*190,745+random.randint(-25,10)],a=1.2+random.random()*1.2,z=[1.0,1.04],drift=[0,-6],ent='slide'))
+            L.append(dict(t='img',file=f"assets/cards{SUF}/{b['crop2']}_S.png",pos=list(random.choice(LAY['card2'])) if SUF else [360+side*190,745+random.randint(-25,10)],a=1.2+random.random()*1.2,z=[1.0,1.04],drift=[0,-6],ent='slide'))
         dn=random.choice(DOODLES[sec]);dp=random.choice(pos_d)
         L.append(dict(t='draw',file=f'assets/icons/{dn}.png',pos=list(dp),a=min(1.5+random.random()*1.5,d-1.0),s=random.uniform(.55,.8),dur=.7))
     else:
@@ -69,17 +69,17 @@ for b in beats:
             a=max(0.0,S[si]['start']-b['start'])+ (0.1 if kind in('big','title') else 0.25)
             ent=min(7.0 if kind=='note' else 4.2 if kind=='big' else 6.5, d-a)
             if kind=='note':
-                slots=[(300,815),(430,210),(290,640),(440,350)]
+                slots=LAY['slots']
                 pos=slots[nslot%len(slots)];nslot+=1
                 L.append(dict(t='note',file=f'assets/notes/{ci}.png',pos=list(pos),a=a,end=a+ent,kind=kind))
             elif kind=='date':
-                L.append(dict(t='note',file=f'assets/notes/{ci}.png',pos=[360,125],a=a,end=a+min(ent,6),kind=kind))
+                L.append(dict(t='note',file=f'assets/notes/{ci}.png',pos=list(LAY['date']),a=a,end=a+min(ent,6),kind=kind))
             elif kind in('big','title'):
-                L.append(dict(t='note',file=f'assets/notes/{ci}.png',pos=[360,560],a=a,end=a+ent,kind=kind,dim=True))
+                L.append(dict(t='note',file=f'assets/notes/{ci}.png',pos=list(LAY['big']),a=a,end=a+ent,kind=kind,dim=True))
             else:
-                L.append(dict(t='note',file=f'assets/notes/{ci}.png',pos=[360,640],a=a,end=a+ent,kind=kind,dim=True))
+                L.append(dict(t='note',file=f'assets/notes/{ci}.png',pos=list(LAY['cta']),a=a,end=a+ent,kind=kind,dim=True))
     b['layers']=L
-json.dump(dict(beats=beats,chunks=chunks,T=T),open('plan.json','w'),indent=1)
+json.dump(dict(beats=beats,chunks=chunks,T=T),open(f'plan{SUF}.json','w'),indent=1)
 print(len(beats),'beats; avg',T/len(beats))
 import collections
 print(collections.Counter(b['kind'] for b in beats))

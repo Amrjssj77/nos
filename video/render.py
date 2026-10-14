@@ -1,8 +1,8 @@
 import json,math,sys,os,bisect,subprocess,random
 import numpy as np
 from PIL import Image,ImageDraw,ImageChops
-from cfg import W,H,FPS
-PL=json.load(open('plan.json'));B=PL['beats'];CH=PL['chunks'];T=PL['T']
+from cfg import W,H,FPS,SUF,LAY
+PL=json.load(open(f'plan{SUF}.json'));B=PL['beats'];CH=PL['chunks'];T=PL['T']
 BS=[b['start'] for b in B]
 CS=[c['start'] for c in CH]
 _cache={}
@@ -80,9 +80,10 @@ def draw_layer(cv,L,t,d):
         for (x,y) in dots[:n]: dr.ellipse([x-4,y-4,x+4,y+4],fill=(185,35,28,255))
         if n>0:
             x,y=dots[n-1];dr.ellipse([x-12,y-12,x+12,y+12],fill=(245,232,200,255),outline=(185,35,28,255),width=4)
-        if sc>1.005: m=m.resize((int(m.width*sc),int(m.height*sc)),Image.BILINEAR)
+        sc*=LAY['maps']
+        if abs(sc-1)>0.005: m=m.resize((int(m.width*sc),int(m.height*sc)),Image.BILINEAR)
         m=alpha_mul(m,clamp(p*2))
-        pcenter(cv,m,360,500)
+        pcenter(cv,m,*LAY['mapc'])
 def compose(bi,t):
     b=B[bi];d=b['end']-b['start']
     cv=load(f"assets/bg/bg{b['bg']}.png").convert('RGB').copy() if False else BG(b['bg']).copy()
@@ -92,7 +93,7 @@ def compose(bi,t):
     return cvr
 _bg={}
 def BG(i):
-    if i not in _bg: _bg[i]=Image.open(f'assets/bg/bg{i}.png').convert('RGB')
+    if i not in _bg: _bg[i]=Image.open(f'assets/bg{SUF}/bg{i}.png').convert('RGB')
     return _bg[i]
 yy,xx=np.mgrid[0:H,0:W]
 vig=(1-0.55*(((xx-W/2)/(W/2))**2+((yy-H/2)/(H/2))**2)/2)
@@ -119,12 +120,13 @@ def caption(frame_img,t):
     if i<0: return
     c=CH[i]
     if t>=c['end']+0.35: return
-    im=load(f'assets/cap/{i}.png')
+    im=load(f'assets/cap{SUF}/{i}.png')
     p=clamp((t-c['start'])/0.12);sc=0.9+0.1*eo(p)
     if sc<0.999: im=im.resize((int(im.width*sc),int(im.height*sc)),Image.BILINEAR)
-    frame_img.paste(im,(int(W/2-im.width/2),int(1020-im.height/2)),im)
-def frame(f):
-    t=f/FPS
+    frame_img.paste(im,(int(W/2-im.width/2),int(LAY['capy']-im.height/2)),im)
+def frame(f,t=None,prog=None):
+    t=f/FPS if t is None else t
+    prog=t/T if prog is None else prog
     bi=max(0,bisect.bisect_right(BS,t)-1)
     lt=t-B[bi]['start']
     img=compose(bi,lt)
@@ -136,7 +138,7 @@ def frame(f):
     im=im.copy()
     caption(im,t)
     # progress bar
-    d=ImageDraw.Draw(im);d.rectangle([0,H-8,int(W*t/T),H],fill=(255,210,63))
+    d=ImageDraw.Draw(im);d.rectangle([0,H-8,int(W*prog),H],fill=(255,210,63))
     a=np.asarray(im,np.float32)*vig+GR[f%6]
     return np.clip(a,0,255).astype(np.uint8)
 def render_range(args):

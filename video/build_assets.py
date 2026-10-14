@@ -2,9 +2,10 @@ import json,os,random,math,re,zlib
 import numpy as np
 from PIL import Image,ImageDraw,ImageFilter,ImageEnhance,ImageChops
 from cfg import *
+SUFD=SUF
 from common import *
 random.seed(7);np.random.seed(7)
-os.makedirs('assets/cards',exist_ok=True);os.makedirs('assets/icons',exist_ok=True);os.makedirs('assets/notes',exist_ok=True);os.makedirs('assets/cap',exist_ok=True);os.makedirs('assets/bg',exist_ok=True);os.makedirs('assets/maps',exist_ok=True)
+os.makedirs('assets/cards'+SUF,exist_ok=True);os.makedirs('assets/icons',exist_ok=True);os.makedirs('assets/cap',exist_ok=True);os.makedirs('assets/bg'+SUF,exist_ok=True);os.makedirs('assets/maps',exist_ok=True)
 SRC={'story':Image.open('assets/story.png').convert('RGB'),'poster':Image.open('assets/poster.png').convert('RGB')}
 
 # ---------- backgrounds ----------
@@ -37,7 +38,7 @@ def make_bg(i,base):
     for _ in range(40):
         x=random.randint(0,W);y=random.randint(0,H);l=random.randint(30,160);a=random.uniform(0,math.pi)
         d.line([x,y,x+l*math.cos(a),y+l*math.sin(a)],fill=(200,180,150,random.randint(6,16)),width=1)
-    img.save(f'assets/bg/bg{i}.png')
+    img.save(f'assets/bg'+SUF+f'/bg{i}.png')
 for i,b in enumerate([(34,29,25),(40,31,22),(26,26,28)]): make_bg(i,b)
 
 # ---------- photo cards ----------
@@ -63,10 +64,10 @@ def tape(w=120,h=38,ang=0):
 def make_card(name,size,style,seed):
     random.seed(seed);np.random.seed(seed)
     src,box=CROPS[name];im=SRC[src].crop(box)
-    tw={'L':640,'S':400}[size]
+    tw={'L':640,'S':400}[size] if not SUF else {'L':700,'S':400}[size]
     asp=im.height/im.width
     th=int(tw*asp)
-    maxh={'L':700,'S':440}[size]
+    maxh={'L':700,'S':440}[size] if not SUF else {'L':510,'S':300}[size]
     if th>maxh: th=maxh; tw=int(th/asp)
     im=im.resize((tw*2,th*2),Image.LANCZOS).filter(ImageFilter.UnsharpMask(2,80,2)).resize((tw,th),Image.LANCZOS)
     im=grade(im)
@@ -92,7 +93,7 @@ def make_card(name,size,style,seed):
     else:
         t=tape(130,34,random.uniform(-6,6));out.alpha_composite(t,(P+cw//2-65,P-20))
     out=out.rotate(random.uniform(-2.6,2.6),expand=True,resample=Image.BICUBIC)
-    out.save(f'assets/cards/{name}_{size}.png')
+    out.save(f'assets/cards'+SUF+f'/{name}_{size}.png')
 for n in CROPS:
     make_card(n,'L','torn' if zlib.crc32(n.encode())%2==0 else 'pol',zlib.crc32(n.encode())%1000)
     make_card(n,'S','pol' if zlib.crc32(n.encode())%2==0 else 'torn',zlib.crc32(n.encode())%1000+1)

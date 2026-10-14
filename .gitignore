@@ -1,1 +1,7 @@
 node_modules
+video/seg/
+video/assets/
+video/fonts/node_modules/
+video/*.log
+video/__pycache__/
+video/out/

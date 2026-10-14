@@ -1,0 +1,3008 @@
+{
+ "secs": [
+  "S0",
+  "S1",
+  "S2",
+  "S3",
+  "S4",
+  "S5",
+  "S6",
+  "S7",
+  "S8",
+  "S9",
+  "S10",
+  "S11",
+  "S12"
+ ],
+ "sents": [
+  {
+   "sec": 0,
+   "text": "Amanirenas: The Forgotten Queen Who Challenged Rome.",
+   "start": 0.231,
+   "end": 3.74,
+   "words": 7
+  },
+  {
+   "sec": 0,
+   "text": "Imagine, for a moment, the year is twenty-three BC.",
+   "start": 4.655,
+   "end": 7.679,
+   "words": 9
+  },
+  {
+   "sec": 0,
+   "text": "The most powerful empire on Earth, Rome, stands along Egypt's southern border, relaxed and confident.",
+   "start": 8.339,
+   "end": 14.389,
+   "words": 15
+  },
+  {
+   "sec": 0,
+   "text": "Its legions are used to winning.",
+   "start": 15.148,
+   "end": 16.411,
+   "words": 6
+  },
+  {
+   "sec": 0,
+   "text": "The Nile flows quietly past the fortress walls, and the soldiers count their days until their service ends.",
+   "start": 16.837,
+   "end": 22.807,
+   "words": 18
+  },
+  {
+   "sec": 0,
+   "text": "And then news arrives.",
+   "start": 23.657,
+   "end": 24.916,
+   "words": 4
+  },
+  {
+   "sec": 0,
+   "text": "An army is coming from the south, and at its head is a queen.",
+   "start": 25.741,
+   "end": 29.245,
+   "words": 14
+  },
+  {
+   "sec": 0,
+   "text": "Not just any queen.",
+   "start": 30.03,
+   "end": 30.982,
+   "words": 4
+  },
+  {
+   "sec": 0,
+   "text": "A queen with one eye, leading her men herself.",
+   "start": 31.246,
+   "end": 34.43,
+   "words": 9
+  },
+  {
+   "sec": 0,
+   "text": "The writer who described her was a Greek geographer working in the Roman world, and he was mocking her.",
+   "start": 34.983,
+   "end": 39.891,
+   "words": 19
+  },
+  {
+   "sec": 0,
+   "text": "He called her a woman with a man's spirit, and blind in one eye.",
+   "start": 40.508,
+   "end": 44.43,
+   "words": 14
+  },
+  {
+   "sec": 0,
+   "text": "But what he did not say, perhaps could not bring himself to say, is that this one-eyed queen shook Rome.",
+   "start": 45.302,
+   "end": 50.864,
+   "words": 20
+  },
+  {
+   "sec": 0,
+   "text": "Her army struck Aswan.",
+   "start": 51.35,
+   "end": 52.801,
+   "words": 4
+  },
+  {
+   "sec": 0,
+   "text": "It took the island of Elephantine, reached the sacred island of Philae, and marched back south with prisoners and with statues of the Emperor himself.",
+   "start": 53.145,
+   "end": 61.228,
+   "words": 25
+  },
+  {
+   "sec": 0,
+   "text": "And yet, ask almost anyone today who she was, and you will hear silence.",
+   "start": 61.996,
+   "end": 67.04,
+   "words": 14
+  },
+  {
+   "sec": 0,
+   "text": "Her name was Amanirenas.",
+   "start": 67.239,
+   "end": 68.318,
+   "words": 4
+  },
+  {
+   "sec": 0,
+   "text": "She was the Kandake, the queen, of the Kingdom of Kush.",
+   "start": 68.731,
+   "end": 71.571,
+   "words": 11
+  },
+  {
+   "sec": 0,
+   "text": "And this is the story history tried to forget.",
+   "start": 72.195,
+   "end": 74.23,
+   "words": 9
+  },
+  {
+   "sec": 1,
+   "text": "When we think about the ancient world, we remember certain names.",
+   "start": 75.017,
+   "end": 77.909,
+   "words": 11
+  },
+  {
+   "sec": 1,
+   "text": "Caesar.",
+   "start": 78.478,
+   "end": 78.908,
+   "words": 1
+  },
+  {
+   "sec": 1,
+   "text": "Alexander.",
+   "start": 79.405,
+   "end": 80.036,
+   "words": 1
+  },
+  {
+   "sec": 1,
+   "text": "Cleopatra.",
+   "start": 80.418,
+   "end": 81.155,
+   "words": 1
+  },
+  {
+   "sec": 1,
+   "text": "Names that are shouted from the rooftops, with films, statues, and whole shelves of books.",
+   "start": 81.465,
+   "end": 86.517,
+   "words": 15
+  },
+  {
+   "sec": 1,
+   "text": "But ask yourself a simple question: who decides who gets remembered?",
+   "start": 86.892,
+   "end": 90.549,
+   "words": 11
+  },
+  {
+   "sec": 1,
+   "text": "History is usually written by those who hold the pen, the papyrus, and the library.",
+   "start": 91.347,
+   "end": 95.474,
+   "words": 15
+  },
+  {
+   "sec": 1,
+   "text": "Rome had all three.",
+   "start": 96.188,
+   "end": 97.212,
+   "words": 4
+  },
+  {
+   "sec": 1,
+   "text": "Its writers recorded its victories and called its enemies barbarians, and later generations mostly believed them.",
+   "start": 97.949,
+   "end": 103.925,
+   "words": 16
+  },
+  {
+   "sec": 1,
+   "text": "Amanirenas has an extra problem on top of that.",
+   "start": 104.859,
+   "end": 107.174,
+   "words": 9
+  },
+  {
+   "sec": 1,
+   "text": "Her own people's writing, the Meroitic script, has never been fully deciphered.",
+   "start": 107.834,
+   "end": 111.868,
+   "words": 12
+  },
+  {
+   "sec": 1,
+   "text": "Scholars can sound out the letters, and they know the meaning of a few words, names, titles, and formulas, but long Meroitic texts remain largely unreadable.",
+   "start": 112.544,
+   "end": 120.86,
+   "words": 26
+  },
+  {
+   "sec": 1,
+   "text": "Which means that much of what we know about her comes from her enemies.",
+   "start": 121.706,
+   "end": 124.71,
+   "words": 14
+  },
+  {
+   "sec": 1,
+   "text": "Imagine if everything the world knew about you was written by the person who fought you.",
+   "start": 125.278,
+   "end": 129.516,
+   "words": 16
+  },
+  {
+   "sec": 1,
+   "text": "So in this documentary, we will not tell a pretty legend.",
+   "start": 130.379,
+   "end": 133.075,
+   "words": 11
+  },
+  {
+   "sec": 1,
+   "text": "We will do something harder.",
+   "start": 133.539,
+   "end": 134.554,
+   "words": 5
+  },
+  {
+   "sec": 1,
+   "text": "We will separate what we know from what we are guessing.",
+   "start": 134.949,
+   "end": 137.559,
+   "words": 11
+  },
+  {
+   "sec": 1,
+   "text": "When a number comes from a Roman writer, we will say so, because Roman writers had reasons to exaggerate.",
+   "start": 138.395,
+   "end": 143.666,
+   "words": 19
+  },
+  {
+   "sec": 1,
+   "text": "When historians disagree, we will tell you they disagree.",
+   "start": 144.527,
+   "end": 146.927,
+   "words": 9
+  },
+  {
+   "sec": 1,
+   "text": "And when we simply do not know, we will say that too.",
+   "start": 147.605,
+   "end": 150.403,
+   "words": 12
+  },
+  {
+   "sec": 1,
+   "text": "One more thing before we begin.",
+   "start": 151.768,
+   "end": 152.877,
+   "words": 6
+  },
+  {
+   "sec": 1,
+   "text": "Every image of the queen you see in this film is an artistic reconstruction.",
+   "start": 153.262,
+   "end": 157.07,
+   "words": 14
+  },
+  {
+   "sec": 1,
+   "text": "No portrait of Amanirenas that we can be sure of has survived.",
+   "start": 157.449,
+   "end": 160.672,
+   "words": 12
+  },
+  {
+   "sec": 1,
+   "text": "We are filling the empty space with imagination, not with evidence, and we want you to always know the difference.",
+   "start": 161.059,
+   "end": 166.822,
+   "words": 20
+  },
+  {
+   "sec": 2,
+   "text": "So let us begin where this story begins: with a river.",
+   "start": 167.49,
+   "end": 170.944,
+   "words": 11
+  },
+  {
+   "sec": 2,
+   "text": "The Nile is the longest river in Africa, and for most of its length, it flows north.",
+   "start": 171.574,
+   "end": 176.175,
+   "words": 17
+  },
+  {
+   "sec": 2,
+   "text": "Follow it upstream from the Mediterranean, past the pyramids of Giza, past Thebes and its great temples, and you arrive at Aswan.",
+   "start": 176.774,
+   "end": 183.729,
+   "words": 22
+  },
+  {
+   "sec": 2,
+   "text": "And here, the river changes.",
+   "start": 184.312,
+   "end": 185.782,
+   "words": 5
+  },
+  {
+   "sec": 2,
+   "text": "Great blocks of granite break the surface.",
+   "start": 186.495,
+   "end": 188.585,
+   "words": 7
+  },
+  {
+   "sec": 2,
+   "text": "The channel narrows.",
+   "start": 188.91,
+   "end": 189.85,
+   "words": 3
+  },
+  {
+   "sec": 2,
+   "text": "Water crashes and foams between the rocks.",
+   "start": 190.326,
+   "end": 192.511,
+   "words": 7
+  },
+  {
+   "sec": 2,
+   "text": "These are the cataracts, a series of rapids that make boat travel difficult, and the first of them, at Aswan, was for thousands of years the natural southern border of Egypt.",
+   "start": 192.933,
+   "end": 202.534,
+   "words": 31
+  },
+  {
+   "sec": 2,
+   "text": "Beyond it lay a land the Egyptians called Kush.",
+   "start": 203.126,
+   "end": 205.924,
+   "words": 9
+  },
+  {
+   "sec": 2,
+   "text": "Sometimes they called it the Land of the Bow, because its people were famous archers, among the best in the ancient world.",
+   "start": 206.558,
+   "end": 212.348,
+   "words": 22
+  },
+  {
+   "sec": 2,
+   "text": "We often call this region Nubia today, and it stretches across what is now southern Egypt and northern Sudan.",
+   "start": 212.983,
+   "end": 218.611,
+   "words": 19
+  },
+  {
+   "sec": 2,
+   "text": "This was never an empty or poor frontier.",
+   "start": 219.42,
+   "end": 221.734,
+   "words": 8
+  },
+  {
+   "sec": 2,
+   "text": "It was a land of gold, ivory, ebony, leopard skins, ostrich feathers, and incense.",
+   "start": 222.303,
+   "end": 227.554,
+   "words": 14
+  },
+  {
+   "sec": 2,
+   "text": "All of it flowed down the Nile in one direction, toward Egypt.",
+   "start": 228.333,
+   "end": 231.813,
+   "words": 12
+  },
+  {
+   "sec": 2,
+   "text": "Pharaohs wanted Nubian gold so badly that the Egyptian word for the region, Nubia, may even be connected to the ancient word for gold, though scholars debate that origin.",
+   "start": 232.617,
+   "end": 241.727,
+   "words": 29
+  },
+  {
+   "sec": 2,
+   "text": "And long before Egypt claimed this land, a powerful civilization already stood here.",
+   "start": 242.415,
+   "end": 247.464,
+   "words": 13
+  },
+  {
+   "sec": 2,
+   "text": "Archaeologists call it the Kingdom of Kerma, after the site where its capital stood.",
+   "start": 247.959,
+   "end": 252.273,
+   "words": 14
+  },
+  {
+   "sec": 2,
+   "text": "Kerma flourished about four thousand years ago.",
+   "start": 252.659,
+   "end": 255.508,
+   "words": 7
+  },
+  {
+   "sec": 2,
+   "text": "It built enormous mud-brick structures, one of which still rises above the desert today.",
+   "start": 256.357,
+   "end": 261.241,
+   "words": 14
+  },
+  {
+   "sec": 2,
+   "text": "Its kings were buried beneath huge burial mounds, surrounded by hundreds of sacrificed attendants, and furnished with beautifully made pottery, jewelry, and weapons.",
+   "start": 261.893,
+   "end": 271.656,
+   "words": 23
+  },
+  {
+   "sec": 2,
+   "text": "Kerma was not a subject of Egypt.",
+   "start": 272.415,
+   "end": 274.487,
+   "words": 7
+  },
+  {
+   "sec": 2,
+   "text": "It was a rival, and a dangerous one, sometimes allied with Egypt's enemies.",
+   "start": 274.886,
+   "end": 279.471,
+   "words": 13
+  },
+  {
+   "sec": 2,
+   "text": "But power shifts.",
+   "start": 280.351,
+   "end": 281.309,
+   "words": 3
+  },
+  {
+   "sec": 2,
+   "text": "Around the sixteenth century BC, Egypt's New Kingdom, the age of the great warrior pharaohs, marched south, destroyed Kerma, and conquered Nubia.",
+   "start": 281.916,
+   "end": 289.64,
+   "words": 22
+  },
+  {
+   "sec": 2,
+   "text": "The Egyptians built fortresses and temples along the river, and they appointed a viceroy with the title King's Son of Kush, who governed the south on the pharaoh's behalf.",
+   "start": 289.912,
+   "end": 300.555,
+   "words": 29
+  },
+  {
+   "sec": 2,
+   "text": "Egypt took gold from Nubia, and it also took Nubian soldiers, including skilled archers, into its own armies.",
+   "start": 301.212,
+   "end": 307.474,
+   "words": 18
+  },
+  {
+   "sec": 2,
+   "text": "For roughly five hundred years, this was the relationship.",
+   "start": 308.155,
+   "end": 311.322,
+   "words": 9
+  },
+  {
+   "sec": 2,
+   "text": "Egypt ruled, and Nubia served.",
+   "start": 312.17,
+   "end": 314.112,
+   "words": 5
+  },
+  {
+   "sec": 2,
+   "text": "But here is the part people forget.",
+   "start": 314.691,
+   "end": 316.356,
+   "words": 7
+  },
+  {
+   "sec": 2,
+   "text": "The people did not disappear.",
+   "start": 317.155,
+   "end": 318.739,
+   "words": 5
+  },
+  {
+   "sec": 2,
+   "text": "They learned.",
+   "start": 319.567,
+   "end": 320.154,
+   "words": 2
+  },
+  {
+   "sec": 2,
+   "text": "Nubian elites adopted Egyptian dress, language, and architecture.",
+   "start": 320.768,
+   "end": 324.805,
+   "words": 8
+  },
+  {
+   "sec": 2,
+   "text": "They worshiped Egyptian gods, above all Amun, the great god of Thebes, and they absorbed the Egyptian idea of divine kingship.",
+   "start": 325.127,
+   "end": 332.691,
+   "words": 21
+  },
+  {
+   "sec": 2,
+   "text": "At the same time, they kept their own identity, their own customs, and their own ways of organizing power.",
+   "start": 333.338,
+   "end": 340.221,
+   "words": 19
+  },
+  {
+   "sec": 2,
+   "text": "They became fluent in two cultures, and that fluency would turn out to be extraordinarily important.",
+   "start": 340.419,
+   "end": 345.17,
+   "words": 16
+  },
+  {
+   "sec": 3,
+   "text": "When the New Kingdom collapsed, around the eleventh century BC, Egypt split and weakened, and Egyptian garrisons withdrew from Nubia.",
+   "start": 345.902,
+   "end": 353.541,
+   "words": 20
+  },
+  {
+   "sec": 3,
+   "text": "Kush stepped out on its own.",
+   "start": 354.099,
+   "end": 355.92,
+   "words": 6
+  },
+  {
+   "sec": 3,
+   "text": "Not as a colony anymore, but as a kingdom.",
+   "start": 356.555,
+   "end": 358.984,
+   "words": 9
+  },
+  {
+   "sec": 3,
+   "text": "We do not know every detail of those centuries.",
+   "start": 359.535,
+   "end": 362.055,
+   "words": 9
+  },
+  {
+   "sec": 3,
+   "text": "The sources are thin, and the archaeology is still being done.",
+   "start": 362.394,
+   "end": 365.073,
+   "words": 11
+  },
+  {
+   "sec": 3,
+   "text": "But by the eighth century BC, a Kushite dynasty ruled from a city called Napata, beneath a flat-topped, sacred mountain known today as Jebel Barkal.",
+   "start": 365.721,
+   "end": 374.91,
+   "words": 25
+  },
+  {
+   "sec": 3,
+   "text": "Egyptians believed that Amun himself dwelled in that mountain.",
+   "start": 375.827,
+   "end": 378.871,
+   "words": 9
+  },
+  {
+   "sec": 3,
+   "text": "For the Kushite kings, ruling from its foot was a statement: we are the true guardians of Amun, and of everything Egypt claims to stand for.",
+   "start": 379.423,
+   "end": 389.123,
+   "words": 26
+  },
+  {
+   "sec": 3,
+   "text": "And then a king named Piye looked north.",
+   "start": 389.864,
+   "end": 392.328,
+   "words": 8
+  },
+  {
+   "sec": 3,
+   "text": "Egypt, at that time, was fractured.",
+   "start": 393.003,
+   "end": 394.849,
+   "words": 6
+  },
+  {
+   "sec": 3,
+   "text": "The country was divided between rival dynasties and local princes, each holding a city or a region, each calling himself a king.",
+   "start": 395.344,
+   "end": 402.514,
+   "words": 22
+  },
+  {
+   "sec": 3,
+   "text": "Piye saw this as an offense against the gods.",
+   "start": 403.296,
+   "end": 405.792,
+   "words": 9
+  },
+  {
+   "sec": 3,
+   "text": "His campaign was carved onto a great stone stele that was later found at Jebel Barkal.",
+   "start": 406.396,
+   "end": 411.037,
+   "words": 16
+  },
+  {
+   "sec": 3,
+   "text": "It describes cities besieged, battles won, and princes surrendering one after another.",
+   "start": 411.654,
+   "end": 414.596,
+   "words": 12
+  },
+  {
+   "sec": 3,
+   "text": "And one detail in it is striking.",
+   "start": 414.886,
+   "end": 417.499,
+   "words": 7
+  },
+  {
+   "sec": 3,
+   "text": "When Piye entered the stables of a defeated prince and found the horses starving, he was furious.",
+   "start": 418.204,
+   "end": 424.556,
+   "words": 17
+  },
+  {
+   "sec": 3,
+   "text": "His complaint, in essence, was this: you let the horses starve, and that hurts me more than anything else you did.",
+   "start": 425.059,
+   "end": 433.093,
+   "words": 21
+  },
+  {
+   "sec": 3,
+   "text": "Here was a king who loved his horses, and whose sense of right and wrong was deeply tied to his religion.",
+   "start": 433.709,
+   "end": 439.765,
+   "words": 21
+  },
+  {
+   "sec": 3,
+   "text": "His successors completed the conquest of Egypt.",
+   "start": 440.526,
+   "end": 442.712,
+   "words": 7
+  },
+  {
+   "sec": 3,
+   "text": "This was the Twenty-fifth Dynasty, a line of kings from Kush ruling as pharaohs over the whole of Egypt, for about a century.",
+   "start": 442.946,
+   "end": 450.734,
+   "words": 23
+  },
+  {
+   "sec": 3,
+   "text": "Kushite pharaohs restored temples at Karnak and Luxor.",
+   "start": 451.405,
+   "end": 454.78,
+   "words": 8
+  },
+  {
+   "sec": 3,
+   "text": "They revived ancient traditions with such care that they even brought back pyramid building, something Egypt had almost forgotten.",
+   "start": 455.227,
+   "end": 461.991,
+   "words": 19
+  },
+  {
+   "sec": 3,
+   "text": "They are sometimes called the Black Pharaohs, a name that, for many, became a way of reclaiming a history that had been overlooked.",
+   "start": 462.554,
+   "end": 469.433,
+   "words": 23
+  },
+  {
+   "sec": 3,
+   "text": "The most famous of them was Taharqa, whose name is carved on monuments in both Egypt and Nubia.",
+   "start": 470.043,
+   "end": 475.007,
+   "words": 18
+  },
+  {
+   "sec": 3,
+   "text": "Taharqa built and rebuilt, and he is remembered both as a great builder and as a king who lived in a very dangerous time.",
+   "start": 475.554,
+   "end": 482.942,
+   "words": 24
+  },
+  {
+   "sec": 3,
+   "text": "Because a new enemy was rising: Assyria.",
+   "start": 483.554,
+   "end": 485.226,
+   "words": 7
+  },
+  {
+   "sec": 3,
+   "text": "The Assyrian Empire, centered in northern Mesopotamia, had a powerful, disciplined army, iron weapons, and long experience in sieges.",
+   "start": 485.697,
+   "end": 492.412,
+   "words": 19
+  },
+  {
+   "sec": 3,
+   "text": "They saw Egypt as a prize, and the Kushite pharaoh as an obstacle.",
+   "start": 492.906,
+   "end": 495.827,
+   "words": 13
+  },
+  {
+   "sec": 3,
+   "text": "After repeated campaigns, Assyrian armies pushed deep into Egypt.",
+   "start": 496.495,
+   "end": 498.065,
+   "words": 9
+  },
+  {
+   "sec": 3,
+   "text": "They took Memphis.",
+   "start": 498.471,
+   "end": 500.287,
+   "words": 3
+  },
+  {
+   "sec": 3,
+   "text": "And around 663 BC, they sacked Thebes, the sacred city of Amun, in one of the great catastrophes of the ancient world.",
+   "start": 501.28,
+   "end": 510.125,
+   "words": 22
+  },
+  {
+   "sec": 3,
+   "text": "The Kushite kings withdrew south.",
+   "start": 510.503,
+   "end": 512.0,
+   "words": 5
+  },
+  {
+   "sec": 3,
+   "text": "It was a heavy blow, and a humiliating one.",
+   "start": 512.512,
+   "end": 514.824,
+   "words": 9
+  },
+  {
+   "sec": 3,
+   "text": "But it was not the end.",
+   "start": 515.582,
+   "end": 517.084,
+   "words": 6
+  },
+  {
+   "sec": 3,
+   "text": "This is the part history skips.",
+   "start": 517.646,
+   "end": 520.092,
+   "words": 6
+  },
+  {
+   "sec": 3,
+   "text": "Kush endured.",
+   "start": 520.801,
+   "end": 522.083,
+   "words": 2
+  },
+  {
+   "sec": 3,
+   "text": "Its kings returned to Napata, and they kept the traditions they had learned in Egypt.",
+   "start": 522.911,
+   "end": 528.313,
+   "words": 15
+  },
+  {
+   "sec": 3,
+   "text": "They went on being buried in pyramids, and they went on worshiping Amun.",
+   "start": 528.618,
+   "end": 533.237,
+   "words": 13
+  },
+  {
+   "sec": 3,
+   "text": "About seventy years after the Assyrian sack, around 593 BC, the Egyptian king Psamtik the Second sent an army deep into Nubia, and Napata suffered a serious attack.",
+   "start": 533.465,
+   "end": 544.104,
+   "words": 28
+  },
+  {
+   "sec": 3,
+   "text": "And slowly, over generations, the center of gravity of the kingdom shifted south, to a city called Meroë.",
+   "start": 544.566,
+   "end": 551.818,
+   "words": 18
+  },
+  {
+   "sec": 4,
+   "text": "Meroë stood far upriver, on a wide stretch of the Nile, in a region that received seasonal summer rains.",
+   "start": 552.176,
+   "end": 560.254,
+   "words": 19
+  },
+  {
+   "sec": 4,
+   "text": "The land around it was greener than the desert near Napata.",
+   "start": 560.816,
+   "end": 563.48,
+   "words": 11
+  },
+  {
+   "sec": 4,
+   "text": "It could support farming and herding on a large scale.",
+   "start": 563.996,
+   "end": 566.396,
+   "words": 10
+  },
+  {
+   "sec": 4,
+   "text": "It sat near routes leading deep into Africa, and routes heading east toward the Red Sea.",
+   "start": 566.921,
+   "end": 571.358,
+   "words": 16
+  },
+  {
+   "sec": 4,
+   "text": "It was a place where a kingdom could grow.",
+   "start": 572.122,
+   "end": 574.05,
+   "words": 9
+  },
+  {
+   "sec": 4,
+   "text": "And by the third century BC, Meroë had become the main royal cemetery, and eventually the main royal city.",
+   "start": 574.932,
+   "end": 580.828,
+   "words": 19
+  },
+  {
+   "sec": 4,
+   "text": "The period of Kushite history that follows is called the Meroitic period, and it lasted for about six centuries.",
+   "start": 581.704,
+   "end": 587.708,
+   "words": 19
+  },
+  {
+   "sec": 4,
+   "text": "And Meroë had workshops.",
+   "start": 588.354,
+   "end": 590.113,
+   "words": 4
+  },
+  {
+   "sec": 4,
+   "text": "Many of them.",
+   "start": 590.465,
+   "end": 591.045,
+   "words": 3
+  },
+  {
+   "sec": 4,
+   "text": "They worked iron.",
+   "start": 591.604,
+   "end": 592.667,
+   "words": 3
+  },
+  {
+   "sec": 4,
+   "text": "Huge heaps of iron slag still surround the site, evidence of a major industry.",
+   "start": 592.998,
+   "end": 597.673,
+   "words": 14
+  },
+  {
+   "sec": 4,
+   "text": "You will sometimes see Meroë called the Birmingham of Africa.",
+   "start": 598.422,
+   "end": 601.006,
+   "words": 10
+  },
+  {
+   "sec": 4,
+   "text": "That is a popular label, not a scientific term, and some scholars think the importance of Meroitic iron has been overstated.",
+   "start": 601.561,
+   "end": 607.837,
+   "words": 21
+  },
+  {
+   "sec": 4,
+   "text": "But it captures something real: an organized economy, skilled craftsmen, and a state that could arm and equip its people.",
+   "start": 608.385,
+   "end": 615.551,
+   "words": 20
+  },
+  {
+   "sec": 4,
+   "text": "Beside the city stood the royal cemeteries.",
+   "start": 616.183,
+   "end": 618.852,
+   "words": 7
+  },
+  {
+   "sec": 4,
+   "text": "Pyramids, small and steep, rising from the desert sand and glowing red at sunset.",
+   "start": 619.346,
+   "end": 624.889,
+   "words": 14
+  },
+  {
+   "sec": 4,
+   "text": "Compared with the pyramids of Giza, they are modest in size.",
+   "start": 625.275,
+   "end": 628.763,
+   "words": 11
+  },
+  {
+   "sec": 4,
+   "text": "But there are many of them, and they are beautiful.",
+   "start": 629.027,
+   "end": 632.066,
+   "words": 10
+  },
+  {
+   "sec": 4,
+   "text": "Here was a people who had inherited Egypt's traditions, and then made their own version.",
+   "start": 632.522,
+   "end": 637.366,
+   "words": 15
+  },
+  {
+   "sec": 4,
+   "text": "Their kings and queens were buried with offering chapels carved with scenes of the afterlife, and with jewelry, furniture, and imported goods.",
+   "start": 638.142,
+   "end": 646.1,
+   "words": 22
+  },
+  {
+   "sec": 4,
+   "text": "And here, a word appears that you will hear again and again: Kandake.",
+   "start": 646.594,
+   "end": 651.187,
+   "words": 13
+  },
+  {
+   "sec": 4,
+   "text": "It was a title, like pharaoh, or Caesar.",
+   "start": 651.761,
+   "end": 653.948,
+   "words": 8
+  },
+  {
+   "sec": 4,
+   "text": "Scholars still debate exactly what it meant.",
+   "start": 654.236,
+   "end": 656.789,
+   "words": 7
+  },
+  {
+   "sec": 4,
+   "text": "Was it a ruling queen?",
+   "start": 657.279,
+   "end": 658.41,
+   "words": 5
+  },
+  {
+   "sec": 4,
+   "text": "The queen mother?",
+   "start": 658.692,
+   "end": 659.402,
+   "words": 3
+  },
+  {
+   "sec": 4,
+   "text": "A queen with special authority, sharing power with a king?",
+   "start": 659.826,
+   "end": 662.649,
+   "words": 10
+  },
+  {
+   "sec": 4,
+   "text": "What we do know is that female royal titles rose to great prominence in Meroë, and that some women clearly held real power.",
+   "start": 663.176,
+   "end": 670.83,
+   "words": 23
+  },
+  {
+   "sec": 4,
+   "text": "Greek and Roman writers misunderstood the word.",
+   "start": 671.374,
+   "end": 673.748,
+   "words": 7
+  },
+  {
+   "sec": 4,
+   "text": "They took it for a personal name, and wrote Candace, as if every queen of Kush were called the same thing.",
+   "start": 674.216,
+   "end": 679.598,
+   "words": 21
+  },
+  {
+   "sec": 4,
+   "text": "Even the New Testament mentions a servant of Candace, queen of the Ethiopians, in the Book of Acts.",
+   "start": 680.281,
+   "end": 687.266,
+   "words": 18
+  },
+  {
+   "sec": 4,
+   "text": "Two thousand years later, the word is still alive.",
+   "start": 687.521,
+   "end": 690.604,
+   "words": 9
+  },
+  {
+   "sec": 4,
+   "text": "In Meroitic art, queens appear powerful and richly adorned, shown in poses of authority and sometimes striking down enemies, a pose borrowed from Egyptian kingship and turned toward new ends.",
+   "start": 690.936,
+   "end": 701.525,
+   "words": 30
+  },
+  {
+   "sec": 4,
+   "text": "They are not simply a king's wife standing quietly behind him.",
+   "start": 701.956,
+   "end": 705.223,
+   "words": 11
+  },
+  {
+   "sec": 4,
+   "text": "They are rulers, or partners in rule.",
+   "start": 705.733,
+   "end": 707.838,
+   "words": 7
+  },
+  {
+   "sec": 4,
+   "text": "In a society like that, a queen leading an army was not scandalous.",
+   "start": 708.26,
+   "end": 712.484,
+   "words": 13
+  },
+  {
+   "sec": 4,
+   "text": "Kush also had its own writing, the Meroitic script, in two forms: a monumental form, based on Egyptian hieroglyphs, used in temples and royal monuments, and a cursive form for everyday use.",
+   "start": 713.159,
+   "end": 725.084,
+   "words": 32
+  },
+  {
+   "sec": 4,
+   "text": "It is an alphabet-like system, and scholars can sound out the letters.",
+   "start": 725.56,
+   "end": 729.644,
+   "words": 12
+  },
+  {
+   "sec": 4,
+   "text": "But the language behind it is not related to any language that we can easily compare it with, and so most texts remain unreadable.",
+   "start": 730.212,
+   "end": 738.958,
+   "words": 24
+  },
+  {
+   "sec": 4,
+   "text": "Imagine a whole library that you can see, and touch, and even pronounce, but cannot understand.",
+   "start": 739.499,
+   "end": 745.863,
+   "words": 16
+  },
+  {
+   "sec": 4,
+   "text": "And religion mattered.",
+   "start": 746.099,
+   "end": 746.836,
+   "words": 3
+  },
+  {
+   "sec": 4,
+   "text": "Kushites worshiped Amun, but also Isis, Osiris, and other Egyptian gods, alongside gods of their own.",
+   "start": 747.885,
+   "end": 754.262,
+   "words": 16
+  },
+  {
+   "sec": 4,
+   "text": "The most distinctive of them is Apedemak, a lion-headed war god, shown at temples such as Musawwarat es-Sufra and Naqa, a deity who gives us a glimpse into a culture that was not simply copying Egypt.",
+   "start": 754.548,
+   "end": 769.236,
+   "words": 36
+  },
+  {
+   "sec": 4,
+   "text": "The army relied above all on archery.",
+   "start": 769.918,
+   "end": 772.191,
+   "words": 7
+  },
+  {
+   "sec": 4,
+   "text": "Archers' thumb rings have been found in Kushite graves, and the bow appears in royal art again and again.",
+   "start": 772.394,
+   "end": 778.838,
+   "words": 19
+  },
+  {
+   "sec": 4,
+   "text": "It was a light, fast army, not always heavily armored, but one that knew the land, the river, and the desert.",
+   "start": 779.538,
+   "end": 786.645,
+   "words": 21
+  },
+  {
+   "sec": 4,
+   "text": "And water mattered too, in a land where the rains were seasonal.",
+   "start": 787.198,
+   "end": 790.449,
+   "words": 12
+  },
+  {
+   "sec": 4,
+   "text": "The Kushites built reservoirs and ways of storing rainwater, to survive the dry season.",
+   "start": 791.119,
+   "end": 795.232,
+   "words": 14
+  },
+  {
+   "sec": 4,
+   "text": "This was the world Amanirenas grew up in.",
+   "start": 796.048,
+   "end": 798.516,
+   "words": 8
+  },
+  {
+   "sec": 4,
+   "text": "A world of identity, of strength, and of deep pride.",
+   "start": 799.053,
+   "end": 802.548,
+   "words": 10
+  },
+  {
+   "sec": 4,
+   "text": "A world where Kush belonged to no one else.",
+   "start": 803.114,
+   "end": 805.576,
+   "words": 9
+  },
+  {
+   "sec": 4,
+   "text": "But that belief was about to be tested.",
+   "start": 806.275,
+   "end": 807.948,
+   "words": 8
+  },
+  {
+   "sec": 4,
+   "text": "Because far away, another power had risen.",
+   "start": 808.508,
+   "end": 811.118,
+   "words": 7
+  },
+  {
+   "sec": 5,
+   "text": "Thirty-one BC.",
+   "start": 812.079,
+   "end": 813.077,
+   "words": 2
+  },
+  {
+   "sec": 5,
+   "text": "The Battle of Actium.",
+   "start": 813.694,
+   "end": 814.705,
+   "words": 4
+  },
+  {
+   "sec": 5,
+   "text": "Octavian, the adopted heir of Julius Caesar, faced Mark Antony and Cleopatra in a naval battle off the coast of Greece, and he won.",
+   "start": 815.129,
+   "end": 823.236,
+   "words": 24
+  },
+  {
+   "sec": 5,
+   "text": "A year later, Octavian entered Alexandria.",
+   "start": 824.035,
+   "end": 826.27,
+   "words": 6
+  },
+  {
+   "sec": 5,
+   "text": "Antony and Cleopatra were dead.",
+   "start": 826.889,
+   "end": 828.67,
+   "words": 5
+  },
+  {
+   "sec": 5,
+   "text": "The Ptolemaic dynasty, which had ruled Egypt for three centuries, was over.",
+   "start": 829.365,
+   "end": 833.476,
+   "words": 12
+  },
+  {
+   "sec": 5,
+   "text": "And Egypt, one of the oldest civilizations on Earth, became a Roman province.",
+   "start": 834.124,
+   "end": 839.212,
+   "words": 13
+  },
+  {
+   "sec": 5,
+   "text": "But it was no ordinary province.",
+   "start": 839.634,
+   "end": 841.56,
+   "words": 6
+  },
+  {
+   "sec": 5,
+   "text": "Egypt's grain fed Rome itself, and Egypt's wealth was enormous.",
+   "start": 842.188,
+   "end": 846.248,
+   "words": 10
+  },
+  {
+   "sec": 5,
+   "text": "So Octavian, who would soon take the name Augustus, treated Egypt almost like his personal property.",
+   "start": 846.857,
+   "end": 852.407,
+   "words": 16
+  },
+  {
+   "sec": 5,
+   "text": "It was governed not by a senator, but by a prefect of lower rank, chosen from the equestrian order and answerable directly to the emperor, and even Roman senators needed his permission to enter.",
+   "start": 852.989,
+   "end": 864.023,
+   "words": 34
+  },
+  {
+   "sec": 5,
+   "text": "The first of those prefects was Cornelius Gallus, a poet, a soldier, and a friend of Augustus, and an ambitious man eager to impress Rome.",
+   "start": 864.69,
+   "end": 872.803,
+   "words": 25
+  },
+  {
+   "sec": 5,
+   "text": "When rebels rose in southern Egypt, he put them down quickly, and he pushed his campaign toward the southern frontier.",
+   "start": 873.126,
+   "end": 879.408,
+   "words": 20
+  },
+  {
+   "sec": 5,
+   "text": "On a trilingual inscription at Philae, written in Latin, Greek, and Egyptian hieroglyphs, he boasted that he had received envoys of the king of the Ethiopians, meaning Kush, at Philae, and that he had taken the king under Roman protection, and appointed a ruler for the border region.",
+   "start": 879.722,
+   "end": 895.327,
+   "words": 48
+  },
+  {
+   "sec": 5,
+   "text": "Notice the word protection.",
+   "start": 896.186,
+   "end": 897.65,
+   "words": 4
+  },
+  {
+   "sec": 5,
+   "text": "In the language of empires, it usually means: under our control.",
+   "start": 898.395,
+   "end": 901.788,
+   "words": 11
+  },
+  {
+   "sec": 5,
+   "text": "And we do not know how Kush understood it, because the inscription was written by Rome.",
+   "start": 902.019,
+   "end": 906.677,
+   "words": 16
+  },
+  {
+   "sec": 5,
+   "text": "Gallus did not last.",
+   "start": 907.268,
+   "end": 908.553,
+   "words": 4
+  },
+  {
+   "sec": 5,
+   "text": "His boasting, and the many statues and inscriptions that celebrated him, angered Augustus.",
+   "start": 908.978,
+   "end": 913.568,
+   "words": 13
+  },
+  {
+   "sec": 5,
+   "text": "He was removed, put on trial, and took his own life.",
+   "start": 914.181,
+   "end": 917.618,
+   "words": 11
+  },
+  {
+   "sec": 5,
+   "text": "But the southern border remained unfinished business.",
+   "start": 917.811,
+   "end": 920.191,
+   "words": 7
+  },
+  {
+   "sec": 5,
+   "text": "Rome and Kush had made some kind of arrangement, but the two sides saw it differently, and the border region, between the first cataract and the lands further south, sat in an uneasy middle ground.",
+   "start": 920.899,
+   "end": 931.682,
+   "words": 35
+  },
+  {
+   "sec": 5,
+   "text": "Then, around 26 or 25 BC, Rome launched a major expedition into Arabia, under the new prefect, Aelius Gallus.",
+   "start": 932.204,
+   "end": 938.77,
+   "words": 19
+  },
+  {
+   "sec": 5,
+   "text": "The goal was to seize control of the rich spice routes.",
+   "start": 939.049,
+   "end": 942.938,
+   "words": 11
+  },
+  {
+   "sec": 5,
+   "text": "It took a large part of Rome's forces in Egypt away from the Nile, and the campaign ended badly, with sickness, thirst, and a long retreat.",
+   "start": 943.519,
+   "end": 951.615,
+   "words": 26
+  },
+  {
+   "sec": 5,
+   "text": "The geographer Strabo, who gives us the main account of the war with Kush, was a friend of Aelius Gallus, and traveled up the Nile with him, around that time.",
+   "start": 952.541,
+   "end": 962.695,
+   "words": 30
+  },
+  {
+   "sec": 5,
+   "text": "So Strabo may have heard the story from people who lived it, and in some cases, from Romans who fought in it.",
+   "start": 963.022,
+   "end": 970.207,
+   "words": 22
+  },
+  {
+   "sec": 5,
+   "text": "But he was also writing about a foreign queen as a Roman writer, for a Roman audience, and we should always keep that in mind.",
+   "start": 970.607,
+   "end": 977.718,
+   "words": 25
+  },
+  {
+   "sec": 5,
+   "text": "And the meaning of Aelius Gallus's departure was simple, and dangerous: the southern border was weak.",
+   "start": 977.951,
+   "end": 982.745,
+   "words": 16
+  },
+  {
+   "sec": 5,
+   "text": "Someone was watching.",
+   "start": 983.07,
+   "end": 984.018,
+   "words": 3
+  },
+  {
+   "sec": 5,
+   "text": "Patiently.",
+   "start": 984.452,
+   "end": 984.92,
+   "words": 1
+  },
+  {
+   "sec": 5,
+   "text": "And that someone was no spy.",
+   "start": 985.151,
+   "end": 987.083,
+   "words": 6
+  },
+  {
+   "sec": 5,
+   "text": "She was a queen.",
+   "start": 987.363,
+   "end": 987.886,
+   "words": 4
+  },
+  {
+   "sec": 6,
+   "text": "So who was she?",
+   "start": 988.652,
+   "end": 989.16,
+   "words": 4
+  },
+  {
+   "sec": 6,
+   "text": "First, honesty.",
+   "start": 989.518,
+   "end": 989.918,
+   "words": 2
+  },
+  {
+   "sec": 6,
+   "text": "What we know about her is very little.",
+   "start": 990.563,
+   "end": 994.848,
+   "words": 8
+  },
+  {
+   "sec": 6,
+   "text": "Her name was Amanirenas, sometimes written Amanirenas or Amanirenas in different transliterations.",
+   "start": 995.196,
+   "end": 1000.16,
+   "words": 12
+  },
+  {
+   "sec": 6,
+   "text": "She was a Kandake of Kush, ruling in the late first century BC.",
+   "start": 1000.85,
+   "end": 1005.13,
+   "words": 13
+  },
+  {
+   "sec": 6,
+   "text": "The exact dates of her reign are uncertain, and scholars disagree.",
+   "start": 1005.8,
+   "end": 1009.07,
+   "words": 11
+  },
+  {
+   "sec": 6,
+   "text": "We know of a son, or a prince, named Akinidad, whose name appears next to hers in inscriptions.",
+   "start": 1009.98,
+   "end": 1015.37,
+   "words": 18
+  },
+  {
+   "sec": 6,
+   "text": "One important text, found at a place called Hamadab, near Meroë, in the 1960s, is known as the Hamadab stele.",
+   "start": 1016.17,
+   "end": 1023.35,
+   "words": 20
+  },
+  {
+   "sec": 6,
+   "text": "It is written in Meroitic, and it appears to mention Amanirenas, Akinidad, and a war with Rome.",
+   "start": 1024.05,
+   "end": 1029.68,
+   "words": 17
+  },
+  {
+   "sec": 6,
+   "text": "It is one of the very few texts that may tell us the Kushite side of the story.",
+   "start": 1030.48,
+   "end": 1034.66,
+   "words": 18
+  },
+  {
+   "sec": 6,
+   "text": "But its exact reading is still debated, and we should be careful not to claim more than the text can support.",
+   "start": 1035.47,
+   "end": 1040.49,
+   "words": 21
+  },
+  {
+   "sec": 6,
+   "text": "Her husband?",
+   "start": 1041.15,
+   "end": 1041.69,
+   "words": 2
+  },
+  {
+   "sec": 6,
+   "text": "We are not sure.",
+   "start": 1042.17,
+   "end": 1042.91,
+   "words": 4
+  },
+  {
+   "sec": 6,
+   "text": "Her birth?",
+   "start": 1043.48,
+   "end": 1043.85,
+   "words": 2
+  },
+  {
+   "sec": 6,
+   "text": "Unknown.",
+   "start": 1044.35,
+   "end": 1044.81,
+   "words": 1
+  },
+  {
+   "sec": 6,
+   "text": "Her death?",
+   "start": 1045.47,
+   "end": 1045.94,
+   "words": 2
+  },
+  {
+   "sec": 6,
+   "text": "Unknown.",
+   "start": 1046.46,
+   "end": 1046.82,
+   "words": 1
+  },
+  {
+   "sec": 6,
+   "text": "Her real face?",
+   "start": 1047.61,
+   "end": 1048.42,
+   "words": 3
+  },
+  {
+   "sec": 6,
+   "text": "There isn't one.",
+   "start": 1049.2,
+   "end": 1049.67,
+   "words": 3
+  },
+  {
+   "sec": 6,
+   "text": "A great queen, standing in the ruins, with no face.",
+   "start": 1050.48,
+   "end": 1053.89,
+   "words": 10
+  },
+  {
+   "sec": 6,
+   "text": "But in one line, Strabo describes her as a masculine sort of woman, and blind in one eye.",
+   "start": 1054.82,
+   "end": 1060.48,
+   "words": 18
+  },
+  {
+   "sec": 6,
+   "text": "We say this with caution.",
+   "start": 1061.28,
+   "end": 1062.33,
+   "words": 5
+  },
+  {
+   "sec": 6,
+   "text": "Strabo writes from a Roman point of view, and the description may be an insult.",
+   "start": 1062.75,
+   "end": 1066.88,
+   "words": 15
+  },
+  {
+   "sec": 6,
+   "text": "The eye may truly have been lost, perhaps in battle, though that is only a guess.",
+   "start": 1067.56,
+   "end": 1071.43,
+   "words": 16
+  },
+  {
+   "sec": 6,
+   "text": "Or he may be adding a detail to make her seem strange and frightening to his readers.",
+   "start": 1072.09,
+   "end": 1076.15,
+   "words": 17
+  },
+  {
+   "sec": 6,
+   "text": "Even a description can be a weapon.",
+   "start": 1076.79,
+   "end": 1078.48,
+   "words": 7
+  },
+  {
+   "sec": 6,
+   "text": "But think about this sentence.",
+   "start": 1079.58,
+   "end": 1080.7,
+   "words": 5
+  },
+  {
+   "sec": 6,
+   "text": "A Roman-era writer, describing an African queen, forced to admit that she was the one leading the war.",
+   "start": 1081.32,
+   "end": 1087.26,
+   "words": 18
+  },
+  {
+   "sec": 6,
+   "text": "Not a king.",
+   "start": 1087.86,
+   "end": 1088.45,
+   "words": 3
+  },
+  {
+   "sec": 6,
+   "text": "Not a general.",
+   "start": 1088.82,
+   "end": 1089.55,
+   "words": 3
+  },
+  {
+   "sec": 6,
+   "text": "Her.",
+   "start": 1090.17,
+   "end": 1090.48,
+   "words": 1
+  },
+  {
+   "sec": 6,
+   "text": "Which raises the question: how did the war begin?",
+   "start": 1091.34,
+   "end": 1093.59,
+   "words": 9
+  },
+  {
+   "sec": 7,
+   "text": "Now we move to around 25 or 24 BC.",
+   "start": 1094.48,
+   "end": 1097.12,
+   "words": 9
+  },
+  {
+   "sec": 7,
+   "text": "The dates are approximate.",
+   "start": 1097.57,
+   "end": 1098.63,
+   "words": 4
+  },
+  {
+   "sec": 7,
+   "text": "The south is quiet, too quiet.",
+   "start": 1099.43,
+   "end": 1101.79,
+   "words": 6
+  },
+  {
+   "sec": 7,
+   "text": "The Roman garrison is thin.",
+   "start": 1102.52,
+   "end": 1103.82,
+   "words": 5
+  },
+  {
+   "sec": 7,
+   "text": "Strabo says that at Syene, modern Aswan, there were only three cohorts.",
+   "start": 1104.35,
+   "end": 1108.42,
+   "words": 12
+  },
+  {
+   "sec": 7,
+   "text": "And then, the Kushite army moves.",
+   "start": 1109.32,
+   "end": 1111.32,
+   "words": 6
+  },
+  {
+   "sec": 7,
+   "text": "It strikes Syene, the island of Elephantine, and Philae.",
+   "start": 1111.9,
+   "end": 1115.19,
+   "words": 9
+  },
+  {
+   "sec": 7,
+   "text": "The garrison is small, and the city is caught off guard.",
+   "start": 1115.89,
+   "end": 1118.39,
+   "words": 11
+  },
+  {
+   "sec": 7,
+   "text": "Kushite warriors take prisoners.",
+   "start": 1119.22,
+   "end": 1120.83,
+   "words": 4
+  },
+  {
+   "sec": 7,
+   "text": "And they take statues of Caesar, of Augustus himself.",
+   "start": 1121.48,
+   "end": 1124.71,
+   "words": 9
+  },
+  {
+   "sec": 7,
+   "text": "Stop for a moment.",
+   "start": 1125.35,
+   "end": 1126.13,
+   "words": 4
+  },
+  {
+   "sec": 7,
+   "text": "Was this just plunder?",
+   "start": 1126.66,
+   "end": 1127.99,
+   "words": 4
+  },
+  {
+   "sec": 7,
+   "text": "Or was it a message?",
+   "start": 1128.27,
+   "end": 1129.54,
+   "words": 5
+  },
+  {
+   "sec": 7,
+   "text": "A statue of the emperor is not just bronze.",
+   "start": 1130.27,
+   "end": 1132.92,
+   "words": 9
+  },
+  {
+   "sec": 7,
+   "text": "In an empire, it is authority itself.",
+   "start": 1133.29,
+   "end": 1135.57,
+   "words": 7
+  },
+  {
+   "sec": 7,
+   "text": "Whoever takes it is saying, clearly: we can strike too.",
+   "start": 1136.15,
+   "end": 1139.33,
+   "words": 10
+  },
+  {
+   "sec": 7,
+   "text": "So the question remains: why?",
+   "start": 1140.08,
+   "end": 1142.05,
+   "words": 5
+  },
+  {
+   "sec": 7,
+   "text": "We do not know.",
+   "start": 1142.77,
+   "end": 1143.53,
+   "words": 4
+  },
+  {
+   "sec": 7,
+   "text": "Some sources hint at taxes imposed by Rome, and the Romans may have been drawing borders that Kush would not accept.",
+   "start": 1144.14,
+   "end": 1150.55,
+   "words": 21
+  },
+  {
+   "sec": 7,
+   "text": "Another view is simpler: the moment was an opportunity, with Rome's army far away.",
+   "start": 1151.26,
+   "end": 1156.43,
+   "words": 14
+  },
+  {
+   "sec": 7,
+   "text": "And perhaps every explanation is partly right.",
+   "start": 1157.22,
+   "end": 1159.78,
+   "words": 7
+  },
+  {
+   "sec": 7,
+   "text": "Wars begin for many reasons.",
+   "start": 1160.43,
+   "end": 1162.22,
+   "words": 5
+  },
+  {
+   "sec": 7,
+   "text": "In Aswan, the Romans resisted, but the attack went through.",
+   "start": 1162.78,
+   "end": 1166.12,
+   "words": 10
+  },
+  {
+   "sec": 7,
+   "text": "And the news reached Alexandria, where Egypt's new prefect was waiting for his chance.",
+   "start": 1166.75,
+   "end": 1172.55,
+   "words": 14
+  },
+  {
+   "sec": 7,
+   "text": "His name was Gaius Petronius.",
+   "start": 1172.8,
+   "end": 1174.27,
+   "words": 5
+  },
+  {
+   "sec": 8,
+   "text": "Petronius was a hard soldier who understood that Aswan was no mere raid.",
+   "start": 1175.0,
+   "end": 1179.24,
+   "words": 13
+  },
+  {
+   "sec": 8,
+   "text": "It was an insult.",
+   "start": 1179.68,
+   "end": 1180.7,
+   "words": 4
+  },
+  {
+   "sec": 8,
+   "text": "Imperial statues taken.",
+   "start": 1181.14,
+   "end": 1182.68,
+   "words": 3
+  },
+  {
+   "sec": 8,
+   "text": "Soldiers captured.",
+   "start": 1183.03,
+   "end": 1184.15,
+   "words": 2
+  },
+  {
+   "sec": 8,
+   "text": "Rome's prestige at stake.",
+   "start": 1184.47,
+   "end": 1186.11,
+   "words": 4
+  },
+  {
+   "sec": 8,
+   "text": "He did not waste time.",
+   "start": 1186.77,
+   "end": 1187.62,
+   "words": 5
+  },
+  {
+   "sec": 8,
+   "text": "According to Strabo, he gathered about ten thousand infantry and eight hundred cavalry.",
+   "start": 1188.24,
+   "end": 1192.84,
+   "words": 13
+  },
+  {
+   "sec": 8,
+   "text": "These are ancient numbers, told from Rome's side, but they are what we have.",
+   "start": 1193.5,
+   "end": 1197.43,
+   "words": 14
+  },
+  {
+   "sec": 8,
+   "text": "Facing him, Strabo says, was a Kushite force of around thirty thousand.",
+   "start": 1198.21,
+   "end": 1202.23,
+   "words": 12
+  },
+  {
+   "sec": 8,
+   "text": "And he describes them as poorly armed: huge shields made of raw ox-hide, axes, pikes, and only a few swords.",
+   "start": 1202.78,
+   "end": 1210.03,
+   "words": 20
+  },
+  {
+   "sec": 8,
+   "text": "That is a Roman description, and we should not accept it whole.",
+   "start": 1210.66,
+   "end": 1213.94,
+   "words": 12
+  },
+  {
+   "sec": 8,
+   "text": "A historian reporting a victory likes his enemy brave but poorly equipped, and beaten.",
+   "start": 1214.68,
+   "end": 1219.81,
+   "words": 14
+  },
+  {
+   "sec": 8,
+   "text": "It makes the victory look bigger.",
+   "start": 1220.41,
+   "end": 1221.7,
+   "words": 6
+  },
+  {
+   "sec": 8,
+   "text": "Petronius drove the Kushites back to Pselchis.",
+   "start": 1222.42,
+   "end": 1224.79,
+   "words": 7
+  },
+  {
+   "sec": 8,
+   "text": "Before the great clash, envoys came from the queen.",
+   "start": 1225.26,
+   "end": 1227.75,
+   "words": 9
+  },
+  {
+   "sec": 8,
+   "text": "He asked why they had attacked.",
+   "start": 1228.45,
+   "end": 1229.8,
+   "words": 6
+  },
+  {
+   "sec": 8,
+   "text": "They blamed local Roman officials who had wronged them.",
+   "start": 1230.37,
+   "end": 1232.88,
+   "words": 9
+  },
+  {
+   "sec": 8,
+   "text": "He answered sharply: it is not the officials, it is the Kandake who rules.",
+   "start": 1233.52,
+   "end": 1237.89,
+   "words": 14
+  },
+  {
+   "sec": 8,
+   "text": "And he demanded the return of what had been taken.",
+   "start": 1238.47,
+   "end": 1240.57,
+   "words": 10
+  },
+  {
+   "sec": 8,
+   "text": "They asked for three days to consider.",
+   "start": 1241.37,
+   "end": 1243.04,
+   "words": 7
+  },
+  {
+   "sec": 8,
+   "text": "The days passed.",
+   "start": 1243.84,
+   "end": 1244.57,
+   "words": 3
+  },
+  {
+   "sec": 8,
+   "text": "Nothing was returned.",
+   "start": 1245.24,
+   "end": 1246.23,
+   "words": 3
+  },
+  {
+   "sec": 8,
+   "text": "So Petronius attacked.",
+   "start": 1247.02,
+   "end": 1248.13,
+   "words": 3
+  },
+  {
+   "sec": 8,
+   "text": "The Kushite army broke.",
+   "start": 1248.91,
+   "end": 1250.07,
+   "words": 4
+  },
+  {
+   "sec": 8,
+   "text": "Many were killed, many were captured, and some fled to a nearby island.",
+   "start": 1250.69,
+   "end": 1255.01,
+   "words": 13
+  },
+  {
+   "sec": 8,
+   "text": "Petronius had boats and rafts prepared, crossed over, and captured them, including commanders of the queen's army.",
+   "start": 1255.72,
+   "end": 1262.61,
+   "words": 17
+  },
+  {
+   "sec": 8,
+   "text": "Pselchis fell.",
+   "start": 1263.25,
+   "end": 1264.27,
+   "words": 2
+  },
+  {
+   "sec": 8,
+   "text": "And remember what that means.",
+   "start": 1264.98,
+   "end": 1266.32,
+   "words": 5
+  },
+  {
+   "sec": 8,
+   "text": "The captives were sold.",
+   "start": 1266.73,
+   "end": 1268.14,
+   "words": 4
+  },
+  {
+   "sec": 8,
+   "text": "This was no glorious duel from a movie.",
+   "start": 1268.86,
+   "end": 1272.4,
+   "words": 8
+  },
+  {
+   "sec": 8,
+   "text": "It was a real war, where real people lived, died, and were enslaved.",
+   "start": 1272.67,
+   "end": 1278.11,
+   "words": 13
+  },
+  {
+   "sec": 8,
+   "text": "Petronius pushed south.",
+   "start": 1278.46,
+   "end": 1279.32,
+   "words": 3
+  },
+  {
+   "sec": 8,
+   "text": "He took Premnis, a strong fortress, today usually identified with Qasr Ibrim, though linking that site to this exact event is debated by archaeologists.",
+   "start": 1279.55,
+   "end": 1287.96,
+   "words": 24
+  },
+  {
+   "sec": 8,
+   "text": "Then he reached Napata.",
+   "start": 1288.56,
+   "end": 1289.89,
+   "words": 4
+  },
+  {
+   "sec": 8,
+   "text": "Napata.",
+   "start": 1290.69,
+   "end": 1291.22,
+   "words": 1
+  },
+  {
+   "sec": 8,
+   "text": "Once the capital of the Twenty-fifth Dynasty kings.",
+   "start": 1291.95,
+   "end": 1294.59,
+   "words": 8
+  },
+  {
+   "sec": 8,
+   "text": "A city beneath the sacred mountain of Jebel Barkal.",
+   "start": 1295.02,
+   "end": 1297.62,
+   "words": 9
+  },
+  {
+   "sec": 8,
+   "text": "A place of enormous symbolic weight.",
+   "start": 1297.86,
+   "end": 1300.01,
+   "words": 6
+  },
+  {
+   "sec": 8,
+   "text": "And Petronius destroyed it.",
+   "start": 1300.62,
+   "end": 1301.54,
+   "words": 4
+  },
+  {
+   "sec": 8,
+   "text": "According to Strabo, he took the city and razed it, and he sent a thousand prisoners to Augustus.",
+   "start": 1301.87,
+   "end": 1308.75,
+   "words": 18
+  },
+  {
+   "sec": 8,
+   "text": "Augustus himself, in his Res Gestae, the record of his achievements, proudly claimed that his army had reached a town called Nabata, next to Meroë.",
+   "start": 1309.48,
+   "end": 1318.01,
+   "words": 25
+  },
+  {
+   "sec": 8,
+   "text": "For Rome, this was a triumph.",
+   "start": 1318.68,
+   "end": 1320.45,
+   "words": 6
+  },
+  {
+   "sec": 8,
+   "text": "For Kush, it was a wound at the very heart of its history.",
+   "start": 1320.99,
+   "end": 1324.15,
+   "words": 13
+  },
+  {
+   "sec": 8,
+   "text": "But Petronius made a mistake.",
+   "start": 1325.0,
+   "end": 1326.67,
+   "words": 5
+  },
+  {
+   "sec": 8,
+   "text": "After destroying Napata, he judged that the country farther south was too difficult to conquer.",
+   "start": 1327.09,
+   "end": 1332.16,
+   "words": 15
+  },
+  {
+   "sec": 8,
+   "text": "The land was harsh, the distance was great, and his supply lines were long.",
+   "start": 1332.68,
+   "end": 1336.81,
+   "words": 14
+  },
+  {
+   "sec": 8,
+   "text": "So he turned back north, and left a garrison at Premnis: four hundred men, with supplies for two years.",
+   "start": 1337.6,
+   "end": 1343.53,
+   "words": 19
+  },
+  {
+   "sec": 8,
+   "text": "And Kush came back.",
+   "start": 1344.22,
+   "end": 1345.43,
+   "words": 4
+  },
+  {
+   "sec": 8,
+   "text": "The queen gathered a large army and marched on the fort.",
+   "start": 1346.11,
+   "end": 1348.8,
+   "words": 11
+  },
+  {
+   "sec": 8,
+   "text": "Petronius arrived first and reinforced it.",
+   "start": 1349.34,
+   "end": 1351.57,
+   "words": 6
+  },
+  {
+   "sec": 8,
+   "text": "And then something strange happened.",
+   "start": 1352.24,
+   "end": 1353.88,
+   "words": 5
+  },
+  {
+   "sec": 8,
+   "text": "Instead of another battle, the queen sent ambassadors.",
+   "start": 1354.54,
+   "end": 1357.43,
+   "words": 8
+  },
+  {
+   "sec": 8,
+   "text": "Why?",
+   "start": 1358.24,
+   "end": 1358.48,
+   "words": 1
+  },
+  {
+   "sec": 8,
+   "text": "Why would a queen who had won at Aswan, and lost Napata, choose diplomacy?",
+   "start": 1359.04,
+   "end": 1364.06,
+   "words": 14
+  },
+  {
+   "sec": 8,
+   "text": "We cannot know her reasons.",
+   "start": 1365.05,
+   "end": 1366.22,
+   "words": 5
+  },
+  {
+   "sec": 8,
+   "text": "The strongest possibility is that she understood a war is not measured in cities.",
+   "start": 1366.71,
+   "end": 1371.03,
+   "words": 14
+  },
+  {
+   "sec": 8,
+   "text": "It is measured by what you win in the end.",
+   "start": 1371.48,
+   "end": 1373.39,
+   "words": 10
+  },
+  {
+   "sec": 8,
+   "text": "And Petronius told the envoys something that would change the story.",
+   "start": 1374.18,
+   "end": 1376.91,
+   "words": 11
+  },
+  {
+   "sec": 8,
+   "text": "He said: go to Caesar.",
+   "start": 1377.47,
+   "end": 1379.08,
+   "words": 5
+  },
+  {
+   "sec": 9,
+   "text": "He told them: if you want peace, it is not mine to give.",
+   "start": 1379.83,
+   "end": 1383.0,
+   "words": 13
+  },
+  {
+   "sec": 9,
+   "text": "Go to Augustus.",
+   "start": 1383.69,
+   "end": 1384.58,
+   "words": 3
+  },
+  {
+   "sec": 9,
+   "text": "And here Strabo gives us a strange moment.",
+   "start": 1385.39,
+   "end": 1387.36,
+   "words": 8
+  },
+  {
+   "sec": 9,
+   "text": "The envoys replied, in essence, that they did not know who Caesar was, or where to find him.",
+   "start": 1387.87,
+   "end": 1394.59,
+   "words": 18
+  },
+  {
+   "sec": 9,
+   "text": "It might be plain geography: Kush really was very far from Rome.",
+   "start": 1394.99,
+   "end": 1398.81,
+   "words": 12
+  },
+  {
+   "sec": 9,
+   "text": "Or it might be a very clever diplomatic line, telling Rome: you are not within our sphere.",
+   "start": 1399.66,
+   "end": 1406.16,
+   "words": 17
+  },
+  {
+   "sec": 9,
+   "text": "Strabo writes it like a joke about barbarians.",
+   "start": 1407.36,
+   "end": 1409.66,
+   "words": 8
+  },
+  {
+   "sec": 9,
+   "text": "But it can be read another way: we are not afraid of your name.",
+   "start": 1410.17,
+   "end": 1413.93,
+   "words": 14
+  },
+  {
+   "sec": 9,
+   "text": "Petronius, in no position to object, gave them escorts and sent them on.",
+   "start": 1414.91,
+   "end": 1419.33,
+   "words": 13
+  },
+  {
+   "sec": 9,
+   "text": "Picture it.",
+   "start": 1420.62,
+   "end": 1421.05,
+   "words": 2
+  },
+  {
+   "sec": 9,
+   "text": "Ambassadors from Meroë, down the Nile to Alexandria, across the Mediterranean, to the Greek island of Samos.",
+   "start": 1421.64,
+   "end": 1428.54,
+   "words": 17
+  },
+  {
+   "sec": 9,
+   "text": "Augustus was there that winter, around 21 or 20 BC, on his way to settle the eastern provinces.",
+   "start": 1428.99,
+   "end": 1434.39,
+   "words": 18
+  },
+  {
+   "sec": 9,
+   "text": "They stood before the most powerful man in the world.",
+   "start": 1435.14,
+   "end": 1438.0,
+   "words": 10
+  },
+  {
+   "sec": 9,
+   "text": "Not as prisoners.",
+   "start": 1438.65,
+   "end": 1439.5,
+   "words": 3
+  },
+  {
+   "sec": 9,
+   "text": "Not as the defeated.",
+   "start": 1440.01,
+   "end": 1440.94,
+   "words": 4
+  },
+  {
+   "sec": 9,
+   "text": "As representatives of a queen.",
+   "start": 1441.65,
+   "end": 1443.35,
+   "words": 5
+  },
+  {
+   "sec": 9,
+   "text": "And what did they ask for?",
+   "start": 1444.14,
+   "end": 1445.2,
+   "words": 6
+  },
+  {
+   "sec": 9,
+   "text": "Strabo tells us that Augustus granted everything they requested.",
+   "start": 1446.04,
+   "end": 1449.26,
+   "words": 9
+  },
+  {
+   "sec": 9,
+   "text": "And he canceled the tribute he had imposed.",
+   "start": 1449.81,
+   "end": 1452.06,
+   "words": 8
+  },
+  {
+   "sec": 9,
+   "text": "Wait.",
+   "start": 1452.92,
+   "end": 1453.13,
+   "words": 1
+  },
+  {
+   "sec": 9,
+   "text": "Think about that.",
+   "start": 1453.87,
+   "end": 1454.65,
+   "words": 3
+  },
+  {
+   "sec": 9,
+   "text": "A sacred city destroyed.",
+   "start": 1455.45,
+   "end": 1456.97,
+   "words": 4
+  },
+  {
+   "sec": 9,
+   "text": "An army broken.",
+   "start": 1457.51,
+   "end": 1458.37,
+   "words": 3
+  },
+  {
+   "sec": 9,
+   "text": "And still, the queen came away with better terms than a fully defeated kingdom could expect.",
+   "start": 1459.07,
+   "end": 1464.33,
+   "words": 16
+  },
+  {
+   "sec": 9,
+   "text": "The Roman historian Cassius Dio, writing much later, also mentions the embassy and the peace, so the outline of the story is supported by more than one source.",
+   "start": 1465.01,
+   "end": 1473.05,
+   "words": 28
+  },
+  {
+   "sec": 9,
+   "text": "Historians still ask the question today: who won?",
+   "start": 1474.11,
+   "end": 1477.36,
+   "words": 8
+  },
+  {
+   "sec": 9,
+   "text": "Rome destroyed Napata and won battles.",
+   "start": 1478.03,
+   "end": 1480.69,
+   "words": 6
+  },
+  {
+   "sec": 9,
+   "text": "But Rome could not govern Kush.",
+   "start": 1481.03,
+   "end": 1482.65,
+   "words": 6
+  },
+  {
+   "sec": 9,
+   "text": "It could not collect tribute.",
+   "start": 1483.24,
+   "end": 1484.31,
+   "words": 5
+  },
+  {
+   "sec": 9,
+   "text": "And it never pushed its campaign further south.",
+   "start": 1484.65,
+   "end": 1486.89,
+   "words": 8
+  },
+  {
+   "sec": 9,
+   "text": "The land was harsh, the river narrowed, the army was far from home, and the profit was uncertain.",
+   "start": 1487.54,
+   "end": 1493.17,
+   "words": 18
+  },
+  {
+   "sec": 9,
+   "text": "Kush, on the other hand, lost a sacred city, but kept its independence.",
+   "start": 1494.27,
+   "end": 1498.14,
+   "words": 13
+  },
+  {
+   "sec": 9,
+   "text": "And that, in itself, is a victory.",
+   "start": 1498.75,
+   "end": 1501.95,
+   "words": 7
+  },
+  {
+   "sec": 9,
+   "text": "In the end, diplomacy ended the war, not the sword.",
+   "start": 1502.28,
+   "end": 1505.97,
+   "words": 10
+  },
+  {
+   "sec": 9,
+   "text": "And Amanirenas, or those speaking in her name, understood the game: sometimes the strongest victory is still standing.",
+   "start": 1506.44,
+   "end": 1512.78,
+   "words": 18
+  },
+  {
+   "sec": 9,
+   "text": "And what happened to the border?",
+   "start": 1513.79,
+   "end": 1514.94,
+   "words": 6
+  },
+  {
+   "sec": 9,
+   "text": "The details are debated.",
+   "start": 1515.77,
+   "end": 1516.72,
+   "words": 4
+  },
+  {
+   "sec": 9,
+   "text": "Rome seems to have given up the territory around Premnis, and kept a border zone in the north, sometimes called the Dodekaschoinos, the twelve-mile stretch just south of Aswan, with Philae, one of its centers.",
+   "start": 1517.54,
+   "end": 1529.56,
+   "words": 35
+  },
+  {
+   "sec": 9,
+   "text": "After the peace, relations seem to have been stable for a long time.",
+   "start": 1529.99,
+   "end": 1534.03,
+   "words": 13
+  },
+  {
+   "sec": 9,
+   "text": "Roman goods appear in Meroitic sites, and Meroë's trade with the Mediterranean world flourished.",
+   "start": 1534.29,
+   "end": 1539.63,
+   "words": 14
+  },
+  {
+   "sec": 9,
+   "text": "It was not a story of eternal war.",
+   "start": 1540.07,
+   "end": 1542.16,
+   "words": 8
+  },
+  {
+   "sec": 9,
+   "text": "It was a story of two powers who tested each other, and then learned to live side by side.",
+   "start": 1542.66,
+   "end": 1548.48,
+   "words": 19
+  },
+  {
+   "sec": 10,
+   "text": "Now we jump to the year 1910.",
+   "start": 1548.82,
+   "end": 1550.35,
+   "words": 7
+  },
+  {
+   "sec": 10,
+   "text": "Meroë.",
+   "start": 1551.11,
+   "end": 1551.58,
+   "words": 1
+  },
+  {
+   "sec": 10,
+   "text": "A British archaeologist, John Garstang, is digging in front of a small temple.",
+   "start": 1552.16,
+   "end": 1556.77,
+   "words": 13
+  },
+  {
+   "sec": 10,
+   "text": "And beneath the threshold of its steps, he finds something.",
+   "start": 1557.36,
+   "end": 1560.55,
+   "words": 10
+  },
+  {
+   "sec": 10,
+   "text": "A bronze head.",
+   "start": 1561.27,
+   "end": 1562.35,
+   "words": 3
+  },
+  {
+   "sec": 10,
+   "text": "A young man's face, clean-shaven, with glass eyes that still gleam today.",
+   "start": 1562.77,
+   "end": 1567.61,
+   "words": 12
+  },
+  {
+   "sec": 10,
+   "text": "A statue of the Emperor Augustus.",
+   "start": 1568.02,
+   "end": 1570.47,
+   "words": 6
+  },
+  {
+   "sec": 10,
+   "text": "It was most likely made in Roman Egypt.",
+   "start": 1570.93,
+   "end": 1573.05,
+   "words": 8
+  },
+  {
+   "sec": 10,
+   "text": "And the most widely accepted view is that it is one of the statues taken from Aswan in the raid we described.",
+   "start": 1573.52,
+   "end": 1579.51,
+   "words": 22
+  },
+  {
+   "sec": 10,
+   "text": "And here is the striking part.",
+   "start": 1579.85,
+   "end": 1581.69,
+   "words": 6
+  },
+  {
+   "sec": 10,
+   "text": "It was not displayed on a pedestal.",
+   "start": 1582.12,
+   "end": 1583.87,
+   "words": 7
+  },
+  {
+   "sec": 10,
+   "text": "It was not shown off.",
+   "start": 1584.4,
+   "end": 1585.37,
+   "words": 5
+  },
+  {
+   "sec": 10,
+   "text": "It was buried, right where people would walk.",
+   "start": 1585.83,
+   "end": 1588.34,
+   "words": 8
+  },
+  {
+   "sec": 10,
+   "text": "We say this carefully: one interpretation is that the Kushites buried it that way on purpose, so that everyone entering the temple would trample the emperor underfoot.",
+   "start": 1589.04,
+   "end": 1598.89,
+   "words": 27
+  },
+  {
+   "sec": 10,
+   "text": "It is an attractive, logical explanation.",
+   "start": 1599.26,
+   "end": 1601.61,
+   "words": 6
+  },
+  {
+   "sec": 10,
+   "text": "But it is an interpretation, not a written document.",
+   "start": 1602.21,
+   "end": 1605.11,
+   "words": 9
+  },
+  {
+   "sec": 10,
+   "text": "If it is right, the revenge was symbolic, but deliberate.",
+   "start": 1605.72,
+   "end": 1608.72,
+   "words": 10
+  },
+  {
+   "sec": 10,
+   "text": "Every step was a step on Augustus.",
+   "start": 1609.44,
+   "end": 1611.52,
+   "words": 7
+  },
+  {
+   "sec": 10,
+   "text": "Today the head sits in the British Museum, gazing out with its glass eyes, saying nothing.",
+   "start": 1612.48,
+   "end": 1617.61,
+   "words": 16
+  },
+  {
+   "sec": 10,
+   "text": "And around it are other objects from Meroë and Kush, all saying one thing: this civilization was far bigger than the margin of history it was pushed into.",
+   "start": 1618.21,
+   "end": 1627.47,
+   "words": 28
+  },
+  {
+   "sec": 11,
+   "text": "So what happened next?",
+   "start": 1627.97,
+   "end": 1628.88,
+   "words": 4
+  },
+  {
+   "sec": 11,
+   "text": "Kush lived on.",
+   "start": 1629.55,
+   "end": 1630.39,
+   "words": 3
+  },
+  {
+   "sec": 11,
+   "text": "That is the point.",
+   "start": 1630.91,
+   "end": 1631.67,
+   "words": 4
+  },
+  {
+   "sec": 11,
+   "text": "After Amanirenas, the kingdom lasted for centuries, and other queens followed, with names like Amanishakheto and Amanitore.",
+   "start": 1632.19,
+   "end": 1638.66,
+   "words": 17
+  },
+  {
+   "sec": 11,
+   "text": "Amanitore ruled together with a king named Natakamani, in a period of great building, when temples rose across the kingdom, from Meroë to Naqa to Jebel Barkal.",
+   "start": 1638.96,
+   "end": 1650.01,
+   "words": 27
+  },
+  {
+   "sec": 11,
+   "text": "Amanishakheto, we know largely through her treasure.",
+   "start": 1650.47,
+   "end": 1653.46,
+   "words": 7
+  },
+  {
+   "sec": 11,
+   "text": "In 1834, an Italian adventurer named Giuseppe Ferlini tore down a pyramid at Meroë and carried out gold and jeweled treasures, which sit in museums in Berlin and Munich to this day.",
+   "start": 1654.22,
+   "end": 1665.66,
+   "words": 32
+  },
+  {
+   "sec": 11,
+   "text": "Terrible, isn't it?",
+   "start": 1666.38,
+   "end": 1667.43,
+   "words": 3
+  },
+  {
+   "sec": 11,
+   "text": "The treasure is stolen, and the queen is forgotten.",
+   "start": 1667.97,
+   "end": 1670.85,
+   "words": 9
+  },
+  {
+   "sec": 11,
+   "text": "So the question returns: if this civilization was so powerful, why did we not learn about it?",
+   "start": 1671.1,
+   "end": 1676.53,
+   "words": 17
+  },
+  {
+   "sec": 11,
+   "text": "The answer is not simple.",
+   "start": 1677.33,
+   "end": 1678.26,
+   "words": 5
+  },
+  {
+   "sec": 11,
+   "text": "Part of it is the undeciphered script.",
+   "start": 1678.7,
+   "end": 1680.38,
+   "words": 7
+  },
+  {
+   "sec": 11,
+   "text": "Part of it is that almost all the written record that we can read came from Greeks and Romans.",
+   "start": 1680.91,
+   "end": 1685.32,
+   "words": 19
+  },
+  {
+   "sec": 11,
+   "text": "And part of it is that the history we are taught loves stories that end with an empire's victory.",
+   "start": 1685.71,
+   "end": 1690.68,
+   "words": 19
+  },
+  {
+   "sec": 11,
+   "text": "But part of the answer is also this: we did not ask.",
+   "start": 1691.18,
+   "end": 1694.11,
+   "words": 12
+  },
+  {
+   "sec": 11,
+   "text": "And Amanirenas, despite all the mystery, stands for something powerful.",
+   "start": 1694.99,
+   "end": 1698.98,
+   "words": 10
+  },
+  {
+   "sec": 11,
+   "text": "That resistance does not always mean complete military victory.",
+   "start": 1699.55,
+   "end": 1702.7,
+   "words": 9
+  },
+  {
+   "sec": 11,
+   "text": "Sometimes resistance is taking the blow, negotiating, protecting your people, and carrying on.",
+   "start": 1703.16,
+   "end": 1707.56,
+   "words": 13
+  },
+  {
+   "sec": 11,
+   "text": "And Kush carried on, until around the fourth century AD, when internal pressures, changing trade routes, and rising powers in the region, like the Kingdom of Aksum, brought it to an end.",
+   "start": 1707.9,
+   "end": 1718.97,
+   "words": 32
+  },
+  {
+   "sec": 11,
+   "text": "Here is the truth you will not find in many books: Kush was never the margin of history.",
+   "start": 1719.95,
+   "end": 1725.88,
+   "words": 18
+  },
+  {
+   "sec": 11,
+   "text": "It was the center, for an entire people.",
+   "start": 1726.27,
+   "end": 1728.73,
+   "words": 8
+  },
+  {
+   "sec": 11,
+   "text": "And Amanirenas?",
+   "start": 1729.08,
+   "end": 1730.89,
+   "words": 2
+  },
+  {
+   "sec": 11,
+   "text": "She was not just a queen who fought Rome.",
+   "start": 1731.28,
+   "end": 1736.31,
+   "words": 9
+  },
+  {
+   "sec": 11,
+   "text": "She was one link in a long chain of queens who held the keys to their kingdom in their own hands.",
+   "start": 1737.16,
+   "end": 1746.29,
+   "words": 21
+  },
+  {
+   "sec": 12,
+   "text": "So, in the end, back to our first question.",
+   "start": 1746.73,
+   "end": 1750.87,
+   "words": 9
+  },
+  {
+   "sec": 12,
+   "text": "Who decides who is remembered?",
+   "start": 1751.91,
+   "end": 1754.4,
+   "words": 5
+  },
+  {
+   "sec": 12,
+   "text": "The answer is us.",
+   "start": 1754.9,
+   "end": 1755.88,
+   "words": 4
+  },
+  {
+   "sec": 12,
+   "text": "When we ask.",
+   "start": 1756.27,
+   "end": 1757.6,
+   "words": 3
+  },
+  {
+   "sec": 12,
+   "text": "When we learn.",
+   "start": 1757.95,
+   "end": 1760.39,
+   "words": 3
+  },
+  {
+   "sec": 12,
+   "text": "When we tell the story.",
+   "start": 1760.89,
+   "end": 1762.59,
+   "words": 5
+  },
+  {
+   "sec": 12,
+   "text": "When we refuse to let a queen's life shrink to a single line that calls her one-eyed.",
+   "start": 1762.85,
+   "end": 1765.39,
+   "words": 17
+  },
+  {
+   "sec": 12,
+   "text": "Amanirenas was not remembered the way other rulers were.",
+   "start": 1765.91,
+   "end": 1768.39,
+   "words": 9
+  },
+  {
+   "sec": 12,
+   "text": "No blockbuster film.",
+   "start": 1769.28,
+   "end": 1770.31,
+   "words": 3
+  },
+  {
+   "sec": 12,
+   "text": "No statue in a grand square.",
+   "start": 1771.48,
+   "end": 1774.22,
+   "words": 6
+  },
+  {
+   "sec": 12,
+   "text": "But there is a bronze head beneath a doorstep, an inscription at Hamadab, a line in an ancient geography book, and a question that has lasted two thousand years: who truly won?",
+   "start": 1774.76,
+   "end": 1782.81,
+   "words": 32
+  },
+  {
+   "sec": 12,
+   "text": "History is not only about the empires that conquered.",
+   "start": 1783.32,
+   "end": 1784.94,
+   "words": 9
+  },
+  {
+   "sec": 12,
+   "text": "It is also about the kingdoms that endured.",
+   "start": 1785.12,
+   "end": 1787.29,
+   "words": 8
+  },
+  {
+   "sec": 12,
+   "text": "If you enjoyed this, tell me in the comments: who should we uncover next?",
+   "start": 1787.99,
+   "end": 1790.54,
+   "words": 14
+  },
+  {
+   "sec": 12,
+   "text": "A king?",
+   "start": 1791.28,
+   "end": 1793.06,
+   "words": 2
+  },
+  {
+   "sec": 12,
+   "text": "A queen?",
+   "start": 1793.91,
+   "end": 1794.83,
+   "words": 2
+  },
+  {
+   "sec": 12,
+   "text": "A lost civilization?",
+   "start": 1795.32,
+   "end": 1795.9,
+   "words": 3
+  },
+  {
+   "sec": 12,
+   "text": "A mystery?",
+   "start": 1796.91,
+   "end": 1797.46,
+   "words": 2
+  },
+  {
+   "sec": 12,
+   "text": "And subscribe, so we can bring you more hidden stories.",
+   "start": 1797.83,
+   "end": 1802.31,
+   "words": 10
+  },
+  {
+   "sec": 12,
+   "text": "Because not every hero is remembered.",
+   "start": 1802.79,
+   "end": 1807.56,
+   "words": 6
+  },
+  {
+   "sec": 12,
+   "text": "And some heroes never die.",
+   "start": 1808.62,
+   "end": 1810.23,
+   "words": 5
+  },
+  {
+   "sec": 12,
+   "text": "Note: some details of Amanirenas's life and the Kushite–Roman conflict remain uncertain.",
+   "start": 1810.64,
+   "end": 1817.67,
+   "words": 13
+  },
+  {
+   "sec": 12,
+   "text": "This documentary distinguishes established historical context from debated interpretations.",
+   "start": 1817.88,
+   "end": 1853.664,
+   "words": 9
+  }
+ ]
+}

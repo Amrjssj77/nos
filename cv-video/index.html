@@ -138,14 +138,15 @@ A($('#arr'),[{translate:'0 0'},{translate:'10px -10px'},{translate:'0 0'}],42.5,
 $$('.ci').forEach((c,i)=>A(c,[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],41.2+i*.4,.6));
 const ez=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
 const CL=[['an1','ANIMATION · CINEMATIC AD','Café story','ANIMATIONS'],['an2','ANIMATION · STORYTELLING','Night scroll','ANIMATIONS'],['an3','ANIMATION · HERITAGE FILM','Cairo tour','ANIMATIONS'],
+['chatgpt','ANIMATION · UI MOTION','ChatGPT','ANIMATIONS'],['money','ANIMATION · FINTECH PROMO','Money Fellows','ANIMATIONS'],['indrive','ANIMATION · APP PROMO','inDrive','ANIMATIONS'],
 ['cg1','CGI · AERIAL','Jet over the city','CGI'],['cg2','CGI · FOOD','Fried chicken','CGI'],['cg3','CGI · FOOD','Giant burger','CGI'],['cg4','CGI · FOOD','Kebab storm','CGI'],
-['nozul','SaaS · WEB PLATFORM','Nozul','SaaS & WEB'],['medmap','SaaS · CLINIC MANAGEMENT','Medmap','SaaS & WEB'],['money','UI MOTION · FINTECH','Money Fellows','SaaS & WEB'],['indrive','UI MOTION · APP PROMO','inDrive','SaaS & WEB'],['chatgpt','UI MOTION · PRODUCT FILM','ChatGPT','SaaS & WEB']];
+['nozul','SaaS · WEB PLATFORM','Nozul','SaaS & WEB'],['medmap','SaaS · CLINIC MANAGEMENT','Medmap','SaaS & WEB']];
 window.seek=t=>{if(t>=14&&t<35.6){const l=t-14,i=Math.min(11,Math.floor(l/1.8)),lf=l-i*1.8,f=Math.min(54,Math.max(1,Math.floor(lf*30)+1));
  $('#clip').src=`clips/${CL[i][0]}/${String(f).padStart(3,'0')}.jpg`;$('#ctype').textContent=CL[i][1];$('#cname').textContent=CL[i][2];$('#plbl').textContent='03 — '+CL[i][3];
  $('#cardv').style.transform=`scale(${1.04-0.04*Math.min(1,lf/.3)})`}
  seek2(t)};
 window.seek2=t=>{anims.forEach(a=>a.currentTime=t*1000);let y=100;
- for(const T of [5,9.5,14,19.4,26.6,35.6,39.6]){if(t>=T-.45&&t<T)y=100-100*ez((t-(T-.45))/.45);else if(t>=T&&t<T+.5)y=-100*ez((t-T)/.5)}
+ for(const T of [5,9.5,14,24.8,32,35.6,39.6]){if(t>=T-.45&&t<T)y=100-100*ez((t-(T-.45))/.45);else if(t>=T&&t<T+.5)y=-100*ez((t-T)/.5)}
  $('#wipe').style.transform=`translateY(${y}%)`};
 seek(0);
 </script></body></html>

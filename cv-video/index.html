@@ -62,8 +62,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-f
 
 <!-- S4 portfolio -->
 <section class="sc" id="s4">
- <div style="display:flex;justify-content:space-between" class="lbl"><span>03 — PORTFOLIO</span><span style="color:var(--mut)">/works ↗</span></div>
- <div id="pf" style="display:grid;grid-template-columns:1fr 1fr;gap:32px"></div>
+ <div style="display:flex;justify-content:space-between" class="lbl"><span id="plbl">03 — PORTFOLIO</span><span style="color:var(--mut)">/works ↗</span></div>
+ <div id="cardv" style="position:absolute;left:190px;top:215px;width:700px;height:1244px;border-radius:44px;overflow:hidden;border:3px solid var(--lime);background:#000"><img id="clip" style="width:100%;height:100%;display:block"></div>
+ <div style="position:absolute;left:190px;top:1490px;width:700px"><div id="ctype" class="mono lime" style="font-size:26px"></div><div id="cname" class="big" style="font-size:72px;margin-top:10px"></div></div>
 </section>
 
 <!-- S5 skills -->
@@ -98,13 +99,11 @@ const prof=$('#prof');
 const text=[['Motion','L'],['designer','L'],['and','n'],['CGI','L'],['artist','L'],['turned','n'],['product','P'],['designer.','P']];
 text.forEach(([w,k])=>{const s=document.createElement('span');s.className='w'+(k=='L'?' lime':k=='P'?' pur':'');s.textContent=w;prof.appendChild(s)});
 const ch=$('#chips');['Animation','3D','Interface design'].forEach(t=>{const s=document.createElement('span');s.className='pill';s.textContent=t.toUpperCase();s.style.opacity=0;ch.appendChild(s)});
-const P=[['01','Animations','Title sequences, product films, UI motion'],['02','CGI','Sculpting, lighting, rendering'],['03','SaaS','Dashboards and product flows'],['04','Web Design','Landing pages and marketing sites']];
-P.forEach(([n,t,d],i)=>{$('#pf').insertAdjacentHTML('beforeend',`<div class="card pc" style="height:560px;padding:44px;display:flex;flex-direction:column"><div class="mono pur" style="font-size:28px">${n}</div><div style="flex:1"><svg width="150" height="150" viewBox="0 0 24 24" style="margin-top:36px"><rect x="1" y="1" width="22" height="22" rx="6" fill="${i%2?'#8b7bff':'#c8ff2e'}"/>${['<path d="M9 7l8 5-8 5z" fill="#0d0d10"/>','<path d="M12 4l7 4v8l-7 4-7-4V8z M12 12l7-4 M12 12v8 M12 12L5 8" fill="none" stroke="#0d0d10" stroke-width="1.6" stroke-linejoin="round"/>','<path d="M5 18V10M10 18V6M15 18v-6M20 18V8" stroke="#0d0d10" stroke-width="1.8" stroke-linecap="round" fill="none"/>','<rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="#0d0d10" stroke-width="1.8"/><path d="M4 9h16" stroke="#0d0d10" stroke-width="1.8"/>'][i]}</svg></div><div class="big" style="font-size:64px;letter-spacing:-.02em;line-height:1.05">${t}</div><div style="color:var(--mut);font-size:30px;margin-top:14px;line-height:1.35">${d}</div></div>`)});
 ['Motion Design','CGI & 3D','SaaS Product Design','Web Design','End-to-end delivery'].forEach(t=>$('#sk').insertAdjacentHTML('beforeend',`<div class="sk" style="display:flex;align-items:center;gap:36px;font-size:68px;font-weight:800;letter-spacing:-.02em;padding:36px 0"><i style="flex:none;width:34px;height:34px;background:#0d0d10;border-radius:7px"></i>${t}</div>`));
 [['Phone','01500400025'],['Email','Info@amroismat.online'],['Portfolio','www.amroismat.online'],['LinkedIn','in/amro-ismat-8667b53a5']].forEach(([a,b])=>$('#cl').insertAdjacentHTML('beforeend',`<div class="ci" style="margin-bottom:30px"><div class="mono" style="font-size:22px;color:var(--mut)">${a}</div><div style="font-size:46px;font-weight:600">${b}</div></div>`));
 
 // scene visibility windows [in,out]
-const W={s1:[0,6.5],s2:[6.5,15],s3:[15,23.5],s4:[23.5,32.5],s5:[32.5,38.5],s6:[38.5,45]};
+const W={s1:[0,5],s2:[5,9.5],s3:[9.5,14],s4:[14,35.6],s5:[35.6,39.6],s6:[39.6,45]};
 for(const [id,[a,b]] of Object.entries(W)){A($('#'+id),[{opacity:1},{opacity:1}],a,b-a,'linear');$('#'+id).style.opacity=0;
  const e=$('#'+id);const an=anims.pop();an.cancel();
  const x=e.animate([{opacity:0,offset:0},{opacity:0,offset:.0001},{opacity:1,offset:.0002},{opacity:1,offset:.9998},{opacity:0,offset:1}],{duration:(b-a)*1000,delay:a*1000,fill:'both',easing:'linear'});x.pause();anims.push(x)}
@@ -120,26 +119,33 @@ A($('#dot'),[{transform:'scale(0)'},{transform:'scale(1)'}],1.2,.6,E.back);
 $$('#pills .pill').forEach((p,i)=>A(p,[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],1.5+i*.15,.6));
 A($('#tag'),[{opacity:0,transform:'translateY(50px)'},{opacity:1,transform:'none'}],2.6,.9);
 // S2
-$$('#prof .w').forEach((w,i)=>A(w,[{opacity:0,transform:'translateY(50px)'},{opacity:1,transform:'none'}],7+i*.28,.6));
-$$('#chips .pill').forEach((p,i)=>A(p,[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],10.2+i*.3,.6));
+$$('#prof .w').forEach((w,i)=>A(w,[{opacity:0,transform:'translateY(50px)'},{opacity:1,transform:'none'}],5.4+i*.25,.6));
+$$('#chips .pill').forEach((p,i)=>A(p,[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],7.6+i*.25,.6));
 // S3
-A($('#exp'),[{opacity:0,transform:'translateY(120px) scale(.96)'},{opacity:1,transform:'none'}],15.6,.9);
-A($('#badge'),[{transform:'scale(0)'},{transform:'scale(1)'}],16.6,.5,E.back);
-$$('.eb').forEach((e,i)=>A(e,[{opacity:0,transform:'translateX(-60px)'},{opacity:1,transform:'none'}],17.2+i*.9,.8));
-A($('#e2e'),[{opacity:0},{opacity:1}],20,.8);
+A($('#exp'),[{opacity:0,transform:'translateY(120px) scale(.96)'},{opacity:1,transform:'none'}],10,.9);
+A($('#badge'),[{transform:'scale(0)'},{transform:'scale(1)'}],10.9,.5,E.back);
+$$('.eb').forEach((e,i)=>A(e,[{opacity:0,transform:'translateX(-60px)'},{opacity:1,transform:'none'}],11.3+i*.7,.8));
+A($('#e2e'),[{opacity:0},{opacity:1}],12.9,.8);
 // S4
-$$('.pc').forEach((c,i)=>A(c,[{opacity:0,transform:'translateY(100px) scale(.94)'},{opacity:1,transform:'none'}],24.1+i*.9,.8));
+
 // S5
-$$('.sk').forEach((c,i)=>A(c,[{opacity:0,transform:'translateX(-80px)'},{opacity:1,transform:'none'}],33.1+i*.5,.6));
-A($('#sk'),[{transform:'scale(.9)',opacity:0},{transform:'none',opacity:1}],33,.7);
+$$('.sk').forEach((c,i)=>A(c,[{opacity:0,transform:'translateX(-80px)'},{opacity:1,transform:'none'}],36.1+i*.3,.6));
+A($('#sk'),[{transform:'scale(.9)',opacity:0},{transform:'none',opacity:1}],35.7,.7);
 // S6
-A($('#cta'),[{opacity:0,transform:'scale(.9)'},{opacity:1,transform:'none'}],39.1,.8,E.back);
-A($('#arr'),[{transform:'rotate(-180deg) scale(0)'},{transform:'none'}],40,.7,E.back);
-A($('#arr'),[{translate:'0 0'},{translate:'10px -10px'},{translate:'0 0'}],41.5,1.2,E.io);
-$$('.ci').forEach((c,i)=>A(c,[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],40.6+i*.4,.6));
+A($('#cta'),[{opacity:0,transform:'scale(.9)'},{opacity:1,transform:'none'}],40,.8,E.back);
+A($('#arr'),[{transform:'rotate(-180deg) scale(0)'},{transform:'none'}],40.8,.7,E.back);
+A($('#arr'),[{translate:'0 0'},{translate:'10px -10px'},{translate:'0 0'}],42.5,1.2,E.io);
+$$('.ci').forEach((c,i)=>A(c,[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],41.2+i*.4,.6));
 const ez=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
-window.seek=t=>{anims.forEach(a=>a.currentTime=t*1000);let y=100;
- for(const T of [6.5,15,23.5,32.5,38.5]){if(t>=T-.45&&t<T)y=100-100*ez((t-(T-.45))/.45);else if(t>=T&&t<T+.5)y=-100*ez((t-T)/.5)}
+const CL=[['an1','ANIMATION · CINEMATIC AD','Café story','ANIMATIONS'],['an2','ANIMATION · STORYTELLING','Night scroll','ANIMATIONS'],['an3','ANIMATION · HERITAGE FILM','Cairo tour','ANIMATIONS'],
+['cg1','CGI · AERIAL','Jet over the city','CGI'],['cg2','CGI · FOOD','Fried chicken','CGI'],['cg3','CGI · FOOD','Giant burger','CGI'],['cg4','CGI · FOOD','Kebab storm','CGI'],
+['nozul','SaaS · WEB PLATFORM','Nozul','SaaS & WEB'],['medmap','SaaS · CLINIC MANAGEMENT','Medmap','SaaS & WEB'],['money','UI MOTION · FINTECH','Money Fellows','SaaS & WEB'],['indrive','UI MOTION · APP PROMO','inDrive','SaaS & WEB'],['chatgpt','UI MOTION · PRODUCT FILM','ChatGPT','SaaS & WEB']];
+window.seek=t=>{if(t>=14&&t<35.6){const l=t-14,i=Math.min(11,Math.floor(l/1.8)),lf=l-i*1.8,f=Math.min(54,Math.max(1,Math.floor(lf*30)+1));
+ $('#clip').src=`clips/${CL[i][0]}/${String(f).padStart(3,'0')}.jpg`;$('#ctype').textContent=CL[i][1];$('#cname').textContent=CL[i][2];$('#plbl').textContent='03 — '+CL[i][3];
+ $('#cardv').style.transform=`scale(${1.04-0.04*Math.min(1,lf/.3)})`}
+ seek2(t)};
+window.seek2=t=>{anims.forEach(a=>a.currentTime=t*1000);let y=100;
+ for(const T of [5,9.5,14,19.4,26.6,35.6,39.6]){if(t>=T-.45&&t<T)y=100-100*ez((t-(T-.45))/.45);else if(t>=T&&t<T+.5)y=-100*ez((t-T)/.5)}
  $('#wipe').style.transform=`translateY(${y}%)`};
 seek(0);
 </script></body></html>

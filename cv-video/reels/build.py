@@ -3,7 +3,7 @@ U='/root/.claude/uploads/d1f26c98-864b-5b13-bc74-fa681b6282a7'
 src={k:glob.glob(f'{U}/{v}-*.mp4')[0] for k,v in dict(an1='0e52526e',an2='b35094b2',an3='5216dc19',chatgpt='15e17ee6',money='97b73dd8',indrive='55620319',cg1='8d054c52',cg2='4afd2dc6',cg3='2e1801fa',cg4='968b678a',nozul='e516f116',medmap='c99285f5').items()}
 AN=lambda s:'ANIMATION · '+s;
 R={
-'reel1-animations':dict(num='01',word='ANIMATIONS',fs=190,sub='TITLE SEQUENCES<br>PRODUCT FILMS<br>UI MOTION',d=2.2,clips=[
+'reel1-animations':dict(num='01',word='ANIMATIONS',fs=150,sub='TITLE SEQUENCES<br>PRODUCT FILMS<br>UI MOTION',d=2.2,clips=[
  ('an1',8,AN('CINEMATIC AD'),'Café story'),('an2',20,AN('STORYTELLING'),'Night scroll'),('an3',18,AN('HERITAGE FILM'),'Cairo tour'),
  ('chatgpt',1.5,AN('UI MOTION'),'ChatGPT'),('money',2,AN('FINTECH PROMO'),'Money Fellows'),('indrive',13,AN('APP PROMO'),'inDrive')]),
 'reel2-cgi':dict(num='02',word='CGI',fs=380,sub='SCULPTING<br>LIGHTING<br>RENDERING',d=1.6,clips=[
@@ -12,7 +12,7 @@ R={
 'reel3-saas-web':dict(num='03',word='SaaS & WEB',fs=210,sub='DASHBOARDS<br>PRODUCT FLOWS<br>LANDING PAGES',d=2.2,clips=[
  ('nozul',6,'SaaS · WEB PLATFORM','Nozul'),('medmap',8,'SaaS · CLINIC MANAGEMENT','Medmap'),('nozul',30,'SaaS · WEB PLATFORM','Nozul'),
  ('medmap',35,'SaaS · CLINIC MANAGEMENT','Medmap'),('nozul',60,'SaaS · WEB PLATFORM','Nozul'),('medmap',60,'SaaS · CLINIC MANAGEMENT','Medmap')]),
-'reel4-showreel':dict(num='04',word='SHOWREEL',fs=200,sub='MOTION / CGI / 3D<br>SAAS / WEB',d=1.6,clips=[
+'reel4-showreel':dict(num='04',word='SHOWREEL',fs=165,sub='MOTION / CGI / 3D<br>SAAS / WEB',d=1.6,clips=[
  ('an1',8,AN('CINEMATIC AD'),'Café story'),('cg1',3,'CGI · AERIAL','Jet over the city'),('nozul',6,'SaaS · WEB PLATFORM','Nozul'),('cg3',6,'CGI · FOOD','Giant burger'),
  ('chatgpt',1.5,AN('UI MOTION'),'ChatGPT'),('cg2',10,'CGI · FOOD','Fried chicken'),('medmap',8,'SaaS · CLINIC MANAGEMENT','Medmap'),('an3',18,AN('HERITAGE FILM'),'Cairo tour')]),
 }

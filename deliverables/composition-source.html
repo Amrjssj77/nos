@@ -35,7 +35,7 @@
 
       .scene { position: absolute; inset: 0; }
       .scene + .scene { opacity: 0; }
-      .stage { position: absolute; left: 0; right: 0; top: 120px; height: 1180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+      .stage { position: absolute; left: 0; right: 0; top: 200px; height: 980px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
 
       /* glass + icons */
       .glass { background: var(--glass); border: 2px solid var(--line); border-radius: 36px; backdrop-filter: blur(14px); box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12); }
@@ -107,6 +107,42 @@
       /* transition overlays */
       #flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 40; }
       .blk { position: absolute; left: 0; width: 1080px; height: 330px; background: linear-gradient(90deg, #6d28d9, #8b5cf6); z-index: 41; transform: translateX(-1080px); }
+          #caps { top: 1290px !important; height: 360px !important; }
+      .chunk { gap: 6px 22px !important; }
+      .w { font-size: 82px !important; }
+      .strip { position: absolute; left: 34px; top: 560px; width: 16px; height: 190px; border-radius: 10px; background: #fff; box-shadow: 0 0 40px 10px #a78bfa, 0 0 120px 30px rgba(139,92,246,.7); opacity: .9; }
+      .win { width: 940px; background: rgba(14,12,26,.92); border: 2px solid var(--line); border-radius: 30px; box-shadow: 0 40px 100px rgba(0,0,0,.6); overflow: hidden; direction: ltr; position: relative; }
+      .win .tb { height: 74px; display: flex; align-items: center; gap: 14px; padding: 0 28px; background: rgba(255,255,255,.06); border-bottom: 2px solid var(--line); }
+      .win .tb .dot { width: 20px; height: 20px; border-radius: 50%; }
+      .win .tb .ttl { margin-left: 16px; font-size: 28px; font-weight: 700; color: #a99fd1; }
+      .win .bd { padding: 34px 40px; }
+      .sbar { height: 96px; border-radius: 48px; border: 2px solid var(--line); background: rgba(255,255,255,.08); display: flex; align-items: center; padding: 0 36px; font-size: 40px; font-weight: 700; direction: ltr; gap: 20px; }
+      .sbar .ic2 { width: 40px; height: 40px; flex: none; }
+      .res { display: flex; align-items: center; gap: 24px; padding: 18px 0; direction: ltr; }
+      .res .bars2 { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+      .res .bars2 i { display: block; height: 22px; border-radius: 12px; background: rgba(255,255,255,.18); }
+      .res .bars2 i + i { width: 60%; height: 16px; background: rgba(255,255,255,.1); }
+      .res.hot { background: rgba(139,92,246,.18); border-radius: 22px; padding: 18px 20px; outline: 2px solid var(--violet); }
+      .mouse { position: absolute; width: 70px; height: 70px; z-index: 30; filter: drop-shadow(0 6px 10px rgba(0,0,0,.6)); }
+      .mouse svg { width: 100%; height: 100%; fill: #fff; stroke: #111; stroke-width: 1.5; }
+      .rip { position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 6px solid #fff; opacity: 0; z-index: 29; }
+      .sticker { position: absolute; z-index: 20; }
+      .badge { position: absolute; z-index: 20; padding: 8px 22px; border-radius: 16px; background: #fff; color: #111; font-size: 34px; font-weight: 900; direction: ltr; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+      .lg { display: flex; flex-direction: column; gap: 14px; }
+      .row3 { display: flex; align-items: center; gap: 22px; padding: 14px 18px; border-radius: 20px; border: 2px solid transparent; direction: ltr; }
+      .row3 .nm { flex: 1; height: 24px; border-radius: 12px; background: rgba(255,255,255,.2); }
+      .row3.sel { border-color: var(--green); background: rgba(52,211,153,.16); }
+      .bubble { max-width: 640px; padding: 24px 32px; border-radius: 28px; font-size: 34px; font-weight: 700; direction: ltr; line-height: 1.35; }
+      .pbox { margin-top: 34px; height: 100px; border-radius: 28px; border: 2px solid var(--line); background: rgba(255,255,255,.07); display: flex; align-items: center; padding: 0 34px; font-size: 34px; font-weight: 700; direction: ltr; color: #b9b0dc; }
+      .ba { display: flex; align-items: flex-end; gap: 90px; height: 520px; direction: ltr; }
+      .ba div.col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 16px; font-size: 40px; font-weight: 800; height: 100%; }
+      .ba i { display: block; width: 190px; border-radius: 26px 26px 8px 8px; transform-origin: bottom center; }
+      .twin { display: flex; gap: 40px; direction: ltr; }
+      .rcard { width: 430px; padding: 34px; display: flex; flex-direction: column; gap: 18px; }
+      .rcard i { display: block; height: 20px; border-radius: 10px; background: rgba(255,255,255,.22); }
+          #s4, #s7 { background: #0f0f10; }
+      #s9, #s10 { background: #2f3039; }
+      #s6 { background: #0b0a14; }
     </style>
   </head>
   <body>
@@ -129,120 +165,145 @@
       <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 16a8 8 0 1116 0M12 16l4-5"/></symbol>
     </svg>
 
-    <div id="root" data-composition-id="main" data-start="0" data-duration="48.92" data-width="1080" data-height="1920">
-      <div class="bg"></div><div class="grid"></div><div class="orb" id="orb1" data-layout-allow-overflow></div><div class="orb" id="orb2" data-layout-allow-overflow></div>
+        <div id="root" data-composition-id="main" data-start="0" data-duration="48.92" data-width="1080" data-height="1920">
+      <div class="bg"></div><div class="grid"></div><div class="orb" id="orb1" data-layout-allow-overflow></div><div class="orb" id="orb2" data-layout-allow-overflow></div><div class="strip" id="strip"></div>
 
-      <!-- S1 hook -->
-      <div class="scene" id="s1"><div class="stage">
-        <div class="glass price" id="p1"><span class="nm">AI PLAN</span><span class="pv">$20 /mo</span><i class="strike"></i></div>
-        <div class="glass price" id="p2"><span class="nm">PRO PLAN</span><span class="pv">$200 /mo</span><i class="strike"></i></div>
-        <div class="glass price" id="p3"><span class="nm">API BILL</span><span class="pv">$$$</span><i class="strike"></i></div>
-        <div class="big" id="zero">$0</div>
+      <!-- 1 hook -->
+      <div class="scene" id="s1"><div class="stage" style="gap:26px">
+        <div class="glass price" id="p1" style="height:130px"><span class="nm">AI PLAN</span><span class="pv">$20 /mo</span><i class="strike"></i></div>
+        <div class="glass price" id="p2" style="height:130px"><span class="nm">PRO PLAN</span><span class="pv">$200 /mo</span><i class="strike"></i></div>
+        <div class="glass price" id="p3" style="height:130px"><span class="nm">API BILL</span><span class="pv">$$$</span><i class="strike"></i></div>
+        <div class="big" id="zero" style="font-size:260px">$0</div>
+        <div class="sticker tile t-a" id="st1" style="width:140px;height:140px;left:70px;top:170px;transform:rotate(-12deg)"><svg class="ic"><use href="#i-coin"/></svg></div>
+        <div class="sticker tile t-c" id="st2" style="width:140px;height:140px;right:70px;top:230px;transform:rotate(10deg)"><svg class="ic"><use href="#i-spark"/></svg></div>
       </div></div>
 
-      <!-- S2 free + unlimited -->
+      <!-- 2 terminal typing (B&W then colour) -->
       <div class="scene" id="s2"><div class="stage">
-        <div class="glass term" id="term">
-          <div class="bar"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">claude-code</span></div>
-          <div class="ln"><span style="color:var(--green)">$&nbsp;</span><span class="type" id="ty1">claude</span><span class="cur" id="cur1"></span></div>
-          <div class="ln" id="ln2" style="color:var(--violet2)"><span>&gt;&nbsp;Claude Code ready</span></div>
-          <div class="ln" id="ln3" style="color:var(--green)"><span>&#10003;&nbsp;cost: $0.00</span></div>
-        </div>
-        <div class="pill t-g" id="free" style="font-size:96px;padding:20px 80px;box-shadow:0 0 90px rgba(52,211,153,.6)">FREE</div>
-        <div class="row2" id="unl">
-          <div class="tile t-v" style="width:150px;height:150px"><svg class="ic"><use href="#i-infinity"/></svg></div>
-          <div class="big" style="font-size:96px;color:var(--violet2);text-shadow:0 0 60px rgba(139,92,246,.9)">UNLIMITED</div>
-        </div>
+        <div class="win" id="w2"><div class="tb"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">terminal</span></div>
+          <div class="bd" style="font-size:46px;font-weight:700;line-height:1.7;min-height:560px">
+            <div><span style="color:var(--green)">$&nbsp;</span><span class="type" id="ty1">claude</span><span class="cur"></span></div>
+            <div id="t2a" style="color:var(--violet2)">&gt; Claude Code v2</div>
+            <div id="t2b" style="color:#b9b0dc">&gt; ready. type your prompt</div>
+          </div></div>
+        <div class="sticker tile t-v" id="st3" style="width:150px;height:150px;right:60px;top:90px;transform:rotate(8deg)"><svg class="ic"><use href="#i-terminal"/></svg></div>
       </div></div>
 
-      <!-- S3 github tool -->
-      <div class="scene" id="s3"><div class="stage">
-        <div class="row2" id="gh"><div class="tile t-v" style="width:170px;height:170px"><svg class="ic"><use href="#i-branch"/></svg></div><div class="big ltr" style="font-size:90px">GitHub</div></div>
-        <div class="glass repo" id="repo">
-          <div class="row"><div class="tile t-c" style="width:120px;height:120px"><svg class="ic"><use href="#i-hub"/></svg></div>
-            <div class="nm"><span class="type" id="ty2">OmniRoute</span></div></div>
+      <!-- 3 free + unlimited -->
+      <div class="scene" id="s3"><div class="stage" style="gap:40px">
+        <div class="win" id="w3"><div class="tb"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">usage</span></div>
+          <div class="bd" style="display:flex;flex-direction:column;gap:22px;font-size:44px;font-weight:800">
+            <div style="display:flex;justify-content:space-between"><span style="color:#b9b0dc">cost</span><span id="cost" style="color:var(--green)">$0.00</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#b9b0dc">limit</span><span style="color:var(--violet2)">none</span></div></div></div>
+        <div class="pill t-g" id="free" style="font-size:110px;padding:20px 90px;box-shadow:0 0 90px rgba(52,211,153,.6)">FREE</div>
+        <div class="row2" id="unl"><div class="tile t-v" style="width:150px;height:150px"><svg class="ic"><use href="#i-infinity"/></svg></div><div class="big" style="font-size:96px;color:var(--violet2);text-shadow:0 0 60px rgba(139,92,246,.9)">UNLIMITED</div></div>
+      </div></div>
+
+      <!-- 4 github search -->
+      <div class="scene" id="s4"><div class="stage" style="justify-content:flex-start;padding-top:90px;gap:34px">
+        <div class="row2" id="gh"><div class="tile t-v" style="width:130px;height:130px"><svg class="ic"><use href="#i-branch"/></svg></div><div class="big ltr" style="font-size:96px">GitHub</div></div>
+        <div class="win" id="w4"><div class="bd">
+          <div class="sbar"><svg class="ic2 ic" style="width:40px;height:40px"><use href="#i-hub"/></svg><span class="type" id="ty4">free claude code router</span></div>
+          <div id="r4a" class="res" style="margin-top:24px"><div class="tile t-c" style="width:90px;height:90px"><svg class="ic"><use href="#i-cloud"/></svg></div><div class="bars2"><i></i><i></i></div></div>
+          <div id="r4b" class="res hot"><div class="tile t-v" style="width:90px;height:90px"><svg class="ic"><use href="#i-hub"/></svg></div><div class="bars2"><i style="background:#c4b5fd"></i><i></i></div></div>
+          <div id="r4c" class="res"><div class="tile t-a" style="width:90px;height:90px"><svg class="ic"><use href="#i-cpu"/></svg></div><div class="bars2"><i></i><i></i></div></div>
+        </div></div>
+      </div></div>
+
+      <!-- 5 repo page + click -->
+      <div class="scene" id="s5"><div class="stage" style="gap:34px">
+        <div class="glass repo" id="repo" style="position:relative">
+          <div class="row"><div class="tile t-c" style="width:120px;height:120px"><svg class="ic"><use href="#i-hub"/></svg></div><div class="nm"><span class="type" id="ty2">OmniRoute</span></div></div>
           <div class="row" style="flex-wrap:wrap"><span class="tag" style="color:var(--green)">open source</span><span class="tag" style="color:var(--cyan)">free tool</span><span class="tag" style="color:var(--violet2)">router</span></div>
+          <div class="pill t-v" id="star" style="font-size:44px;align-self:flex-start;display:flex;align-items:center;gap:14px">&#9733; Star</div>
         </div>
-        <div class="pill t-g" id="ft" style="font-size:60px">FREE TOOL</div>
+        <div class="pill t-g" id="ft" style="font-size:64px">FREE TOOL</div>
+        <div class="rip" id="rip5" style="left:225px;top:628px"></div>
+        <div class="mouse" id="ms5"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 2 3 7-3 1-3-7-5 4z"/></svg></div>
       </div></div>
 
-      <!-- S4 hub -->
-      <div class="scene" id="s4"><div class="stage" style="justify-content:flex-start;padding-top:20px">
-        <div class="hubwrap" id="hubwrap">
-          <svg id="lines" viewBox="0 0 960 1100"></svg>
-          <div class="node" style="left:380px;top:0"><div class="tile t-v" style="width:200px;height:200px"><svg class="ic"><use href="#i-terminal"/></svg></div><span>Claude Code</span></div>
-          <div class="node" style="left:380px;top:330px" id="hubnode"><div class="tile t-c" style="width:200px;height:200px;box-shadow:0 0 90px rgba(34,211,238,.7)"><svg class="ic"><use href="#i-hub"/></svg></div><span>OmniRoute</span></div>
-          <div id="pgrid"></div>
-          <div class="big" id="n200" style="position:absolute;left:0;right:0;top:1070px;text-align:center;font-size:110px;color:var(--amber);text-shadow:0 0 70px rgba(251,191,36,.7);direction:ltr">200+</div>
-        </div>
+      <!-- 6 connect -->
+      <div class="scene" id="s6"><div class="stage" style="gap:0">
+        <div class="node" style="position:relative" id="n6a"><div class="tile t-v" style="width:240px;height:240px"><svg class="ic"><use href="#i-terminal"/></svg></div><span style="font-size:52px">Claude Code</span></div>
+        <svg width="40" height="300" viewBox="0 0 40 300" style="margin:10px 0"><path id="ln6" d="M20 0 V300" stroke="#67e8f9" stroke-width="7" stroke-linecap="round" fill="none" stroke-dasharray="320" stroke-dashoffset="320"/><circle id="dot6" cx="20" cy="0" r="11" fill="#fff"/></svg>
+        <div class="node" id="n6b" style="position:relative"><div class="tile t-c" style="width:240px;height:240px;box-shadow:0 0 110px rgba(34,211,238,.75)"><svg class="ic"><use href="#i-hub"/></svg></div><span style="font-size:52px">OmniRoute</span></div>
       </div></div>
 
-      <!-- S5 tokens -->
-      <div class="scene" id="s5"><div class="stage">
-        <div class="lbl" style="font-size:48px;color:var(--violet2)">FREE TOKENS / MONTH</div>
-        <div class="big" id="tok" style="font-size:300px;color:var(--green);text-shadow:0 0 90px rgba(52,211,153,.7);direction:ltr">0B</div>
-        <div class="bars" id="bars"><b style="height:80px"></b><b style="height:120px"></b><b style="height:170px"></b><b style="height:230px"></b><b style="height:290px"></b><b style="height:340px"></b><b style="height:380px"></b></div>
-        <div class="pill t-g" id="p-free" style="font-size:52px">$0 / MONTH</div>
+      <!-- 7 providers scroll -->
+      <div class="scene" id="s7"><div class="stage" style="justify-content:flex-start;padding-top:70px;gap:26px">
+        <div class="big" id="n200" style="font-size:150px;color:var(--amber);text-shadow:0 0 70px rgba(251,191,36,.7);direction:ltr">0+</div>
+        <div class="win" id="w7" style="height:760px"><div class="bd" style="padding:0"><div id="plist" class="lg" style="padding:26px 36px"></div></div></div>
       </div></div>
 
-      <!-- S6 limit -->
-      <div class="scene" id="s6"><div class="stage">
-        <div class="row2"><div class="tile t-v" style="width:150px;height:150px"><svg class="ic"><use href="#i-gauge"/></svg></div><div class="big ltr" style="font-size:80px">Claude limit</div></div>
-        <div class="meter"><i id="lim" style="background:linear-gradient(90deg,#a78bfa,#fb4a5a)"></i></div>
-        <div class="big" id="pct" style="font-size:200px;direction:ltr;color:var(--red);text-shadow:0 0 80px rgba(251,74,90,.7)">0%</div>
-        <div class="glass" id="alert" style="padding:30px 56px;display:flex;align-items:center;gap:26px;direction:ltr;border-color:var(--red)">
-          <div class="tile t-r" style="width:100px;height:100px"><svg class="ic"><use href="#i-alert"/></svg></div>
-          <div class="big" style="font-size:60px;color:var(--red)">LIMIT REACHED</div></div>
+      <!-- 8 tokens dashboard -->
+      <div class="scene" id="s8"><div class="stage" style="gap:30px">
+        <div class="win" id="w8"><div class="tb"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">free tokens / month</span></div>
+          <div class="bd" style="display:flex;flex-direction:column;align-items:center;gap:20px">
+            <div class="big" id="tok" style="font-size:240px;color:var(--green);text-shadow:0 0 90px rgba(52,211,153,.7);direction:ltr">0B</div>
+            <div class="bars" id="bars" style="height:260px"><b style="height:60px"></b><b style="height:95px"></b><b style="height:130px"></b><b style="height:170px"></b><b style="height:210px"></b><b style="height:240px"></b><b style="height:260px"></b></div></div></div>
+        <div class="badge" id="bd1" style="left:50px;top:150px;transform:rotate(-6deg)">&#9654; 1.6B</div>
+        <div class="badge" id="bd2" style="right:50px;top:300px;transform:rotate(5deg)">$0 / mo</div>
       </div></div>
 
-      <!-- S7 reroute -->
-      <div class="scene" id="s7"><div class="stage">
-        <div class="glass" id="from" style="padding:26px 50px;display:flex;align-items:center;gap:26px;direction:ltr;opacity:.75"><div class="tile t-r" style="width:100px;height:100px"><svg class="ic"><use href="#i-alert"/></svg></div><div class="big" style="font-size:54px;color:#b9a9e8">limit reached</div></div>
-        <div class="tile t-c" id="swi" style="width:200px;height:200px;box-shadow:0 0 90px rgba(34,211,238,.7)"><svg class="ic"><use href="#i-switch"/></svg></div>
-        <div class="pill t-c" style="font-size:54px">AUTO-SWITCH</div>
-        <div class="glass" id="to" style="padding:34px 60px;display:flex;align-items:center;gap:30px;direction:ltr;border-color:var(--green)"><div class="tile t-g" style="width:130px;height:130px"><svg class="ic"><use href="#i-spark"/></svg></div><div><div class="big" style="font-size:62px">BEST MODEL</div><div class="lbl" style="color:var(--green);font-size:40px">ready &#10003;</div></div></div>
+      <!-- 9 limit -->
+      <div class="scene" id="s9"><div class="stage" style="gap:30px">
+        <div class="win" id="w9"><div class="tb"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">chat</span></div>
+          <div class="bd" style="min-height:640px;display:flex;flex-direction:column;gap:22px">
+            <div class="bubble" style="align-self:flex-end;background:rgba(139,92,246,.35)">refactor this module please</div>
+            <div class="bubble" style="background:rgba(255,255,255,.1)">working on it...</div>
+            <div class="meter" style="width:100%;margin-top:6px"><i id="lim" style="background:linear-gradient(90deg,#a78bfa,#fb4a5a)"></i></div>
+            <div class="big" id="pct" style="font-size:130px;direction:ltr;color:var(--red);text-shadow:0 0 60px rgba(251,74,90,.7)">0%</div>
+            <div class="pbox" id="pb9">Message Claude...</div></div></div>
       </div></div>
 
-      <!-- S8 no downtime -->
-      <div class="scene" id="s8"><div class="stage">
-        <div class="glass term" id="term2">
-          <div class="bar"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">session</span></div>
-          <div class="ln" id="r1" style="color:var(--violet2)"><span>&#9679;&nbsp;writing code...</span></div>
-          <div class="ln" id="r2" style="color:var(--cyan)"><span>&#9679;&nbsp;switching model...</span></div>
-          <div class="ln" id="r3" style="color:var(--green)"><span>&#9679;&nbsp;still running</span></div>
-          <div class="ln" id="r4" style="color:var(--green)"><span>&#9679;&nbsp;still running</span></div>
-        </div>
-        <div class="row2" id="dt"><div class="tile t-g" style="width:150px;height:150px"><svg class="ic"><use href="#i-bolt"/></svg></div><div><div class="big ltr" id="dtn" style="font-size:150px;color:var(--green);text-shadow:0 0 60px rgba(52,211,153,.7)">0s</div><div class="lbl" style="font-size:44px">DOWNTIME</div></div></div>
+      <!-- 10 model picker -->
+      <div class="scene" id="s10"><div class="stage" style="gap:20px;top:60px">
+        <div class="glass" id="from" style="padding:22px 44px;display:flex;align-items:center;gap:22px;direction:ltr"><div class="tile t-r" style="width:84px;height:84px"><svg class="ic"><use href="#i-alert"/></svg></div><div class="big" style="font-size:46px;color:#d9a6b0">limit reached</div></div>
+        <div class="win" id="w10"><div class="tb"><span class="ttl">auto-switch</span></div>
+          <div class="bd lg" id="mlist" style="padding:18px 30px;gap:8px"></div></div>
+        <div class="pill t-c" id="auto" style="font-size:46px">AUTO &#10003;</div>
       </div></div>
 
-      <!-- S9 compress -->
-      <div class="scene" id="s9"><div class="stage">
-        <div class="row2"><div class="tile t-v" style="width:150px;height:150px"><svg class="ic"><use href="#i-compress"/></svg></div><div class="big ltr" style="font-size:80px">PROMPT</div></div>
-        <div class="glass lines" id="plines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pill t-v" style="font-size:50px">COMPRESSING</div>
-      </div></div>
-
-      <!-- S10 -90% -->
-      <div class="scene" id="s10"><div class="stage">
-        <div class="row2"><div class="tile t-g" style="width:170px;height:170px"><svg class="ic"><use href="#i-down"/></svg></div></div>
-        <div class="big" id="pc" style="font-size:340px;color:var(--green);text-shadow:0 0 90px rgba(52,211,153,.8);direction:ltr">-0%</div>
-        <div class="lbl" style="font-size:60px;color:var(--ink)">TOKENS USED</div>
-        <div class="meter" style="width:760px"><i id="tk" style="background:linear-gradient(90deg,#6ee7b7,#047857)"></i></div>
-      </div></div>
-
-      <!-- S11 same result -->
+      <!-- 11 terminal scroll -->
       <div class="scene" id="s11"><div class="stage">
-        <div class="tile t-g" id="ok" style="width:300px;height:300px;box-shadow:0 0 120px rgba(52,211,153,.7)"><svg class="ic"><use href="#i-check"/></svg></div>
-        <div class="big" id="same" style="font-size:150px;color:var(--ink)">نفس النتيجة</div>
-        <div class="glass" id="brand" style="padding:30px 70px;display:flex;align-items:center;gap:28px;direction:ltr"><div class="tile t-c" style="width:110px;height:110px"><svg class="ic"><use href="#i-hub"/></svg></div><div class="big" style="font-size:84px">OmniRoute</div></div>
+        <div class="win" id="w11" style="height:900px"><div class="tb"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">session</span></div>
+          <div class="bd" id="tlog" style="font-size:38px;font-weight:700;line-height:1.75"></div></div>
+      </div></div>
+
+      <!-- 12 uptime -->
+      <div class="scene" id="s12"><div class="stage" style="gap:34px">
+        <svg width="900" height="260" viewBox="0 0 900 260" id="hb"><path id="hbp" d="M0 130 H170 L210 40 L270 220 L320 130 H520 L560 60 L610 200 L650 130 H900" stroke="#34d399" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1500" stroke-dashoffset="1500" style="filter:drop-shadow(0 0 18px #34d399)"/></svg>
+        <div class="big ltr" id="dtn" style="font-size:230px;color:var(--green);text-shadow:0 0 80px rgba(52,211,153,.7)">0s</div>
+        <div class="lbl" style="font-size:56px">DOWNTIME</div>
+        <div class="sticker tile t-g" id="st12" style="width:150px;height:150px;right:70px;top:140px;transform:rotate(10deg)"><svg class="ic"><use href="#i-bolt"/></svg></div>
+      </div></div>
+
+      <!-- 13 compress -->
+      <div class="scene" id="s13"><div class="stage">
+        <div class="win" id="w13"><div class="tb"><span class="ttl">prompt</span></div>
+          <div class="lines" id="plines" style="width:100%"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="pill t-v" style="font-size:52px;margin-top:30px">COMPRESSING</div>
+        <div class="sticker tile t-v" id="st13" style="width:150px;height:150px;left:60px;top:120px;transform:rotate(-10deg)"><svg class="ic"><use href="#i-compress"/></svg></div>
+      </div></div>
+
+      <!-- 14 before / after -->
+      <div class="scene" id="s14"><div class="stage">
+        <div class="ba"><div class="col"><i id="bA" style="height:400px;background:linear-gradient(180deg,#c4b5fd,#6d28d9)"></i><span>BEFORE</span></div><div class="col"><i id="bB" style="height:400px;background:linear-gradient(180deg,#6ee7b7,#047857)"></i><span>AFTER</span></div></div>
+        <div class="big" id="pc" style="font-size:230px;color:var(--green);text-shadow:0 0 90px rgba(52,211,153,.8);direction:ltr">-0%</div>
+        <div class="badge" id="bd3" style="left:60px;top:140px;transform:rotate(-7deg)">&#9654; tokens</div>
+      </div></div>
+
+      <!-- 15 same result -->
+      <div class="scene" id="s15"><div class="stage" style="gap:40px">
+        <div class="twin" id="twin">
+          <div class="glass rcard"><i style="width:60%"></i><i></i><i></i><i style="width:80%"></i><div class="tile t-g" style="width:90px;height:90px;align-self:flex-end"><svg class="ic"><use href="#i-check"/></svg></div></div>
+          <div class="glass rcard"><i style="width:60%"></i><i></i><i></i><i style="width:80%"></i><div class="tile t-g" style="width:90px;height:90px;align-self:flex-end"><svg class="ic"><use href="#i-check"/></svg></div></div>
+        </div>
+        <div class="glass" id="brand" style="padding:28px 64px;display:flex;align-items:center;gap:26px;direction:ltr"><div class="tile t-c" style="width:104px;height:104px"><svg class="ic"><use href="#i-hub"/></svg></div><div class="big" style="font-size:80px">OmniRoute</div></div>
       </div></div>
 
       <div id="caps"></div>
       <div id="flash"></div>
-      <i class="blk" style="top:0"></i><i class="blk" style="top:330px"></i><i class="blk" style="top:660px"></i><i class="blk" style="top:990px"></i><i class="blk" style="top:1320px"></i><i class="blk" style="top:1650px"></i>
-
-      <audio id="vo" src="assets/vo.wav" data-start="0" data-duration="48.92" data-track-index="0" data-volume="1"></audio>
-      <audio id="music" src="assets/music.wav" data-start="0" data-duration="48.92" data-track-index="1" data-volume="0.7"></audio>
       <!--SFX-->
     </div>
 
@@ -291,7 +352,7 @@
       const chunks = [];
       PH.forEach((p, pi) => {
         const ws = WORDS.filter(w => w.ph === pi);
-        const n = ws.length, per = n <= 4 ? n : (n <= 8 ? Math.ceil(n / 2) : Math.ceil(n / 3));
+        const n = ws.length, per = n <= 3 ? n : Math.ceil(n / Math.ceil(n / 3));
         for (let k = 0; k < n; k += per) chunks.push(ws.slice(k, k + per));
       });
       chunks.forEach((cw, ci) => {
@@ -305,140 +366,145 @@
         tl.set(el, { opacity: 0 }, b);
       });
 
-      // ------- scene transitions: outgoing + incoming move at the same instant -------
-      const TB = [3.0, 9.4, 14.3, 19.6, 25.3, 29.0, 32.6, 39.3, 42.7, 46.4]; // boundaries
-      const TS = TB.map(t => t - 0.15), D = 0.45;
-      const S = i => "#s" + i;
-      // 1 push-left
-      tl.to(S(1), { x: -1080, duration: D, ease: "power3.inOut" }, TS[0]);
-      tl.set(S(2), { opacity: 1 }, TS[0]);
-      tl.fromTo(S(2), { x: 1080 }, { x: 0, duration: D, ease: "power3.inOut" }, TS[0]);
-      tl.set(S(1), { opacity: 0 }, TS[0] + D);
-      // 2 blur crossfade
-      tl.to(S(2), { opacity: 0, filter: "blur(24px)", duration: D + 0.2, ease: "sine.inOut" }, TS[1]);
-      tl.fromTo(S(3), { opacity: 0, filter: "blur(24px)" }, { opacity: 1, filter: "blur(0px)", duration: D + 0.2, ease: "sine.inOut" }, TS[1]);
-      // 3 zoom through
-      tl.to(S(3), { scale: 2.6, opacity: 0, filter: "blur(14px)", duration: D, ease: "power3.in" }, TS[2]);
-      tl.fromTo(S(4), { scale: 0.55, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: D, ease: "power3.out" }, TS[2]);
-      // 4 vertical push
-      tl.to(S(4), { y: -1300, duration: D, ease: "power3.inOut" }, TS[3]);
-      tl.set(S(5), { opacity: 1 }, TS[3]);
-      tl.fromTo(S(5), { y: 1300 }, { y: 0, duration: D, ease: "power3.inOut" }, TS[3]);
-      tl.set(S(4), { opacity: 0 }, TS[3] + D);
-      // 5 glitch
-      const g0 = TS[4];
-      tl.to(S(5), { x: 36, filter: "hue-rotate(90deg) saturate(2.5)", duration: 0.07, ease: "none" }, g0)
-        .to(S(5), { x: -48, duration: 0.07, ease: "none" }, g0 + 0.07)
-        .to(S(5), { x: 24, opacity: 0, duration: 0.07, ease: "none" }, g0 + 0.14);
-      tl.fromTo(S(6), { opacity: 0, x: -40, filter: "hue-rotate(-90deg) saturate(2.5)" }, { opacity: 1, x: 24, duration: 0.07, ease: "none" }, g0 + 0.14)
-        .to(S(6), { x: -16, duration: 0.07, ease: "none" }, g0 + 0.21)
-        .to(S(6), { x: 0, filter: "hue-rotate(0deg) saturate(1)", duration: 0.1, ease: "none" }, g0 + 0.28);
-      tl.set(S(5), { filter: "none", x: 0 }, g0 + 0.3);
-      // 6 circle iris (incoming expands over outgoing)
-      tl.set(S(7), { opacity: 1 }, TS[5]);
-      tl.fromTo(S(7), { clipPath: "circle(0px at 540px 650px)" }, { clipPath: "circle(1500px at 540px 650px)", duration: D + 0.1, ease: "power2.inOut" }, TS[5]);
-      tl.set(S(6), { opacity: 0 }, TS[5] + D + 0.1);
-      // 7 staggered blocks
-      const blk = document.querySelectorAll(".blk");
-      blk.forEach((b, k) => {
-        tl.fromTo(b, { x: -1080 }, { x: 0, duration: 0.22, ease: "power3.out" }, TS[6] + k * 0.04);
-        tl.to(b, { x: 1080, duration: 0.22, ease: "power3.in" }, TS[6] + 0.28 + k * 0.04);
-      });
-      tl.set(S(7), { opacity: 0 }, TS[6] + 0.3);
-      tl.set(S(8), { opacity: 1 }, TS[6] + 0.3);
-      // 8 flash / overexposure
-      tl.to("#flash", { opacity: 1, duration: 0.14, ease: "power2.in" }, TS[7]);
-      tl.set(S(8), { opacity: 0 }, TS[7] + 0.14);
-      tl.set(S(9), { opacity: 1 }, TS[7] + 0.14);
-      tl.to("#flash", { opacity: 0, duration: 0.3, ease: "power2.out" }, TS[7] + 0.16);
-      // 9 push-left again (primary)
-      tl.to(S(9), { x: -1080, duration: D, ease: "power3.inOut" }, TS[8]);
-      tl.set(S(10), { opacity: 1 }, TS[8]);
-      tl.fromTo(S(10), { x: 1080 }, { x: 0, duration: D, ease: "power3.inOut" }, TS[8]);
-      tl.set(S(9), { opacity: 0 }, TS[8] + D);
-      // 10 blur crossfade (wind-down)
-      tl.to(S(10), { opacity: 0, filter: "blur(24px)", duration: D + 0.2, ease: "sine.inOut" }, TS[9]);
-      tl.fromTo(S(11), { opacity: 0, filter: "blur(24px)" }, { opacity: 1, filter: "blur(0px)", duration: D + 0.2, ease: "sine.inOut" }, TS[9]);
+      
+      // caption chunks ready
 
-      // ------- ambient motion -------
+      // ------- keyword stickers (icon pops above the caption, like the reference) -------
+      const STK = [[1,3,"terminal","t-v"],[6,1,"terminal","t-v"],[6,4,"hub","t-a"],[7,3,"coin","t-g"],[8,6,"alert","t-r"],[9,2,"switch","t-c"],[10,5,"bolt","t-g"],[11,6,"compress","t-v"],[12,5,"down","t-g"],[13,3,"check","t-g"],[0,5,"spark","t-c"],[2,2,"infinity","t-v"]];
+      STK.forEach(([pi, wi, ic, cl], k) => {
+        const st = W(pi, wi), d = document.createElement("div");
+        d.className = "tile sticker " + cl; d.id = "kst" + k;
+        d.style.cssText = "width:104px;height:104px;left:488px;top:1170px;z-index:60;opacity:0";
+        d.innerHTML = '<svg class="ic"><use href="#i-' + ic + '"/></svg>'; document.getElementById("root").appendChild(d);
+        tl.fromTo(d, { opacity: 0, scale: 0.2, rotation: -25 }, { opacity: 1, scale: 1, rotation: k % 2 ? 8 : -8, duration: 0.28, ease: "back.out(2.6)" }, st);
+        tl.to(d, { opacity: 0, scale: 0.6, duration: 0.18, ease: "power2.in" }, st + 0.95);
+      });
+      // punch-in on every caption chunk (rhythm)
+      chunks.forEach((cw, ci) => { tl.fromTo("#caps", { scale: 1.07 }, { scale: 1, duration: 0.22, ease: "power3.out", immediateRender: false }, cw[0].st); });
+
+      // ------- scene transitions (outgoing + incoming move at the same instant) -------
+      const TB = [3.0, 5.6, 9.4, 11.3, 14.3, W(6,3) - 0.05, 19.6, 25.3, 29.0, 32.6, W(10,4) - 0.05, 39.3, 42.7, 46.4];
+      const TY = ["push","blur","glitch","zoom","vpush","flash","iris","blur","push","glitch","zoom","vpush","blur","iris"];
+      const D = 0.38, S = i => "#s" + i;
+      TB.forEach((tb, k) => {
+        const o = S(k + 1), n = S(k + 2), t = tb - 0.15, ty = TY[k];
+        if (ty === "push") { tl.set(n, { opacity: 1 }, t); tl.to(o, { x: -1080, duration: D, ease: "power3.inOut" }, t); tl.fromTo(n, { x: 1080 }, { x: 0, duration: D, ease: "power3.inOut" }, t); tl.set(o, { opacity: 0 }, t + D); }
+        else if (ty === "vpush") { tl.set(n, { opacity: 1 }, t); tl.to(o, { y: -1300, duration: D, ease: "power3.inOut" }, t); tl.fromTo(n, { y: 1300 }, { y: 0, duration: D, ease: "power3.inOut" }, t); tl.set(o, { opacity: 0 }, t + D); }
+        else if (ty === "blur") { tl.to(o, { opacity: 0, filter: "blur(26px)", duration: D + 0.1, ease: "sine.inOut" }, t); tl.fromTo(n, { opacity: 0, filter: "blur(26px)" }, { opacity: 1, filter: "blur(0px)", duration: D + 0.1, ease: "sine.inOut" }, t); }
+        else if (ty === "zoom") { tl.to(o, { scale: 2.6, opacity: 0, filter: "blur(14px)", duration: D, ease: "power3.in" }, t); tl.fromTo(n, { scale: 0.55, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: D, ease: "power3.out" }, t); }
+        else if (ty === "glitch") {
+          tl.to(o, { x: 36, filter: "hue-rotate(90deg) saturate(2.5)", duration: 0.06, ease: "none" }, t).to(o, { x: -48, duration: 0.06, ease: "none" }, t + 0.06).to(o, { x: 24, opacity: 0, duration: 0.06, ease: "none" }, t + 0.12);
+          tl.fromTo(n, { opacity: 0, x: -40, filter: "hue-rotate(-90deg) saturate(2.5)" }, { opacity: 1, x: 24, duration: 0.06, ease: "none" }, t + 0.12).to(n, { x: -16, duration: 0.06, ease: "none" }, t + 0.18).to(n, { x: 0, filter: "hue-rotate(0deg) saturate(1)", duration: 0.08, ease: "none" }, t + 0.24);
+          tl.set(o, { filter: "none", x: 0 }, t + 0.3);
+        }
+        else if (ty === "flash") { tl.to("#flash", { opacity: 1, duration: 0.12, ease: "power2.in" }, t); tl.set(o, { opacity: 0 }, t + 0.12); tl.set(n, { opacity: 1 }, t + 0.12); tl.to("#flash", { opacity: 0, duration: 0.25, ease: "power2.out" }, t + 0.14); }
+        else if (ty === "iris") { tl.set(n, { opacity: 1 }, t); tl.fromTo(n, { clipPath: "circle(0px at 540px 650px)" }, { clipPath: "circle(1500px at 540px 650px)", duration: D + 0.1, ease: "power2.inOut" }, t); tl.set(o, { opacity: 0 }, t + D + 0.1); }
+      });
+      // slow push-in on every scene stage (keeps frames alive)
+      for (let i = 1; i <= 15; i++) {
+        const a = i === 1 ? 0 : TB[i - 2] - 0.1, b = i === 15 ? 48.9 : TB[i - 1];
+        tl.fromTo("#s" + i + " .stage", { scale: 1 }, { scale: 1.05, duration: b - a, ease: "none", immediateRender: i === 1 }, a);
+      }
       tl.to("#orb1", { x: 260, y: 180, duration: 48, ease: "sine.inOut" }, 0);
       tl.to("#orb2", { x: -260, y: -240, duration: 48, ease: "sine.inOut" }, 0);
-
-      // ------- S1 -------
+      // B&W colour reveal on the typing scene (as in the reference)
+      tl.fromTo("#s2", { filter: "grayscale(1)" }, { filter: "grayscale(0)", duration: 0.4, ease: "none" }, W(1, 4) - 0.1);
+      tl.set("#s2", { filter: "grayscale(1)" }, 2.8);
+      // ---- S1
       ["#p1", "#p2", "#p3"].forEach((id, k) => {
-        tl.fromTo(id, { opacity: 0, x: -140, scale: 0.9 }, { opacity: 1, x: 0, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 0.15 + k * 0.12);
-        tl.to(id + " .strike", { scaleX: 1, duration: 0.25, ease: "power3.out" }, 0.9 + k * 0.28);
-        tl.to(id, { opacity: 0.45, duration: 0.3 }, 1.15 + k * 0.28);
+        tl.fromTo(id, { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(1.6)" }, 0.1 + k * 0.1);
+        tl.to(id + " .strike", { scaleX: 1, duration: 0.2, ease: "power3.out" }, 0.75 + k * 0.22);
+        tl.to(id, { opacity: 0.4, duration: 0.2 }, 0.95 + k * 0.22);
       });
-      tl.fromTo("#zero", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2.2)" }, 1.85);
-      // ------- S2 -------
-      const T2 = 3.0;
-      tl.fromTo("#term", { opacity: 0, y: 80, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, T2 + 0.05);
-      tl.fromTo("#ty1", { width: 0 }, { width: 190, duration: 0.7, ease: "steps(6)" }, T2 + 0.5);
-      tl.fromTo("#ln2", { opacity: 0 }, { opacity: 1, duration: 0.2 }, W(1, 3));
-      tl.fromTo("#ln3", { opacity: 0 }, { opacity: 1, duration: 0.2 }, W(1, 4));
-      tl.fromTo("#free", { opacity: 0, scale: 0.2, rotation: -12 }, { opacity: 1, scale: 1, rotation: -4, duration: 0.5, ease: "back.out(2.4)" }, W(1, 4));
-      tl.fromTo("#unl", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, W(2, 1));
-      // ------- S3 -------
-      tl.fromTo("#gh", { opacity: 0, y: 60, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 9.55);
-      tl.fromTo("#repo", { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, W(4, 0));
-      tl.fromTo("#ty2", { width: 0 }, { width: 480, duration: 0.9, ease: "steps(9)" }, W(5, 1));
-      tl.fromTo("#ft", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.4)" }, W(4, 3));
-      // ------- S4 hub -------
-      const svg = document.getElementById("lines"), grid = document.getElementById("pgrid");
-      const ico = ["cloud","cpu","server","spark","bolt","branch","hub","cloud","cpu","server","spark","bolt"], cl = ["t-v","t-c","t-g","t-a","t-p","t-r"];
-      const NS = "http://www.w3.org/2000/svg";
-      const cols = [105, 315, 525, 735]; // left px of 4 tiles
-      for (let k = 0; k < 12; k++) {
-        const r = Math.floor(k / 4), c = k % 4, L = cols[c], T = 665 + r * 135;
-        const d = document.createElement("div"); d.className = "pg tile " + cl[k % 6]; d.id = "pg" + k; d.style.left = L + "px"; d.style.top = T + "px";
-        d.innerHTML = '<svg class="ic"><use href="#i-' + ico[k] + '"/></svg>'; grid.appendChild(d);
-      }
-      const mkLine = (x1, y1, x2, y2, id) => { const l = document.createElementNS(NS, "path"); l.setAttribute("d", "M" + x1 + " " + y1 + " C " + x1 + " " + (y1 + 80) + ", " + x2 + " " + (y2 - 80) + ", " + x2 + " " + y2); l.setAttribute("stroke", "#67e8f9"); l.setAttribute("stroke-width", "5"); l.setAttribute("fill", "none"); l.setAttribute("stroke-linecap", "round"); l.setAttribute("stroke-dasharray", "600"); l.setAttribute("stroke-dashoffset", "600"); l.id = id; svg.appendChild(l); };
-      mkLine(480, 250, 480, 330, "ln-a");
-      cols.forEach((L, c) => mkLine(480, 595, L + 60, 665, "ln-b" + c));
-      tl.fromTo("#hubwrap", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 14.3);
-      tl.to("#ln-a", { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, W(6, 1));
-      cols.forEach((L, c) => tl.to("#ln-b" + c, { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, W(6, 3) + c * 0.08));
-      for (let k = 0; k < 12; k++) tl.fromTo("#pg" + k, { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, W(6, 4) + k * 0.1);
+      tl.fromTo("#zero", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, 1.6);
+      tl.fromTo("#st1", { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 0.5);
+      tl.fromTo("#st2", { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, W(0, 5));
+      // ---- S2 terminal typing
+      tl.fromTo("#w2", { opacity: 0, y: 80, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 2.95);
+      tl.fromTo("#ty1", { width: 0 }, { width: 200, duration: 0.5, ease: "steps(6)" }, 3.3);
+      tl.fromTo("#t2a", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 3.95);
+      tl.fromTo("#t2b", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 4.5);
+      tl.fromTo("#st3", { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 4.2);
+      // ---- S3
+      tl.fromTo("#w3", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 5.5);
+      tl.fromTo("#free", { opacity: 0, scale: 0.2, rotation: -12 }, { opacity: 1, scale: 1, rotation: -4, duration: 0.4, ease: "back.out(2.4)" }, W(1, 4));
+      tl.fromTo("#unl", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, W(2, 1));
+      // ---- S4 search typing (fast)
+      tl.fromTo("#gh", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 9.3);
+      tl.fromTo("#w4", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 9.45);
+      tl.fromTo("#ty4", { width: 0 }, { width: 520, duration: 0.7, ease: "steps(23)" }, 9.7);
+      ["#r4a", "#r4b", "#r4c"].forEach((id, k) => tl.fromTo(id, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.25 }, 10.45 + k * 0.15));
+      // ---- S5 repo + click
+      tl.fromTo("#repo", { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 11.25);
+      tl.fromTo("#ty2", { width: 0 }, { width: 480, duration: 0.5, ease: "steps(9)" }, 11.7);
+      tl.fromTo("#ft", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, W(4, 3));
+      tl.fromTo("#ms5", { x: 700, y: 800, opacity: 0 }, { x: 205, y: 600, opacity: 1, duration: 0.5, ease: "power2.out" }, 12.8);
+      tl.fromTo("#rip5", { scale: 0.3, opacity: 1 }, { scale: 1.6, opacity: 0, duration: 0.4, ease: "power2.out" }, 13.4);
+      // ---- S6 connect
+      tl.fromTo("#n6a", { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, 14.2);
+      tl.fromTo("#n6b", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, 14.45);
+      tl.to("#ln6", { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, W(6, 1));
+      tl.fromTo("#dot6", { y: 0 }, { y: 300, duration: 0.5, ease: "power2.in", repeat: 3, yoyo: false }, W(6, 1) + 0.5);
+      // ---- S7 providers
+      const pl = document.getElementById("plist"), ic7 = ["cloud","cpu","server","spark","bolt","branch","hub"], c7 = ["t-v","t-c","t-g","t-a","t-p","t-r"];
+      for (let k = 0; k < 24; k++) { const r = document.createElement("div"); r.className = "row3"; r.innerHTML = '<div class="tile ' + c7[k % 6] + '" style="width:84px;height:84px"><svg class="ic"><use href="#i-' + ic7[k % 7] + '"/></svg></div><div class="nm" style="max-width:' + (380 + (k * 53) % 260) + 'px"></div>'; pl.appendChild(r); }
+      const t7 = TB[5] + 0.1;
+      tl.fromTo("#w7", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, t7 - 0.15);
+      tl.fromTo("#plist", { y: 0 }, { y: -1200, duration: 2.6 - 0.1, ease: "power2.inOut" }, t7);
+      tl.fromTo("#plist", { filter: "blur(0px)" }, { filter: "blur(4px)", duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, t7 + 0.4);
       const o200 = { v: 0 };
-      tl.fromTo("#n200", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, W(6, 4));
-      tl.to(o200, { v: 200, duration: 1.3, ease: "power2.out", onUpdate: () => { document.getElementById("n200").textContent = Math.round(o200.v) + "+"; } }, W(6, 4));
-      // ------- S5 -------
-      const tk = { v: 0 };
-      tl.fromTo("#tok", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 19.75);
-      tl.to(tk, { v: 1.6, duration: 1.6, ease: "power2.out", onUpdate: () => { document.getElementById("tok").textContent = tk.v.toFixed(1) + "B"; } }, W(7, 3));
-      document.querySelectorAll("#bars b").forEach((b, k) => tl.fromTo(b, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, W(7, 3) + k * 0.12));
-      tl.fromTo("#p-free", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.4)" }, W(7, 4));
-      // ------- S6 -------
+      tl.fromTo("#n200", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, t7);
+      tl.to(o200, { v: 200, duration: 1.8, ease: "power2.out", onUpdate: () => { document.getElementById("n200").textContent = Math.round(o200.v) + "+"; } }, t7);
+      // ---- S8 tokens
+      const tk = { v: 0 }, t8 = 19.55;
+      tl.fromTo("#w8", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, t8);
+      tl.fromTo("#tok", { scale: 0.6 }, { scale: 1, duration: 0.4, ease: "back.out(2)" }, t8 + 0.2);
+      tl.to(tk, { v: 1.6, duration: 1.8, ease: "power2.out", onUpdate: () => { document.getElementById("tok").textContent = tk.v.toFixed(1) + "B"; } }, W(7, 3));
+      document.querySelectorAll("#bars b").forEach((b, k) => tl.fromTo(b, { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "power3.out" }, W(7, 3) + k * 0.1));
+      tl.fromTo("#bd1", { opacity: 0, scale: 0.2, rotation: -20 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.35, ease: "back.out(2.4)" }, W(7, 3));
+      tl.fromTo("#bd2", { opacity: 0, scale: 0.2, rotation: 20 }, { opacity: 1, scale: 1, rotation: 5, duration: 0.35, ease: "back.out(2.4)" }, W(7, 4));
+      // ---- S9 limit
       const lm = { v: 0 };
-      tl.fromTo("#lim", { scaleX: 0.04 }, { scaleX: 1, duration: 2.4, ease: "power1.in" }, 25.5);
-      tl.to(lm, { v: 100, duration: 2.4, ease: "power1.in", onUpdate: () => { document.getElementById("pct").textContent = Math.round(lm.v) + "%"; } }, 25.5);
-      tl.fromTo("#alert", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, W(8, 6));
-      tl.to("#alert", { x: 14, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, W(8, 6) + 0.4);
-      tl.set("#alert", { x: 0 }, W(8, 6) + 0.72);
-      // ------- S7 -------
-      tl.fromTo("#from", { opacity: 0, y: -60 }, { opacity: 0.75, y: 0, duration: 0.4, ease: "power3.out" }, 29.1);
-      tl.fromTo("#swi", { opacity: 0, scale: 0.3, rotation: -180 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.6)" }, W(9, 1));
-      tl.fromTo("#to", { opacity: 0, y: 80, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, W(9, 3));
-      // ------- S8 -------
-      tl.fromTo("#term2", { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 32.7);
-      ["#r1", "#r2", "#r3", "#r4"].forEach((id, k) => tl.fromTo(id, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.25 }, 33.2 + k * 1.4));
-      tl.fromTo("#dt", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, W(10, 9));
-      // ------- S9 -------
-      tl.fromTo("#plines", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, 39.35);
-      document.querySelectorAll("#plines i").forEach((b, k) => tl.to(b, { scaleX: k === 0 ? 0.35 : 0.08, duration: 0.5, ease: "power3.inOut" }, W(11, 5) + k * 0.08));
-      // ------- S10 -------
+      tl.fromTo("#w9", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 25.25);
+      tl.fromTo("#lim", { scaleX: 0.04 }, { scaleX: 1, duration: 2.5, ease: "power1.in" }, 25.5);
+      tl.to(lm, { v: 100, duration: 2.5, ease: "power1.in", onUpdate: () => { document.getElementById("pct").textContent = Math.round(lm.v) + "%"; } }, 25.5);
+      tl.to("#pb9", { backgroundColor: "rgba(251,74,90,0.35)", borderColor: "#fb4a5a", color: "#ffd1d6", duration: 0.2 }, W(8, 6));
+      tl.to("#pb9", { x: 14, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, W(8, 6));
+      tl.set("#pb9", { x: 0 }, W(8, 6) + 0.32);
+      // ---- S10 model picker
+      const ml = document.getElementById("mlist");
+      for (let k = 0; k < 5; k++) { const r = document.createElement("div"); r.className = "row3"; r.id = "m" + k; r.innerHTML = '<div class="tile ' + c7[k] + '" style="width:84px;height:84px"><svg class="ic"><use href="#i-' + ic7[k] + '"/></svg></div><div class="nm" style="max-width:' + (300 + k * 40) + 'px"></div>'; ml.appendChild(r); }
+      tl.fromTo("#from", { opacity: 0, y: -50 }, { opacity: 0.8, y: 0, duration: 0.3 }, 28.95);
+      tl.fromTo("#w10", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 29.1);
+      for (let k = 0; k < 5; k++) { tl.set("#m" + k, { backgroundColor: "rgba(139,92,246,0.25)", borderColor: "#8b5cf6" }, 29.5 + k * 0.22); tl.set("#m" + k, { backgroundColor: k === 3 ? "rgba(52,211,153,0.2)" : "rgba(0,0,0,0)", borderColor: k === 3 ? "#34d399" : "rgba(0,0,0,0)" }, 29.5 + k * 0.22 + (k === 3 ? 0.001 : 0.22)); }
+      tl.fromTo("#auto", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, W(9, 2));
+      // ---- S11 terminal scroll
+      const lg = document.getElementById("tlog"), cl = ["#c4b5fd", "#67e8f9", "#6ee7b7", "#fbbf24"], tx = ["writing code", "editing files", "running tests", "model: auto", "fixing bugs", "still running", "refactoring", "all passing"];
+      for (let k = 0; k < 16; k++) { const d = document.createElement("div"); d.style.color = cl[k % 4]; d.style.opacity = 0; d.id = "lg" + k; d.innerHTML = "&#9679;&nbsp;" + tx[k % 8] + "..."; lg.appendChild(d); }
+      tl.fromTo("#w11", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 32.55);
+      for (let k = 0; k < 16; k++) tl.set("#lg" + k, { opacity: 1 }, 32.9 + k * 0.2);
+      tl.to("#tlog", { y: -240, duration: 3.2, ease: "none" }, 33.4);
+      // ---- S12 uptime
+      const t12 = TB[10];
+      tl.to("#hbp", { strokeDashoffset: 0, duration: 1.2, ease: "none" }, t12 - 0.1);
+      tl.fromTo("#dtn", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, t12);
+      tl.fromTo("#st12", { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, W(10, 9));
+      // ---- S13 compress
+      tl.fromTo("#w13", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 39.2);
+      tl.fromTo("#st13", { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 39.6);
+      document.querySelectorAll("#plines i").forEach((b, k) => tl.to(b, { scaleX: k === 0 ? 0.35 : 0.08, duration: 0.4, ease: "power3.inOut" }, W(11, 5) + k * 0.07));
+      // ---- S14 before/after
       const pc = { v: 0 };
-      tl.fromTo("#pc", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 42.8);
-      tl.to(pc, { v: 90, duration: 1.4, ease: "power2.out", onUpdate: () => { document.getElementById("pc").textContent = "-" + Math.round(pc.v) + "%"; } }, W(12, 5));
-      tl.fromTo("#tk", { scaleX: 1 }, { scaleX: 0.1, duration: 1.4, ease: "power2.out" }, W(12, 5));
-      // ------- S11 -------
-      tl.fromTo("#ok", { opacity: 0, scale: 0.2, rotation: -40 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)" }, 46.55);
-      tl.fromTo("#same", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, W(13, 2));
-      tl.fromTo("#brand", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 47.4);
+      tl.fromTo("#bA", { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "power3.out" }, 42.65);
+      tl.fromTo("#bB", { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "power3.out" }, 42.75);
+      tl.to("#bB", { scaleY: 0.1, duration: 1.1, ease: "power3.inOut" }, W(12, 5));
+      tl.fromTo("#pc", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, W(12, 4));
+      tl.to(pc, { v: 90, duration: 1.2, ease: "power2.out", onUpdate: () => { document.getElementById("pc").textContent = "-" + Math.round(pc.v) + "%"; } }, W(12, 5));
+      tl.fromTo("#bd3", { opacity: 0, scale: 0.2, rotation: -20 }, { opacity: 1, scale: 1, rotation: -7, duration: 0.35, ease: "back.out(2.4)" }, W(12, 3));
+      // ---- S15
+      tl.fromTo("#twin", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 46.5);
+      tl.fromTo("#brand", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 47.3);
       tl.to("#root", { opacity: 0, duration: 0.4, ease: "power1.in" }, 48.5);
-
       window.__timelines["main"] = tl;
     </script>
   </body>

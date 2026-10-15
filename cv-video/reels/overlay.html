@@ -1,0 +1,71 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:P;font-weight:400;src:url(../fonts/poppins-latin-400-normal.woff2)}
+@font-face{font-family:P;font-weight:600;src:url(../fonts/poppins-latin-600-normal.woff2)}
+@font-face{font-family:P;font-weight:800;src:url(../fonts/poppins-latin-800-normal.woff2)}
+@font-face{font-family:M;font-weight:400;src:url(../fonts/jetbrains-mono-latin-400-normal.woff2)}
+:root{--bg:#0c0c0f;--card:#15151b;--line:#2a2a31;--ink:#f3f1ea;--mut:#8d8d96;--lime:#c8ff2e;--pur:#8b7cff}
+*{box-sizing:border-box;margin:0}html,body{width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:P,sans-serif;color:var(--ink)}
+.mono{font-family:M,monospace;letter-spacing:.16em;text-transform:uppercase}
+.abs{position:absolute}
+#title,#end{inset:0;background:var(--bg);opacity:0;padding:110px 80px}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:120px 120px;opacity:.18}
+#hud{inset:0;opacity:0}
+#scrimT{left:0;right:0;top:0;height:380px;background:linear-gradient(#000a,#0000)}
+#scrimB{left:0;right:0;bottom:120px;height:620px;background:linear-gradient(#0000,#000c)}
+.pill{border:2px solid var(--lime);color:var(--lime);border-radius:99px;padding:14px 28px;font-size:26px;background:#0c0c0fcc}
+#bar{left:0;right:0;bottom:0;height:120px;background:var(--lime);color:#0c0c0f;display:flex;align-items:center;justify-content:space-between;padding:0 80px;font-weight:800;font-size:30px;opacity:0}
+#bar span:last-child{font-family:M;font-weight:400;font-size:26px}
+#wipe{inset:0;background:var(--lime);transform:translateY(100%)}
+#flash{inset:0;background:#fff;opacity:0}
+.seg{position:absolute;top:60px;height:8px;border-radius:4px;background:#ffffff40;overflow:hidden}.seg i{display:block;height:100%;width:0;background:var(--lime)}
+</style></head><body>
+<div id="bar" class="abs"><span>MOTION / CGI / 3D / SAAS / WEB</span><span>www.amroismat.online</span></div>
+<div id="hud" class="abs"><div id="scrimT" class="abs"></div><div id="scrimB" class="abs"></div>
+ <div id="segs"></div>
+ <div class="abs pill mono" style="left:80px;top:110px">Amro Ismat</div>
+ <div id="sec" class="abs mono" style="right:80px;top:128px;font-size:28px"></div>
+ <div class="abs" style="left:80px;bottom:180px;right:80px"><div id="ctype" class="mono" style="color:var(--lime);font-size:30px"></div><div id="cname" style="font-weight:800;font-size:96px;letter-spacing:-.03em;margin-top:12px;line-height:1"></div></div>
+</div>
+<div id="title" class="abs"><div class="grid"></div>
+ <svg class="abs" id="tring" width="1000" height="1000" viewBox="0 0 900 900" style="right:-380px;top:760px"><circle cx="450" cy="450" r="400" fill="none" stroke="#2a2a31" stroke-width="2"/><circle cx="450" cy="450" r="300" fill="none" stroke="#8b7cff" stroke-width="110"/><circle cx="450" cy="450" r="360" fill="none" stroke="#f3f1ea" stroke-width="4" stroke-dasharray="1 18" stroke-linecap="round"/></svg>
+ <div class="mono" style="color:var(--mut);font-size:28px;display:flex;justify-content:space-between"><span>Amro Ismat</span><span>2026</span></div>
+ <div id="tnum" class="mono abs" style="left:80px;top:560px;color:var(--lime);font-size:40px"></div>
+ <div id="tword" class="abs" style="left:80px;top:640px;font-weight:800;letter-spacing:-.04em;line-height:.95;color:transparent;-webkit-text-stroke:5px var(--lime);width:920px"></div>
+ <div id="tsub" class="abs mono" style="left:80px;top:1250px;font-size:30px;color:var(--ink);line-height:1.8;width:800px"></div>
+</div>
+<div id="end" class="abs"><div class="grid"></div>
+ <div class="mono abs" style="left:80px;top:300px;color:var(--lime);font-size:32px">Full portfolio</div>
+ <div id="eh" class="abs" style="left:80px;top:380px;width:920px;font-weight:800;font-size:170px;letter-spacing:-.04em;line-height:.98">See the work in <span style="color:var(--lime)">motion.</span></div>
+ <div id="earr" class="abs" style="right:80px;top:1200px;width:190px;height:190px;border-radius:50%;background:var(--lime);display:grid;place-items:center"><svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#0c0c0f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
+ <div id="eu" class="abs" style="left:80px;top:1060px;font-weight:800;font-size:64px;letter-spacing:-.02em">www.amroismat.online</div>
+ <div id="ec" class="abs mono" style="left:80px;top:1330px;font-size:28px;color:var(--mut);line-height:2.1">Info@amroismat.online<br>01500400025<br>in/amro-ismat-8667b53a5</div>
+</div>
+<div id="flash" class="abs"></div><div id="wipe" class="abs"></div>
+<script>
+const $=s=>document.querySelector(s);const ez=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;const eo=x=>1-Math.pow(1-x,4);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+let C;
+window.init=cfg=>{C=cfg;C.TT=cfg.title||1.6;C.TE=C.TT+cfg.clips.length*cfg.d;C.TOT=C.TE+(cfg.endd||2.4);
+ $('#tnum').textContent=cfg.num+' — PORTFOLIO';$('#tword').textContent=cfg.word;$('#tword').style.fontSize=(cfg.fs||250)+'px';$('#tsub').innerHTML=cfg.sub;$('#sec').textContent=cfg.word;
+ const w=(1080-160-(cfg.clips.length-1)*8)/cfg.clips.length;
+ cfg.clips.forEach((c,i)=>{const s=document.createElement('div');s.className='seg';s.style.left=(80+i*(w+8))+'px';s.style.width=w+'px';s.innerHTML='<i></i>';$('#segs').appendChild(s)});
+ return C.TOT};
+window.seek=t=>{const {TT,TE,TOT,d,clips}=C;
+ const inTitle=t<TT,inEnd=t>=TE;
+ // title
+ const T=$('#title');T.style.opacity=inTitle?1:0;
+ if(inTitle){const p=cl(t/.9);$('#tword').style.transform=`translateY(${(1-eo(p))*80}px)`;$('#tword').style.opacity=eo(p);$('#tnum').style.opacity=eo(cl((t-.2)/.5));$('#tsub').style.opacity=eo(cl((t-.7)/.5));$('#tring').style.transform=`rotate(${t*40}deg)`}
+ // hud
+ const hud=!inTitle&&!inEnd;$('#hud').style.opacity=hud?1:0;$('#bar').style.opacity=inEnd?0:1;
+ if(hud){const l=t-TT,i=Math.min(clips.length-1,Math.floor(l/d)),lf=l-i*d;
+  $('#ctype').textContent=clips[i].type;$('#cname').textContent=clips[i].name;
+  $('#cname').style.transform=`translateY(${(1-eo(cl(lf/.35)))*40}px)`;$('#cname').style.opacity=eo(cl(lf/.35));
+  [...document.querySelectorAll('.seg i')].forEach((e,k)=>e.style.width=(k<i?100:k==i?100*lf/d:0)+'%');
+  $('#flash').style.opacity=(i>0&&lf<.1)?.25*(1-lf/.1):0}else $('#flash').style.opacity=0;
+ // end
+ const E=$('#end');E.style.opacity=inEnd?1:0;
+ if(inEnd){const l=t-TE;$('#eh').style.opacity=eo(cl(l/.6));$('#eh').style.transform=`translateY(${(1-eo(cl(l/.7)))*70}px)`;$('#earr').style.transform=`scale(${ez(cl((l-.5)/.5))}) rotate(${(1-ez(cl((l-.5)/.5)))*-180}deg)`;$('#eu').style.opacity=eo(cl((l-.7)/.5));$('#ec').style.opacity=eo(cl((l-1)/.5))}
+ // wipes
+ let y=100;for(const X of [TT,TE]){if(t>=X-.4&&t<X)y=100-100*ez((t-(X-.4))/.4);else if(t>=X&&t<X+.45)y=-100*ez((t-X)/.45)}
+ $('#wipe').style.transform=`translateY(${y}%)`};
+</script></body></html>

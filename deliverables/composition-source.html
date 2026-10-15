@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="ar" dir="ltr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "TajawalHF"; font-weight: 700; src: url("assets/fonts/tajawal-arabic-700-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC; }
+      @font-face { font-family: "TajawalHF"; font-weight: 800; src: url("assets/fonts/tajawal-arabic-800-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC; }
+      @font-face { font-family: "TajawalHF"; font-weight: 900; src: url("assets/fonts/tajawal-arabic-900-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC; }
+      @font-face { font-family: "TajawalHF"; font-weight: 700; src: url("assets/fonts/tajawal-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      @font-face { font-family: "TajawalHF"; font-weight: 800; src: url("assets/fonts/tajawal-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      @font-face { font-family: "TajawalHF"; font-weight: 900; src: url("assets/fonts/tajawal-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+      :root {
+        --bg: #07060f; --violet: #8b5cf6; --violet2: #c4b5fd; --cyan: #22d3ee;
+        --green: #34d399; --red: #fb4a5a; --amber: #fbbf24; --ink: #f5f3ff;
+        --glass: rgba(255,255,255,0.07); --line: rgba(255,255,255,0.16);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "TajawalHF", sans-serif; color: var(--ink); }
+
+      /* shared background */
+      .bg { position: absolute; inset: 0; background:
+        radial-gradient(900px 900px at 80% 12%, rgba(139,92,246,0.45), transparent 60%),
+        radial-gradient(800px 800px at 10% 70%, rgba(34,211,238,0.16), transparent 60%),
+        #07060f; }
+      .grid { position: absolute; inset: 0; opacity: .5;
+        background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-size: 90px 90px; }
+      .orb { position: absolute; width: 520px; height: 520px; border-radius: 50%; filter: blur(90px); opacity: .55; }
+      #orb1 { left: -120px; top: 200px; background: #6d28d9; }
+      #orb2 { right: -160px; top: 980px; background: #0891b2; opacity: .35; }
+
+      .scene { position: absolute; inset: 0; }
+      .scene + .scene { opacity: 0; }
+      .stage { position: absolute; left: 0; right: 0; top: 120px; height: 1180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+
+      /* glass + icons */
+      .glass { background: var(--glass); border: 2px solid var(--line); border-radius: 36px; backdrop-filter: blur(14px); box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12); }
+      .ic { width: 56%; height: 56%; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .tile { display: flex; align-items: center; justify-content: center; border-radius: 30%; box-shadow: 0 14px 40px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35); }
+      .t-v { background: linear-gradient(135deg, #a78bfa, #6d28d9); }
+      .t-c { background: linear-gradient(135deg, #67e8f9, #0e7490); }
+      .t-g { background: linear-gradient(135deg, #6ee7b7, #047857); }
+      .t-r { background: linear-gradient(135deg, #fda4af, #be123c); }
+      .t-a { background: linear-gradient(135deg, #fde68a, #b45309); }
+      .t-p { background: linear-gradient(135deg, #f0abfc, #86198f); }
+
+      .mono { font-family: "TajawalHF", monospace; direction: ltr; }
+      .ltr { direction: ltr; unicode-bidi: isolate; }
+      .big { font-weight: 900; line-height: 1; letter-spacing: 0; }
+      .pill.t-g { color: #022c1e; }
+      .pill { padding: 14px 34px; border-radius: 999px; font-weight: 900; font-size: 44px; direction: ltr; }
+
+      /* S1 price cards */
+      .price { width: 780px; height: 150px; padding: 0 44px; display: flex; align-items: center; justify-content: space-between; position: relative; direction: ltr; }
+      .price .nm { font-size: 40px; font-weight: 800; color: #cfc8ee; }
+      .price .pv { font-size: 64px; font-weight: 900; }
+      .strike { position: absolute; left: 30px; right: 30px; top: 50%; height: 10px; margin-top: -5px; border-radius: 6px; background: var(--red); box-shadow: 0 0 24px var(--red); transform-origin: left center; transform: scaleX(0); }
+      #zero { font-size: 330px; color: var(--green); text-shadow: 0 0 80px rgba(52,211,153,.8); direction: ltr; }
+
+      /* terminal */
+      .term { width: 900px; padding: 0 0 36px; direction: ltr; overflow: hidden; }
+      .term .bar { height: 78px; display: flex; align-items: center; gap: 14px; padding: 0 30px; background: rgba(255,255,255,.06); border-bottom: 2px solid var(--line); }
+      .term .dot { width: 22px; height: 22px; border-radius: 50%; }
+      .term .ttl { margin-left: 18px; font-size: 30px; font-weight: 700; color: #a99fd1; }
+      .term .ln { font-size: 40px; font-weight: 700; padding: 18px 40px 0; display: flex; white-space: nowrap; }
+      .type { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; }
+      .cur { display: inline-block; width: 22px; height: 40px; background: var(--violet2); margin-left: 6px; vertical-align: bottom; }
+
+      /* repo card */
+      .repo { width: 900px; padding: 44px; direction: ltr; display: flex; flex-direction: column; gap: 26px; }
+      .repo .row { display: flex; align-items: center; gap: 26px; }
+      .repo .nm { font-size: 78px; font-weight: 900; }
+      .tag { padding: 10px 26px; border-radius: 999px; font-size: 32px; font-weight: 800; border: 2px solid var(--line); background: rgba(255,255,255,.07); }
+
+      /* hub */
+      .hubwrap { position: relative; width: 960px; height: 1100px; }
+      .node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 36px; font-weight: 800; direction: ltr; }
+      #lines { position: absolute; inset: 0; width: 960px; height: 1100px; }
+      .pg { position: absolute; width: 120px; height: 120px; }
+
+      /* meters */
+      .meter { width: 860px; height: 70px; border-radius: 36px; border: 2px solid var(--line); background: rgba(255,255,255,.07); overflow: hidden; direction: ltr; }
+      .meter > i { display: block; height: 100%; width: 100%; transform-origin: left center; border-radius: 36px; }
+      .row2 { display: flex; align-items: center; gap: 30px; direction: ltr; }
+      .lbl { font-size: 38px; font-weight: 800; color: #cfc8ee; direction: ltr; }
+      .bars { display: flex; align-items: flex-end; gap: 18px; height: 380px; direction: ltr; }
+      .bars b { display: block; width: 70px; border-radius: 18px 18px 6px 6px; background: linear-gradient(180deg, #6ee7b7, #047857); transform-origin: bottom center; }
+
+      .lines { display: flex; flex-direction: column; gap: 22px; width: 820px; direction: ltr; padding: 44px; }
+      .lines i { display: block; height: 30px; border-radius: 16px; background: linear-gradient(90deg, #a78bfa, #6d28d9); transform-origin: right center; }
+      .lines.res i { background: linear-gradient(90deg, #6ee7b7, #047857); transform-origin: left center; }
+
+      /* captions */
+      #caps { position: absolute; left: 0; right: 0; top: 1390px; height: 300px; z-index: 50; pointer-events: none; }
+      .chunk { position: absolute; left: 60px; right: 60px; top: 0; display: flex; flex-wrap: wrap; justify-content: center; direction: rtl; gap: 8px 26px; opacity: 0; }
+      .w { display: inline-block; unicode-bidi: isolate; font-size: 96px; font-weight: 900; line-height: 1.25; color: #fff; text-shadow: 0 6px 0 rgba(0,0,0,.55), 0 0 40px rgba(0,0,0,.6); opacity: 0; }
+      .w.violet { color: #c4b5fd; text-shadow: 0 0 46px rgba(139,92,246,.95), 0 6px 0 rgba(0,0,0,.5); }
+      .w.green { color: var(--green); text-shadow: 0 0 46px rgba(52,211,153,.85), 0 6px 0 rgba(0,0,0,.5); }
+      .w.cyan { color: var(--cyan); text-shadow: 0 0 46px rgba(34,211,238,.85), 0 6px 0 rgba(0,0,0,.5); }
+      .w.red { color: var(--red); text-shadow: 0 0 46px rgba(251,74,90,.9), 0 6px 0 rgba(0,0,0,.5); }
+      .w.amber { color: var(--amber); text-shadow: 0 0 46px rgba(251,191,36,.85), 0 6px 0 rgba(0,0,0,.5); }
+
+      /* transition overlays */
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 40; }
+      .blk { position: absolute; left: 0; width: 1080px; height: 330px; background: linear-gradient(90deg, #6d28d9, #8b5cf6); z-index: 41; transform: translateX(-1080px); }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9c-.4-1-1.3-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.6 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1.2 0-2.1-.5-2.5-1.5M12 6v1.5M12 16.5V18"/></symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9l3 3-3 3M12 16h5"/></symbol>
+      <symbol id="i-infinity" viewBox="0 0 24 24"><path d="M6 8a4 4 0 100 8c4 0 8-8 12-8a4 4 0 110 8c-4 0-8-8-12-8z"/></symbol>
+      <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 7v10M18 10c0 5-6 5-12 7"/></symbol>
+      <symbol id="i-hub" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.3 3.3 0 0117 18H7z"/></symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 3v2M15 3v2M9 19v2M15 19v2M3 9h2M3 15h2M19 9h2M19 15h2"/></symbol>
+      <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2L12 3zM12 10v5M12 18h.01"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+      <symbol id="i-compress" viewBox="0 0 24 24"><path d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"/></symbol>
+      <symbol id="i-switch" viewBox="0 0 24 24"><path d="M4 8h13l-3-3M20 16H7l3 3"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v16M6 14l6 6 6-6"/></symbol>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 16a8 8 0 1116 0M12 16l4-5"/></symbol>
+    </svg>
+
+    <div id="root" data-composition-id="main" data-start="0" data-duration="48.92" data-width="1080" data-height="1920">
+      <div class="bg"></div><div class="grid"></div><div class="orb" id="orb1" data-layout-allow-overflow></div><div class="orb" id="orb2" data-layout-allow-overflow></div>
+
+      <!-- S1 hook -->
+      <div class="scene" id="s1"><div class="stage">
+        <div class="glass price" id="p1"><span class="nm">AI PLAN</span><span class="pv">$20 /mo</span><i class="strike"></i></div>
+        <div class="glass price" id="p2"><span class="nm">PRO PLAN</span><span class="pv">$200 /mo</span><i class="strike"></i></div>
+        <div class="glass price" id="p3"><span class="nm">API BILL</span><span class="pv">$$$</span><i class="strike"></i></div>
+        <div class="big" id="zero">$0</div>
+      </div></div>
+
+      <!-- S2 free + unlimited -->
+      <div class="scene" id="s2"><div class="stage">
+        <div class="glass term" id="term">
+          <div class="bar"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">claude-code</span></div>
+          <div class="ln"><span style="color:var(--green)">$&nbsp;</span><span class="type" id="ty1">claude</span><span class="cur" id="cur1"></span></div>
+          <div class="ln" id="ln2" style="color:var(--violet2)"><span>&gt;&nbsp;Claude Code ready</span></div>
+          <div class="ln" id="ln3" style="color:var(--green)"><span>&#10003;&nbsp;cost: $0.00</span></div>
+        </div>
+        <div class="pill t-g" id="free" style="font-size:96px;padding:20px 80px;box-shadow:0 0 90px rgba(52,211,153,.6)">FREE</div>
+        <div class="row2" id="unl">
+          <div class="tile t-v" style="width:150px;height:150px"><svg class="ic"><use href="#i-infinity"/></svg></div>
+          <div class="big" style="font-size:96px;color:var(--violet2);text-shadow:0 0 60px rgba(139,92,246,.9)">UNLIMITED</div>
+        </div>
+      </div></div>
+
+      <!-- S3 github tool -->
+      <div class="scene" id="s3"><div class="stage">
+        <div class="row2" id="gh"><div class="tile t-v" style="width:170px;height:170px"><svg class="ic"><use href="#i-branch"/></svg></div><div class="big ltr" style="font-size:90px">GitHub</div></div>
+        <div class="glass repo" id="repo">
+          <div class="row"><div class="tile t-c" style="width:120px;height:120px"><svg class="ic"><use href="#i-hub"/></svg></div>
+            <div class="nm"><span class="type" id="ty2">OmniRoute</span></div></div>
+          <div class="row" style="flex-wrap:wrap"><span class="tag" style="color:var(--green)">open source</span><span class="tag" style="color:var(--cyan)">free tool</span><span class="tag" style="color:var(--violet2)">router</span></div>
+        </div>
+        <div class="pill t-g" id="ft" style="font-size:60px">FREE TOOL</div>
+      </div></div>
+
+      <!-- S4 hub -->
+      <div class="scene" id="s4"><div class="stage" style="justify-content:flex-start;padding-top:20px">
+        <div class="hubwrap" id="hubwrap">
+          <svg id="lines" viewBox="0 0 960 1100"></svg>
+          <div class="node" style="left:380px;top:0"><div class="tile t-v" style="width:200px;height:200px"><svg class="ic"><use href="#i-terminal"/></svg></div><span>Claude Code</span></div>
+          <div class="node" style="left:380px;top:330px" id="hubnode"><div class="tile t-c" style="width:200px;height:200px;box-shadow:0 0 90px rgba(34,211,238,.7)"><svg class="ic"><use href="#i-hub"/></svg></div><span>OmniRoute</span></div>
+          <div id="pgrid"></div>
+          <div class="big" id="n200" style="position:absolute;left:0;right:0;top:1070px;text-align:center;font-size:110px;color:var(--amber);text-shadow:0 0 70px rgba(251,191,36,.7);direction:ltr">200+</div>
+        </div>
+      </div></div>
+
+      <!-- S5 tokens -->
+      <div class="scene" id="s5"><div class="stage">
+        <div class="lbl" style="font-size:48px;color:var(--violet2)">FREE TOKENS / MONTH</div>
+        <div class="big" id="tok" style="font-size:300px;color:var(--green);text-shadow:0 0 90px rgba(52,211,153,.7);direction:ltr">0B</div>
+        <div class="bars" id="bars"><b style="height:80px"></b><b style="height:120px"></b><b style="height:170px"></b><b style="height:230px"></b><b style="height:290px"></b><b style="height:340px"></b><b style="height:380px"></b></div>
+        <div class="pill t-g" id="p-free" style="font-size:52px">$0 / MONTH</div>
+      </div></div>
+
+      <!-- S6 limit -->
+      <div class="scene" id="s6"><div class="stage">
+        <div class="row2"><div class="tile t-v" style="width:150px;height:150px"><svg class="ic"><use href="#i-gauge"/></svg></div><div class="big ltr" style="font-size:80px">Claude limit</div></div>
+        <div class="meter"><i id="lim" style="background:linear-gradient(90deg,#a78bfa,#fb4a5a)"></i></div>
+        <div class="big" id="pct" style="font-size:200px;direction:ltr;color:var(--red);text-shadow:0 0 80px rgba(251,74,90,.7)">0%</div>
+        <div class="glass" id="alert" style="padding:30px 56px;display:flex;align-items:center;gap:26px;direction:ltr;border-color:var(--red)">
+          <div class="tile t-r" style="width:100px;height:100px"><svg class="ic"><use href="#i-alert"/></svg></div>
+          <div class="big" style="font-size:60px;color:var(--red)">LIMIT REACHED</div></div>
+      </div></div>
+
+      <!-- S7 reroute -->
+      <div class="scene" id="s7"><div class="stage">
+        <div class="glass" id="from" style="padding:26px 50px;display:flex;align-items:center;gap:26px;direction:ltr;opacity:.75"><div class="tile t-r" style="width:100px;height:100px"><svg class="ic"><use href="#i-alert"/></svg></div><div class="big" style="font-size:54px;color:#b9a9e8">limit reached</div></div>
+        <div class="tile t-c" id="swi" style="width:200px;height:200px;box-shadow:0 0 90px rgba(34,211,238,.7)"><svg class="ic"><use href="#i-switch"/></svg></div>
+        <div class="pill t-c" style="font-size:54px">AUTO-SWITCH</div>
+        <div class="glass" id="to" style="padding:34px 60px;display:flex;align-items:center;gap:30px;direction:ltr;border-color:var(--green)"><div class="tile t-g" style="width:130px;height:130px"><svg class="ic"><use href="#i-spark"/></svg></div><div><div class="big" style="font-size:62px">BEST MODEL</div><div class="lbl" style="color:var(--green);font-size:40px">ready &#10003;</div></div></div>
+      </div></div>
+
+      <!-- S8 no downtime -->
+      <div class="scene" id="s8"><div class="stage">
+        <div class="glass term" id="term2">
+          <div class="bar"><i class="dot" style="background:#fb4a5a"></i><i class="dot" style="background:#fbbf24"></i><i class="dot" style="background:#34d399"></i><span class="ttl">session</span></div>
+          <div class="ln" id="r1" style="color:var(--violet2)"><span>&#9679;&nbsp;writing code...</span></div>
+          <div class="ln" id="r2" style="color:var(--cyan)"><span>&#9679;&nbsp;switching model...</span></div>
+          <div class="ln" id="r3" style="color:var(--green)"><span>&#9679;&nbsp;still running</span></div>
+          <div class="ln" id="r4" style="color:var(--green)"><span>&#9679;&nbsp;still running</span></div>
+        </div>
+        <div class="row2" id="dt"><div class="tile t-g" style="width:150px;height:150px"><svg class="ic"><use href="#i-bolt"/></svg></div><div><div class="big ltr" id="dtn" style="font-size:150px;color:var(--green);text-shadow:0 0 60px rgba(52,211,153,.7)">0s</div><div class="lbl" style="font-size:44px">DOWNTIME</div></div></div>
+      </div></div>
+
+      <!-- S9 compress -->
+      <div class="scene" id="s9"><div class="stage">
+        <div class="row2"><div class="tile t-v" style="width:150px;height:150px"><svg class="ic"><use href="#i-compress"/></svg></div><div class="big ltr" style="font-size:80px">PROMPT</div></div>
+        <div class="glass lines" id="plines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pill t-v" style="font-size:50px">COMPRESSING</div>
+      </div></div>
+
+      <!-- S10 -90% -->
+      <div class="scene" id="s10"><div class="stage">
+        <div class="row2"><div class="tile t-g" style="width:170px;height:170px"><svg class="ic"><use href="#i-down"/></svg></div></div>
+        <div class="big" id="pc" style="font-size:340px;color:var(--green);text-shadow:0 0 90px rgba(52,211,153,.8);direction:ltr">-0%</div>
+        <div class="lbl" style="font-size:60px;color:var(--ink)">TOKENS USED</div>
+        <div class="meter" style="width:760px"><i id="tk" style="background:linear-gradient(90deg,#6ee7b7,#047857)"></i></div>
+      </div></div>
+
+      <!-- S11 same result -->
+      <div class="scene" id="s11"><div class="stage">
+        <div class="tile t-g" id="ok" style="width:300px;height:300px;box-shadow:0 0 120px rgba(52,211,153,.7)"><svg class="ic"><use href="#i-check"/></svg></div>
+        <div class="big" id="same" style="font-size:150px;color:var(--ink)">نفس النتيجة</div>
+        <div class="glass" id="brand" style="padding:30px 70px;display:flex;align-items:center;gap:28px;direction:ltr"><div class="tile t-c" style="width:110px;height:110px"><svg class="ic"><use href="#i-hub"/></svg></div><div class="big" style="font-size:84px">OmniRoute</div></div>
+      </div></div>
+
+      <div id="caps"></div>
+      <div id="flash"></div>
+      <i class="blk" style="top:0"></i><i class="blk" style="top:330px"></i><i class="blk" style="top:660px"></i><i class="blk" style="top:990px"></i><i class="blk" style="top:1320px"></i><i class="blk" style="top:1650px"></i>
+
+      <audio id="vo" src="assets/vo.wav" data-start="0" data-duration="48.92" data-track-index="0" data-volume="1"></audio>
+      <audio id="music" src="assets/music.wav" data-start="0" data-duration="48.92" data-track-index="1" data-volume="0.7"></audio>
+      <!--SFX-->
+    </div>
+
+    <script>
+      // ------- caption data: [text, colour] per word; phrases timed from the VO's silence map -------
+      const PH = [
+        { s: .29, e: 2.56, g: [], w: [["انسى"],["بقى"],["دفع"],["فلوس"],["في"],["الـ AI","cyan"]] },
+        { s: 3.20, e: 6.71, g: [], w: [["دلوقتي"],["تقدر"],["تشغل"],["Claude Code","violet"],["ببلاش","green"],["تماماً","green"]] },
+        { s: 7.06, e: 8.91, g: [], w: [["واستخدام"],["يعتبر"],["غير محدود","green"]] },
+        { s: 9.77, e: 11.15, g: [], w: [["في"],["حد"],["على"],["جيت هب","violet"]] },
+        { s: 11.41, e: 12.69, g: [], w: [["لسه"],["عامل"],["أداة"],["مجانية","green"]] },
+        { s: 12.89, e: 13.99, g: [], w: [["اسمها"],["OmniRoute","cyan"]] },
+        { s: 14.59, e: 19.26, g: [], w: [["بتربط"],["الـ Claude Code","violet"],["بتاعك"],["بأكتر من"],["200","amber"],["مزود"],["ذكاء اصطناعي"],["مجاني","green"]] },
+        { s: 19.95, e: 24.78, g: [[24.21,24.31]], w: [["وده"],["بيديلك"],["لحد"],["1.6 مليار توكن","green"],["مجاني","green"],["كل شهر"]] },
+        { s: 25.73, e: 28.74, g: [], w: [["وفي"],["اللحظة"],["اللي"],["الليميت"],["بتاع"],["كلود"],["هيخلص","red"],["فيها"],["عندك"]] },
+        { s: 29.11, e: 32.23, g: [], w: [["الأداة"],["هتحولك"],["أوتوماتيك","cyan"],["لأحسن"],["موديل"],["بديل","green"],["فوراً","amber"]] },
+        { s: 32.87, e: 39.12, g: [[36.70,36.99],[37.66,38.05],[38.08,38.45]], w: [["يعني"],["جلسة"],["الكودينج"],["وشغلك"],["هيفضلوا"],["شغالين","green"],["من"],["غير"],["ما"],["يتعطلوا"],["ثانية"],["واحدة","amber"]] },
+        { s: 39.44, e: 42.45, g: [], w: [["ومش"],["بس"],["كده"],["دي"],["كمان"],["بتضغط"],["البرومتس","violet"],["بتاعتك"],["قبل"],["ما"],["تروح"],["للموديل"]] },
+        { s: 42.90, e: 46.17, g: [], w: [["فتقلل"],["استهلاك"],["التوكنز"],["بنسبة"],["بتوصل"],["لـ 90%","green"]] },
+        { s: 46.64, e: 48.43, g: [], w: [["وبتديك"],["بالظبط"],["نفس"],["النتيجة","green"]] }
+      ];
+      // distribute each phrase's speech time over its words by letter count (pauses excluded)
+      const WORDS = []; // {t, c, st, en, ph}
+      PH.forEach((p, pi) => {
+        const gaps = p.g;
+        const speech = (a, b) => { let d = b - a; gaps.forEach(([x, y]) => { const lo = Math.max(a, x), hi = Math.min(b, y); if (hi > lo) d -= hi - lo; }); return d; };
+        const total = speech(p.s, p.e);
+        const wts = p.w.map(x => x[0].replace(/\s/g, "").length + 1.5);
+        const sum = wts.reduce((a, b) => a + b, 0);
+        let acc = 0;
+        p.w.forEach((x, i) => {
+          // map accumulated speech-time back to wall time (skip gaps)
+          const toWall = (sp) => { let t = p.s, left = sp; const gs = gaps.slice().sort((a,b)=>a[0]-b[0]);
+            for (const [gx, gy] of gs) { const room = gx - t; if (room > 0 && left <= room) return t + left; if (room > 0) { left -= room; t = gx; } t = Math.max(t, gy); }
+            return t + left; };
+          const st = toWall(acc / sum * total); acc += wts[i];
+          const en = toWall(acc / sum * total);
+          WORDS.push({ t: x[0], c: x[1] || "", st, en, ph: pi, i });
+        });
+      });
+      const W = (pi, i) => WORDS.find(w => w.ph === pi && w.i === i).st;
+
+      // ------- captions -------
+      const caps = document.getElementById("caps");
+      const tl = gsap.timeline({ paused: true });
+      const chunks = [];
+      PH.forEach((p, pi) => {
+        const ws = WORDS.filter(w => w.ph === pi);
+        const n = ws.length, per = n <= 4 ? n : (n <= 8 ? Math.ceil(n / 2) : Math.ceil(n / 3));
+        for (let k = 0; k < n; k += per) chunks.push(ws.slice(k, k + per));
+      });
+      chunks.forEach((cw, ci) => {
+        const el = document.createElement("div"); el.className = "chunk"; el.id = "ck" + ci;
+        cw.forEach((w, wi) => { const s = document.createElement("span"); s.className = "w " + w.c; s.id = "cw" + ci + "_" + wi; s.textContent = w.t; el.appendChild(s); });
+        caps.appendChild(el);
+        const a = cw[0].st, nxt = chunks[ci + 1], endT = Math.max(cw[cw.length - 1].en + 0.12, a + 0.3);
+        const b = nxt && nxt[0].st - endT < 0.5 ? Math.min(endT, nxt[0].st - 0.01) : endT;
+        tl.set(el, { opacity: 1 }, a);
+        cw.forEach((w, wi) => tl.fromTo("#cw" + ci + "_" + wi, { opacity: 0, y: 26, scale: 0.7 }, { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: "back.out(2)" }, w.st));
+        tl.set(el, { opacity: 0 }, b);
+      });
+
+      // ------- scene transitions: outgoing + incoming move at the same instant -------
+      const TB = [3.0, 9.4, 14.3, 19.6, 25.3, 29.0, 32.6, 39.3, 42.7, 46.4]; // boundaries
+      const TS = TB.map(t => t - 0.15), D = 0.45;
+      const S = i => "#s" + i;
+      // 1 push-left
+      tl.to(S(1), { x: -1080, duration: D, ease: "power3.inOut" }, TS[0]);
+      tl.set(S(2), { opacity: 1 }, TS[0]);
+      tl.fromTo(S(2), { x: 1080 }, { x: 0, duration: D, ease: "power3.inOut" }, TS[0]);
+      tl.set(S(1), { opacity: 0 }, TS[0] + D);
+      // 2 blur crossfade
+      tl.to(S(2), { opacity: 0, filter: "blur(24px)", duration: D + 0.2, ease: "sine.inOut" }, TS[1]);
+      tl.fromTo(S(3), { opacity: 0, filter: "blur(24px)" }, { opacity: 1, filter: "blur(0px)", duration: D + 0.2, ease: "sine.inOut" }, TS[1]);
+      // 3 zoom through
+      tl.to(S(3), { scale: 2.6, opacity: 0, filter: "blur(14px)", duration: D, ease: "power3.in" }, TS[2]);
+      tl.fromTo(S(4), { scale: 0.55, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: D, ease: "power3.out" }, TS[2]);
+      // 4 vertical push
+      tl.to(S(4), { y: -1300, duration: D, ease: "power3.inOut" }, TS[3]);
+      tl.set(S(5), { opacity: 1 }, TS[3]);
+      tl.fromTo(S(5), { y: 1300 }, { y: 0, duration: D, ease: "power3.inOut" }, TS[3]);
+      tl.set(S(4), { opacity: 0 }, TS[3] + D);
+      // 5 glitch
+      const g0 = TS[4];
+      tl.to(S(5), { x: 36, filter: "hue-rotate(90deg) saturate(2.5)", duration: 0.07, ease: "none" }, g0)
+        .to(S(5), { x: -48, duration: 0.07, ease: "none" }, g0 + 0.07)
+        .to(S(5), { x: 24, opacity: 0, duration: 0.07, ease: "none" }, g0 + 0.14);
+      tl.fromTo(S(6), { opacity: 0, x: -40, filter: "hue-rotate(-90deg) saturate(2.5)" }, { opacity: 1, x: 24, duration: 0.07, ease: "none" }, g0 + 0.14)
+        .to(S(6), { x: -16, duration: 0.07, ease: "none" }, g0 + 0.21)
+        .to(S(6), { x: 0, filter: "hue-rotate(0deg) saturate(1)", duration: 0.1, ease: "none" }, g0 + 0.28);
+      tl.set(S(5), { filter: "none", x: 0 }, g0 + 0.3);
+      // 6 circle iris (incoming expands over outgoing)
+      tl.set(S(7), { opacity: 1 }, TS[5]);
+      tl.fromTo(S(7), { clipPath: "circle(0px at 540px 650px)" }, { clipPath: "circle(1500px at 540px 650px)", duration: D + 0.1, ease: "power2.inOut" }, TS[5]);
+      tl.set(S(6), { opacity: 0 }, TS[5] + D + 0.1);
+      // 7 staggered blocks
+      const blk = document.querySelectorAll(".blk");
+      blk.forEach((b, k) => {
+        tl.fromTo(b, { x: -1080 }, { x: 0, duration: 0.22, ease: "power3.out" }, TS[6] + k * 0.04);
+        tl.to(b, { x: 1080, duration: 0.22, ease: "power3.in" }, TS[6] + 0.28 + k * 0.04);
+      });
+      tl.set(S(7), { opacity: 0 }, TS[6] + 0.3);
+      tl.set(S(8), { opacity: 1 }, TS[6] + 0.3);
+      // 8 flash / overexposure
+      tl.to("#flash", { opacity: 1, duration: 0.14, ease: "power2.in" }, TS[7]);
+      tl.set(S(8), { opacity: 0 }, TS[7] + 0.14);
+      tl.set(S(9), { opacity: 1 }, TS[7] + 0.14);
+      tl.to("#flash", { opacity: 0, duration: 0.3, ease: "power2.out" }, TS[7] + 0.16);
+      // 9 push-left again (primary)
+      tl.to(S(9), { x: -1080, duration: D, ease: "power3.inOut" }, TS[8]);
+      tl.set(S(10), { opacity: 1 }, TS[8]);
+      tl.fromTo(S(10), { x: 1080 }, { x: 0, duration: D, ease: "power3.inOut" }, TS[8]);
+      tl.set(S(9), { opacity: 0 }, TS[8] + D);
+      // 10 blur crossfade (wind-down)
+      tl.to(S(10), { opacity: 0, filter: "blur(24px)", duration: D + 0.2, ease: "sine.inOut" }, TS[9]);
+      tl.fromTo(S(11), { opacity: 0, filter: "blur(24px)" }, { opacity: 1, filter: "blur(0px)", duration: D + 0.2, ease: "sine.inOut" }, TS[9]);
+
+      // ------- ambient motion -------
+      tl.to("#orb1", { x: 260, y: 180, duration: 48, ease: "sine.inOut" }, 0);
+      tl.to("#orb2", { x: -260, y: -240, duration: 48, ease: "sine.inOut" }, 0);
+
+      // ------- S1 -------
+      ["#p1", "#p2", "#p3"].forEach((id, k) => {
+        tl.fromTo(id, { opacity: 0, x: -140, scale: 0.9 }, { opacity: 1, x: 0, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 0.15 + k * 0.12);
+        tl.to(id + " .strike", { scaleX: 1, duration: 0.25, ease: "power3.out" }, 0.9 + k * 0.28);
+        tl.to(id, { opacity: 0.45, duration: 0.3 }, 1.15 + k * 0.28);
+      });
+      tl.fromTo("#zero", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2.2)" }, 1.85);
+      // ------- S2 -------
+      const T2 = 3.0;
+      tl.fromTo("#term", { opacity: 0, y: 80, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, T2 + 0.05);
+      tl.fromTo("#ty1", { width: 0 }, { width: 190, duration: 0.7, ease: "steps(6)" }, T2 + 0.5);
+      tl.fromTo("#ln2", { opacity: 0 }, { opacity: 1, duration: 0.2 }, W(1, 3));
+      tl.fromTo("#ln3", { opacity: 0 }, { opacity: 1, duration: 0.2 }, W(1, 4));
+      tl.fromTo("#free", { opacity: 0, scale: 0.2, rotation: -12 }, { opacity: 1, scale: 1, rotation: -4, duration: 0.5, ease: "back.out(2.4)" }, W(1, 4));
+      tl.fromTo("#unl", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, W(2, 1));
+      // ------- S3 -------
+      tl.fromTo("#gh", { opacity: 0, y: 60, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 9.55);
+      tl.fromTo("#repo", { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, W(4, 0));
+      tl.fromTo("#ty2", { width: 0 }, { width: 480, duration: 0.9, ease: "steps(9)" }, W(5, 1));
+      tl.fromTo("#ft", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.4)" }, W(4, 3));
+      // ------- S4 hub -------
+      const svg = document.getElementById("lines"), grid = document.getElementById("pgrid");
+      const ico = ["cloud","cpu","server","spark","bolt","branch","hub","cloud","cpu","server","spark","bolt"], cl = ["t-v","t-c","t-g","t-a","t-p","t-r"];
+      const NS = "http://www.w3.org/2000/svg";
+      const cols = [105, 315, 525, 735]; // left px of 4 tiles
+      for (let k = 0; k < 12; k++) {
+        const r = Math.floor(k / 4), c = k % 4, L = cols[c], T = 665 + r * 135;
+        const d = document.createElement("div"); d.className = "pg tile " + cl[k % 6]; d.id = "pg" + k; d.style.left = L + "px"; d.style.top = T + "px";
+        d.innerHTML = '<svg class="ic"><use href="#i-' + ico[k] + '"/></svg>'; grid.appendChild(d);
+      }
+      const mkLine = (x1, y1, x2, y2, id) => { const l = document.createElementNS(NS, "path"); l.setAttribute("d", "M" + x1 + " " + y1 + " C " + x1 + " " + (y1 + 80) + ", " + x2 + " " + (y2 - 80) + ", " + x2 + " " + y2); l.setAttribute("stroke", "#67e8f9"); l.setAttribute("stroke-width", "5"); l.setAttribute("fill", "none"); l.setAttribute("stroke-linecap", "round"); l.setAttribute("stroke-dasharray", "600"); l.setAttribute("stroke-dashoffset", "600"); l.id = id; svg.appendChild(l); };
+      mkLine(480, 250, 480, 330, "ln-a");
+      cols.forEach((L, c) => mkLine(480, 595, L + 60, 665, "ln-b" + c));
+      tl.fromTo("#hubwrap", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 14.3);
+      tl.to("#ln-a", { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, W(6, 1));
+      cols.forEach((L, c) => tl.to("#ln-b" + c, { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, W(6, 3) + c * 0.08));
+      for (let k = 0; k < 12; k++) tl.fromTo("#pg" + k, { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, W(6, 4) + k * 0.1);
+      const o200 = { v: 0 };
+      tl.fromTo("#n200", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, W(6, 4));
+      tl.to(o200, { v: 200, duration: 1.3, ease: "power2.out", onUpdate: () => { document.getElementById("n200").textContent = Math.round(o200.v) + "+"; } }, W(6, 4));
+      // ------- S5 -------
+      const tk = { v: 0 };
+      tl.fromTo("#tok", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 19.75);
+      tl.to(tk, { v: 1.6, duration: 1.6, ease: "power2.out", onUpdate: () => { document.getElementById("tok").textContent = tk.v.toFixed(1) + "B"; } }, W(7, 3));
+      document.querySelectorAll("#bars b").forEach((b, k) => tl.fromTo(b, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, W(7, 3) + k * 0.12));
+      tl.fromTo("#p-free", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.4)" }, W(7, 4));
+      // ------- S6 -------
+      const lm = { v: 0 };
+      tl.fromTo("#lim", { scaleX: 0.04 }, { scaleX: 1, duration: 2.4, ease: "power1.in" }, 25.5);
+      tl.to(lm, { v: 100, duration: 2.4, ease: "power1.in", onUpdate: () => { document.getElementById("pct").textContent = Math.round(lm.v) + "%"; } }, 25.5);
+      tl.fromTo("#alert", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, W(8, 6));
+      tl.to("#alert", { x: 14, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, W(8, 6) + 0.4);
+      tl.set("#alert", { x: 0 }, W(8, 6) + 0.72);
+      // ------- S7 -------
+      tl.fromTo("#from", { opacity: 0, y: -60 }, { opacity: 0.75, y: 0, duration: 0.4, ease: "power3.out" }, 29.1);
+      tl.fromTo("#swi", { opacity: 0, scale: 0.3, rotation: -180 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.6)" }, W(9, 1));
+      tl.fromTo("#to", { opacity: 0, y: 80, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, W(9, 3));
+      // ------- S8 -------
+      tl.fromTo("#term2", { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 32.7);
+      ["#r1", "#r2", "#r3", "#r4"].forEach((id, k) => tl.fromTo(id, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.25 }, 33.2 + k * 1.4));
+      tl.fromTo("#dt", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, W(10, 9));
+      // ------- S9 -------
+      tl.fromTo("#plines", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, 39.35);
+      document.querySelectorAll("#plines i").forEach((b, k) => tl.to(b, { scaleX: k === 0 ? 0.35 : 0.08, duration: 0.5, ease: "power3.inOut" }, W(11, 5) + k * 0.08));
+      // ------- S10 -------
+      const pc = { v: 0 };
+      tl.fromTo("#pc", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 42.8);
+      tl.to(pc, { v: 90, duration: 1.4, ease: "power2.out", onUpdate: () => { document.getElementById("pc").textContent = "-" + Math.round(pc.v) + "%"; } }, W(12, 5));
+      tl.fromTo("#tk", { scaleX: 1 }, { scaleX: 0.1, duration: 1.4, ease: "power2.out" }, W(12, 5));
+      // ------- S11 -------
+      tl.fromTo("#ok", { opacity: 0, scale: 0.2, rotation: -40 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)" }, 46.55);
+      tl.fromTo("#same", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, W(13, 2));
+      tl.fromTo("#brand", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 47.4);
+      tl.to("#root", { opacity: 0, duration: 0.4, ease: "power1.in" }, 48.5);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

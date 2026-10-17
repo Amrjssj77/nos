@@ -21,20 +21,19 @@
   @media (max-width:900px){ .grid { grid-template-columns:1fr; } #viewCol { order:-1; position:sticky; top:0; z-index:5; background:var(--bg); padding-bottom:8px; } }
   h2 { font-size:18px; font-weight:600; margin-bottom:12px; }
 
-  /* ---------- seat view (the real hall photo, re-framed per seat) ---------- */
-  #view { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:14px; background:#000; border:1px solid var(--line); }
-  #scene { position:absolute; inset:0; transition:transform .9s cubic-bezier(.2,.7,.2,1); will-change:transform; }
-  #scene .photo { position:absolute; inset:0; background:url(img/hall.jpg) center/cover no-repeat; }
-  /* show title projected on the real stage curtain (positioned in photo coordinates: x 37-60%, y 36-47%) */
-  #scene .proj { position:absolute; left:39%; width:21%; top:37%; height:10%; display:flex; align-items:center; justify-content:center;
-    font-weight:800; font-size:clamp(6px,.95vw,12px); color:#fff; text-shadow:0 0 6px #6cc4ff,0 0 14px #2f8dff; mix-blend-mode:screen; opacity:.9; pointer-events:none; }
-  #fg { position:absolute; left:-4%; right:-4%; bottom:0; height:34%; background:url(img/hall.jpg) center bottom/ 108% auto no-repeat;
-    transition:transform .9s cubic-bezier(.2,.7,.2,1), opacity .9s; -webkit-mask-image:linear-gradient(to top,#000 55%,transparent); mask-image:linear-gradient(to top,#000 55%,transparent); }
-  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.55) 100%), linear-gradient(to bottom, rgba(0,0,0,.6), transparent 28%); }
-  #tag { position:absolute; inset-inline:12px; top:10px; display:flex; justify-content:space-between; align-items:start; gap:8px; font-size:13px; text-shadow:0 1px 4px #000; }
+  /* ---------- 360 seat view (three.js scene of the real hall) ---------- */
+  #view { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:14px; background:#0a0405; border:1px solid var(--line); touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none; }
+  #view.drag { cursor:grabbing; }
+  #gl { position:absolute; inset:0; width:100%; height:100%; display:block; }
+  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,.45) 100%), linear-gradient(to bottom, rgba(0,0,0,.6), transparent 26%); }
+  #tag { position:absolute; inset-inline:12px; top:10px; display:flex; justify-content:space-between; align-items:start; gap:8px; font-size:13px; text-shadow:0 1px 4px #000; pointer-events:none; }
   #tag b { font-size:18px; }
-  #empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; background:rgba(0,0,0,.45); font-size:16px; transition:opacity .4s; pointer-events:none; }
-  #view.has #empty { opacity:0; }
+  #hint { position:absolute; inset-inline:0; bottom:54px; text-align:center; font-size:13px; text-shadow:0 1px 4px #000; pointer-events:none; transition:opacity .6s; }
+  #hint span { background:rgba(0,0,0,.5); padding:4px 12px; border-radius:99px; }
+  #bar { position:absolute; inset-inline:10px; bottom:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+  #bar button { background:rgba(20,10,12,.72); color:var(--ink); border:1px solid rgba(255,255,255,.22); border-radius:99px; padding:5px 14px; font:600 13px 'Cairo'; cursor:pointer; backdrop-filter:blur(4px); }
+  #bar button:hover { border-color:var(--gold); }
+  #loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:#0a0405; font-size:14px; color:var(--mut); transition:opacity .5s; }
   .note { color:var(--mut); font-size:12px; margin-top:6px; }
   #cart { margin-top:16px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
   #cart ul { list-style:none; margin:8px 0; display:grid; gap:6px; }
@@ -91,16 +90,14 @@
     <section id="viewCol">
       <h2>المنظر من كرسيك</h2>
       <div id="view">
-        <div id="scene">
-          <div class="photo"></div>
-          <div class="proj">خيال مريض</div>
-        </div>
-        <div id="fg"></div>
+        <canvas id="gl"></canvas>
         <div id="vig"></div>
-        <div id="empty">اختار كرسي من الخريطة وشوف المسرح الحقيقي من مكانك</div>
-        <div id="tag"><div><b id="tSeat"></b><div id="tZone"></div></div><div id="tDist"></div></div>
+        <div id="loading">بنجهّز القاعة…</div>
+        <div id="tag"><div><b id="tSeat">نظرة عامة على القاعة</b><div id="tZone"></div></div><div id="tDist"></div></div>
+        <div id="hint"><span>اختار كرسي من الخريطة وهنوديك له</span></div>
+        <div id="bar"><button id="bFace" type="button">واجه المنصة</button><button id="bOver" type="button">نظرة عامة</button></div>
       </div>
-      <p class="note">المنظر مبني على صور قاعة العرض الفعلية (المنصة والكراسي الحقيقية) ويتحرك حسب الصف والمكان. هو تقريب للمنظر مش لقطة من كل كرسي.</p>
+      <p class="note">القاعة متبنية 3D من صور المكان الحقيقية (المنصة والستارة وألوان الكراسي). اسحب بصباعك أو الماوس علشان تلف 360° من الكرسي، واستخدم العجلة للتقريب. الأبعاد تقريبية.</p>
 
       <div id="cart">
         <h2 style="margin:0">حجزك</h2>
@@ -119,6 +116,7 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const ZONES = [
   { id:'diamond',  name:'Diamond',  ar:'دايموند',  price:2500, rows:2, color:'#7fd6ff' },
@@ -167,29 +165,172 @@ svg.innerHTML = html;
 document.getElementById('legend').innerHTML = ZONES.map(z =>
   `<span><i class="dot" style="background:${z.color}"></i>${z.ar} <b>${z.price.toLocaleString('en-US')}</b></span>`).join('');
 
-/* ---- seat view: re-frame the real hall photo for the chosen seat ----
-   The photo is taken from the back of the hall, centred on the stage.
-   Front rows  -> zoom in on the stage (the stage looks bigger and closer)
-   Side seats  -> shift/turn the stage the other way
-   Foreground strip of real seat backs -> fewer rows in front of you the closer you sit */
-const scene = document.getElementById('scene'), fg = document.getElementById('fg'), view = document.getElementById('view');
-const ORIGIN = '50% 46%';                    // the stage sits here in the photo
-scene.style.transformOrigin = ORIGIN;
-function look(t) {
-  const d = t.depth, x = t.norm;
-  const sc = 1.1 + (1 - d) * 1.5;             // 1.1 (back) .. 2.6 (front row)
-  const maxShift = (sc - 1) / 2 * 100;
-  const tx = -x * maxShift * 0.9;
-  const ty = -(1 - d) * 3;
-  const rot = x * 2.2;
-  scene.style.transform = `perspective(1100px) translate(${tx}%,${ty}%) scale(${sc}) rotateY(${rot}deg)`;
-  fg.style.transform = `translate(${-x*6}%, ${(1 - d) * 120}%) scale(${1 + d*0.15})`;
-  fg.style.opacity = 0.25 + d * 0.75;
-  view.classList.add('has');
-  document.getElementById('tSeat').textContent = `صف ${t.row} · كرسي ${t.n}`;
-  document.getElementById('tZone').innerHTML = `<i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} · ${fmt(t.zone.price)}`;
-  document.getElementById('tDist').textContent = `الصف ${t.r+1} من ${ROWS}`;
+/* ---- 360 seat view: a 3D hall built from the real photos ----
+   Stage curtain, stage floor and seat colours are sampled from the real hall photo (img/hall.jpg).
+   The camera flies to the chosen seat at seated eye height; drag to look 360 degrees. */
+const view = document.getElementById('view'), canvas = document.getElementById('gl');
+const TAU = Math.PI * 2, M_PER_UNIT = 0.55 / P;           // map units -> metres (seat pitch .55m)
+const ROW_D = 0.95, RISE = 0.3, STAGE_Z0 = 3.4, EYE = 1.28, STAGE_Y = 1.1;
+const wx = t => (t.x - (W/2 + LEFT)) * M_PER_UNIT;
+const wz = r => STAGE_Z0 + r * ROW_D;
+const wy = r => r * RISE;
+const HALL_X = 10.8, BACK_Z = wz(ROWS - 1) + 1.8, CEIL = 8.8;
+
+let renderer, cam, three;
+const st = { yaw: 0, pitch: -0.45, vy: 0, vp: 0, fov: 72, fly: null, seat: null };
+
+function loadImg(src) { return new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; }); }
+function canvasTex(w, h, draw, rep) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
+  if (rep) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep[0], rep[1]); }
+  return t;
 }
+
+async function build() {
+  const img = await loadImg('img/hall.jpg');
+  try { await document.fonts.load('800 60px Cairo'); } catch (e) {}
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  three = new THREE.Scene(); three.background = new THREE.Color(0x0a0405);
+  cam = new THREE.PerspectiveCamera(st.fov, 16/9, 0.05, 90); cam.rotation.order = 'YXZ';
+
+  three.add(new THREE.AmbientLight(0xffd9c8, 0.45));
+  const hemi = new THREE.HemisphereLight(0xffc9a8, 0x2a1215, 0.3); three.add(hemi);
+  const blue = new THREE.PointLight(0x4a9bff, 1.3, 26); blue.position.set(0, 6, -3); three.add(blue);
+  for (let i = 0; i < 4; i++) { const l = new THREE.PointLight(0xffb98a, 0.35, 16); l.position.set(0, CEIL - 0.6, 3 + i * 6); three.add(l); }
+
+  const box = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); three.add(m); return m; };
+  const lam = c => new THREE.MeshLambertMaterial({ color: c });
+
+  /* stage curtain: the real curtain crop from the photo + the show title */
+  const curtain = canvasTex(1024, 512, (g, w, h) => {
+    g.drawImage(img, 478, 258, 296, 92, 0, 0, w, h);
+    g.save(); g.direction = 'rtl'; g.textAlign = 'center'; g.font = '800 92px Cairo, sans-serif';
+    g.shadowColor = '#4aa8ff'; g.shadowBlur = 36; g.fillStyle = 'rgba(255,255,255,.92)'; g.fillText('خيال مريض', w/2, h*0.5);
+    g.shadowBlur = 10; g.fillText('خيال مريض', w/2, h*0.5); g.restore();
+  });
+  const stageFloor = canvasTex(512, 128, (g, w, h) => { g.drawImage(img, 470, 349, 310, 36, 0, 0, w, h); });
+  const SW = 13.4, SD = 7.2;
+  const back = new THREE.Mesh(new THREE.PlaneGeometry(SW, 7), new THREE.MeshBasicMaterial({ map: curtain }));
+  back.position.set(0, STAGE_Y + 3.5, -SD); three.add(back);
+  const floorM = new THREE.Mesh(new THREE.PlaneGeometry(SW, SD), new THREE.MeshBasicMaterial({ map: stageFloor }));
+  floorM.rotation.x = -Math.PI/2; floorM.position.set(0, STAGE_Y + 0.01, -SD/2); three.add(floorM);
+  box(SW, STAGE_Y, SD, lam(0x1b1b22), 0, STAGE_Y/2, -SD/2);                              // stage body
+  box(SW + 0.4, 0.28, 0.5, lam(0x2c2c36), 0, STAGE_Y - 0.14, 0.15);                       // front lip
+  [-1, 1].forEach(sd => {
+    box(0.7, 7.4, SD, new THREE.MeshLambertMaterial({ color: 0x7a0f14 }), sd * (SW/2 - 0.1), STAGE_Y + 3.7, -SD/2);   // red wings
+    box(0.22, CEIL - 0.4, 0.22, lam(0x9aa0a8), sd * (SW/2 + 0.6), (CEIL - 0.4)/2, -0.3);                             // proscenium truss
+  });
+  box(SW + 1.6, 0.4, 0.4, lam(0x9aa0a8), 0, 7.9, -0.3);
+  box(SW + 1.6, 0.9, 0.3, lam(0x2a2a30), 0, CEIL - 0.45, -0.3);
+
+  /* acoustic wall panels (grey blocks, as in the photo) */
+  const panel = canvasTex(256, 256, (g, w, h) => {
+    g.fillStyle = '#4a4547'; g.fillRect(0, 0, w, h);
+    for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) {
+      const v = 58 + ((x * 7 + y * 13) % 5) * 9; g.fillStyle = `rgb(${v},${v-2},${v+2})`; g.fillRect(x*64+3, y*64+3, 58, 58);
+      g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(x*64+3, y*64+54, 58, 7); g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(x*64+3, y*64+3, 58, 5);
+    } });
+  const len = BACK_Z + SD;
+  const wallMat = new THREE.MeshLambertMaterial({ map: panel }); panel.repeat.set(len / 3, CEIL / 3);
+  [-1, 1].forEach(sd => { const w = new THREE.Mesh(new THREE.PlaneGeometry(len, CEIL), wallMat.clone()); w.material.map = panel.clone(); w.material.map.needsUpdate = true; w.material.map.repeat.set(len/3, CEIL/3);
+    w.rotation.y = -sd * Math.PI/2; w.position.set(sd * HALL_X, CEIL/2, (BACK_Z - SD)/2); three.add(w); });
+  const backWall = new THREE.Mesh(new THREE.PlaneGeometry(HALL_X*2, CEIL), lam(0x2a1a1c)); backWall.rotation.y = Math.PI; backWall.position.set(0, CEIL/2, BACK_Z); three.add(backWall);
+  /* ceiling with the warm cove light from the photo */
+  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(HALL_X*2, len), lam(0xb26b66)); ceil.rotation.x = Math.PI/2; ceil.position.set(0, CEIL, (BACK_Z - SD)/2); three.add(ceil);
+  [-1, 1].forEach(sd => { const c = new THREE.Mesh(new THREE.PlaneGeometry(1.0, len), new THREE.MeshBasicMaterial({ color: 0xffb25c })); c.rotation.x = Math.PI/2; c.position.set(sd * (HALL_X - 1.6), CEIL - 0.02, (BACK_Z - SD)/2); three.add(c); });
+  const spot = new THREE.MeshBasicMaterial({ color: 0xfff4e0 });
+  for (let z = 1; z < BACK_Z; z += 3.2) for (let x = -7; x <= 7; x += 3.5) { const d = new THREE.Mesh(new THREE.CircleGeometry(0.13, 12), spot); d.rotation.x = Math.PI/2; d.position.set(x, CEIL - 0.03, z); three.add(d); }
+
+  /* raked floor, one carpet step per row */
+  const carpet = canvasTex(128, 128, (g, w, h) => { g.fillStyle = '#6d6a72'; g.fillRect(0, 0, w, h); for (let i = 0; i < 900; i++) { const v = 80 + Math.random()*40; g.fillStyle = `rgba(${v},${v},${v+6},.35)`; g.fillRect(Math.random()*w, Math.random()*h, 2, 2); } }, [8, 1]);
+  const carpetMat = new THREE.MeshLambertMaterial({ map: carpet });
+  for (let r = -1; r < ROWS; r++) { const top = Math.max(0, wy(r)); box(HALL_X*2, top + 0.02, ROW_D, carpetMat, 0, (top+0.02)/2 - 0.02, wz(r)); }
+  box(HALL_X*2, 0.1, STAGE_Z0 + 2, carpetMat, 0, -0.05, STAGE_Z0/2 - 1);
+
+  /* real seat colours: red velvet seat + top, wooden back (sampled from the photo) */
+  const n = SEATS.length;
+  const cush = new THREE.InstancedMesh(new THREE.BoxGeometry(0.5, 0.1, 0.48), lam(0xb0101c), n);
+  const bk = new THREE.InstancedMesh(new THREE.BoxGeometry(0.5, 0.58, 0.07), lam(0x6a3b2a), n);
+  const cap = new THREE.InstancedMesh(new THREE.BoxGeometry(0.5, 0.16, 0.1), lam(0xc4121e), n);
+  const arm = new THREE.InstancedMesh(new THREE.BoxGeometry(0.05, 0.05, 0.42), lam(0x5a3424), n);
+  const o = new THREE.Object3D(); const put = (m, i, x, y, z) => { o.position.set(x, y, z); o.updateMatrix(); m.setMatrixAt(i, o.matrix); };
+  SEATS.forEach((t, i) => { const x = wx(t), y = wy(t.r), z = wz(t.r);
+    put(cush, i, x, y + 0.42, z); put(bk, i, x, y + 0.72, z + 0.24); put(cap, i, x, y + 1.09, z + 0.24); put(arm, i, x + 0.27, y + 0.64, z - 0.02); });
+  [cush, bk, cap, arm].forEach(m => { m.instanceMatrix.needsUpdate = true; three.add(m); });
+
+  /* audience: a person on each already-booked seat */
+  const taken = SEATS.map((t, i) => [t, i]).filter(([t]) => t.taken);
+  const head = new THREE.InstancedMesh(new THREE.SphereGeometry(0.11, 10, 8), new THREE.MeshLambertMaterial({ color: 0xffffff }), taken.length);
+  const body = new THREE.InstancedMesh(new THREE.BoxGeometry(0.36, 0.42, 0.2), new THREE.MeshLambertMaterial({ color: 0xffffff }), taken.length);
+  const skin = [0xc99a78, 0xa97550, 0xe2b794, 0x8a5a3c], cloth = [0x2d2f3a, 0x3a3030, 0xcfcfd2, 0x20324a, 0x4a3a2a, 0x594a64];
+  taken.forEach(([t], k) => { const x = wx(t), y = wy(t.r), z = wz(t.r);
+    put(head, k, x, y + 1.3, z + 0.08); put(body, k, x, y + 0.98, z + 0.1);
+    head.setColorAt(k, new THREE.Color(skin[(t.n * 3 + t.r) % skin.length])); body.setColorAt(k, new THREE.Color(cloth[(t.n + t.r * 5) % cloth.length])); });
+  [head, body].forEach(m => { m.instanceMatrix.needsUpdate = true; m.instanceColor.needsUpdate = true; three.add(m); });
+  st.people = { head, body, map: taken.map(([, i]) => i) };
+
+  /* start with a cut-away overview from above the back of the hall */
+  place(overviewPose(), 0, -0.5);
+  resize(); new ResizeObserver(resize).observe(view);
+  document.getElementById('loading').style.opacity = 0; setTimeout(() => document.getElementById('loading').remove(), 600);
+  requestAnimationFrame(tick);
+}
+
+function overviewPose() { return new THREE.Vector3(0, 11.5, BACK_Z + 6); }
+function place(p, yaw, pitch) { cam.position.copy(p); st.yaw = yaw; st.pitch = pitch; }
+function resize() { const w = view.clientWidth, h = view.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
+
+/* ---- fly to a seat ---- */
+function flyTo(t) {
+  const to = t ? new THREE.Vector3(wx(t) - 0.02, wy(t.r) + EYE, wz(t.r) - 0.02) : overviewPose();
+  const nearest = st.yaw - Math.round(st.yaw / TAU) * TAU;
+  st.fly = { t0: performance.now(), dur: t ? 1500 : 1400, from: cam.position.clone(), to, y0: st.yaw, y1: st.yaw - nearest, p0: st.pitch, p1: t ? -0.03 : -0.5, lift: t ? 2.2 : 0, fov0: st.fov, fov1: t ? 72 : 72 };
+  st.seat = t; st.vy = st.vp = 0;
+  if (!t) document.getElementById('tSeat').textContent = 'نظرة عامة على القاعة', document.getElementById('tZone').textContent = '', document.getElementById('tDist').textContent = '';
+  else {
+    document.getElementById('tSeat').innerHTML = `صف <bdi>${t.row}</bdi> · كرسي <bdi>${t.n}</bdi>`;
+    document.getElementById('tZone').innerHTML = `<i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} · ${fmt(t.zone.price)}`;
+    document.getElementById('tDist').textContent = `الصف ${t.r + 1} من ${ROWS}`;
+    document.getElementById('hint').innerHTML = '<span>اسحب علشان تلف 360° · العجلة للتقريب</span>';
+  }
+  /* the person who was sitting here (if any) is not in your way */
+  if (st.people) st.people.map.forEach((si, k) => { const s2 = SEATS[si]; const m = new THREE.Matrix4(); const hide = (st.seat === s2);
+    [st.people.head, st.people.body].forEach(im => { im.getMatrixAt(k, m); const e = m.elements; if (hide) { e[0] = e[5] = e[10] = 0.0001; } else { const sc = im === st.people.head ? 1 : 1; e[0] = e[5] = e[10] = sc; } im.setMatrixAt(k, m); }); });
+  if (st.people) { st.people.head.instanceMatrix.needsUpdate = st.people.body.instanceMatrix.needsUpdate = true; }
+}
+const ease = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2;
+
+function tick(now) {
+  const f = st.fly;
+  if (f) {
+    const k = Math.min(1, (now - f.t0) / f.dur), e = ease(k);
+    cam.position.lerpVectors(f.from, f.to, e); cam.position.y += Math.sin(Math.PI * k) * f.lift;
+    st.yaw = f.y0 + (f.y1 - f.y0) * e; st.pitch = f.p0 + (f.p1 - f.p0) * e;
+    if (k >= 1) st.fly = null;
+  } else {
+    st.yaw += st.vy; st.pitch = Math.max(-1.25, Math.min(1.25, st.pitch + st.vp)); st.vy *= 0.93; st.vp *= 0.93;
+  }
+  cam.rotation.set(st.pitch, st.yaw, 0);
+  if (cam.fov !== st.fov) { cam.fov = st.fov; cam.updateProjectionMatrix(); }
+  renderer.render(three, cam);
+  requestAnimationFrame(tick);
+}
+
+/* ---- look around: drag / touch, wheel to zoom ---- */
+let drag = null;
+view.addEventListener('pointerdown', e => { if (e.target.closest('#bar')) return; drag = { x: e.clientX, y: e.clientY }; view.setPointerCapture(e.pointerId); view.classList.add('drag'); st.fly = null; st.vy = st.vp = 0; });
+view.addEventListener('pointermove', e => { if (!drag) return; const k = st.fov / 72 * 0.0052, dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  drag.x = e.clientX; drag.y = e.clientY; st.yaw += dx * k; st.pitch = Math.max(-1.25, Math.min(1.25, st.pitch + dy * k)); st.vy = dx * k; st.vp = dy * k; hideHint(); });
+const end = () => { drag = null; view.classList.remove('drag'); };
+view.addEventListener('pointerup', end); view.addEventListener('pointercancel', end);
+view.addEventListener('wheel', e => { e.preventDefault(); st.fov = Math.max(35, Math.min(95, st.fov + e.deltaY * 0.04)); }, { passive: false });
+function hideHint() { const h = document.getElementById('hint'); if (st.seat) h.style.opacity = 0; }
+document.getElementById('bFace').addEventListener('click', () => { const nearest = st.yaw - Math.round(st.yaw / TAU) * TAU; st.fly = { t0: performance.now(), dur: 700, from: cam.position.clone(), to: cam.position.clone(), y0: st.yaw, y1: st.yaw - nearest, p0: st.pitch, p1: st.seat ? -0.03 : -0.5, lift: 0 }; st.fov = 72; });
+document.getElementById('bOver').addEventListener('click', () => { flyTo(null); viewing = -1; render(); document.getElementById('hint').style.opacity = 1; document.getElementById('hint').innerHTML = '<span>اختار كرسي من الخريطة وهنوديك له</span>'; });
+build().catch(err => { const l = document.getElementById('loading'); if (l) l.textContent = 'مقدرناش نحمّل المنظر ثلاثي الأبعاد على جهازك'; console.error(err); });
 
 /* ---- selection ---- */
 const chosen = []; let viewing = -1;
@@ -207,9 +348,8 @@ svg.addEventListener('click', e => {
   const i = +g.dataset.i;
   if (chosen.includes(i) && viewing === i) chosen.splice(chosen.indexOf(i),1);
   else if (!chosen.includes(i)) { if (chosen.length >= MAX_SEATS) return; chosen.push(i); }
-  viewing = i; look(SEATS[i]); render();
+  viewing = i; flyTo(SEATS[i]); render();
 });
-svg.addEventListener('mouseover', e => { const g = e.target.closest('.seat'); if (g && !g.classList.contains('taken') && !chosen.length) look(SEATS[+g.dataset.i]); });
 document.getElementById('items').addEventListener('click', e => {
   const b = e.target.closest('[data-rm]'); if (!b) return;
   chosen.splice(chosen.indexOf(+b.dataset.rm),1); render();

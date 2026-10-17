@@ -201,7 +201,9 @@ function plane(o) {
   if (o.html) d.innerHTML = o.html;
   world.appendChild(d); return d;
 }
-const wallCss = () => 'background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 6px,transparent 6px 64px),repeating-linear-gradient(90deg,rgba(0,0,0,.4) 0 6px,transparent 6px 64px),#554f52';
+const PANEL = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpolygon points='0,0 64,0 32,32' fill='%23757074'/%3E%3Cpolygon points='64,0 64,64 32,32' fill='%23524d50'/%3E%3Cpolygon points='0,64 64,64 32,32' fill='%23302c2e'/%3E%3Cpolygon points='0,0 0,64 32,32' fill='%23635e61'/%3E%3C/svg%3E")`;
+/* side walls fade to darkness away from the stage; the wall's local x runs toward the stage on the left wall and away from it on the right */
+const wallCss = side => `background:${side ? `linear-gradient(${side < 0 ? 90 : 270}deg,rgba(6,3,4,.8),rgba(6,3,4,.05) 80%),` : ''}linear-gradient(180deg,rgba(6,3,4,.65),transparent 26%,transparent 62%,rgba(6,3,4,.55)),${PANEL} 0 0/64px 64px`;
 
 const rowPlanes = [];          // wide planes: hidden while they are behind the camera (browsers mis-draw them)
 (function buildHall() {
@@ -212,22 +214,39 @@ const rowPlanes = [];          // wide planes: hidden while they are behind the 
   [-1, 1].forEach(s => {
     plane({ w: 70, h: 7.4 * PX, x: s * (SW * PX / 2 - 30), y: -(STAGE_Y + 3.7) * PX, z: -SD * PX + 8, css: 'background:linear-gradient(90deg,#5c0a10,#a3141c,#5c0a10)' });          // red wings
     plane({ w: SD * PX, h: CEIL * PX, x: s * (SW * PX / 2 + 10), y: -CEIL * PX / 2, z: -SD * PX / 2, ry: -s * 90, css: 'background:#1b1114' });                                   // stage side walls
-    plane({ w: (HALL_X - SW / 2 - 0.1) * PX, h: CEIL * PX, x: s * ((HALL_X + SW / 2) / 2 * PX + 5), y: -CEIL * PX / 2, z: 0, css: wallCss() });                                  // proscenium wall
+    plane({ w: (HALL_X - SW / 2 - 0.1) * PX, h: CEIL * PX, x: s * ((HALL_X + SW / 2) / 2 * PX + 5), y: -CEIL * PX / 2, z: 0, css: wallCss(0) });                                  // proscenium wall
   });
   const hdr = CEIL - STAGE_Y - 7.2;
   plane({ w: SW * PX, h: hdr * PX, x: 0, y: -(STAGE_Y + 7.2 + hdr / 2) * PX, z: 0, css: 'background:linear-gradient(#2a2227,#161013)' });                                         // proscenium header
   plane({ w: SW * PX, h: 26, x: 0, y: -(STAGE_Y + 7.2) * PX, z: 2, css: 'background:linear-gradient(#aab0b8,#6b7078)' });                                                         // truss
   /* room shell */
   const mid = BACK_Z / 2 * PX;
-  [-1, 1].forEach(s => plane({ w: BACK_Z * PX, h: CEIL * PX, x: s * HALL_X * PX, y: -CEIL * PX / 2, z: mid, ry: -s * 90, css: wallCss() }));
+  [-1, 1].forEach(s => plane({ w: BACK_Z * PX, h: CEIL * PX, x: s * HALL_X * PX, y: -CEIL * PX / 2, z: mid, ry: -s * 90, css: wallCss(s) }));
   plane({ w: HALL_X * 2 * PX, h: CEIL * PX, x: 0, y: -CEIL * PX / 2, z: BACK_Z * PX, ry: 180, css: 'background:#2a1a1c' });
-  plane({ w: HALL_X * 2 * PX, h: BACK_Z * PX, x: 0, y: -CEIL * PX, z: mid, rx: -90, css: 'background:radial-gradient(circle,#fff6e6 0 5px,transparent 6px) 0 0/320px 320px,#b26b66' });
-  [-1, 1].forEach(s => plane({ w: 90, h: BACK_Z * PX, x: s * (HALL_X - 1.6) * PX, y: -CEIL * PX + 2, z: mid, rx: -90, css: 'background:linear-gradient(90deg,#ff9a3c00,#ffc069,#ff9a3c00)' }));
+  plane({ w: HALL_X * 2 * PX, h: BACK_Z * PX, x: 0, y: -CEIL * PX, z: mid, rx: -90, css:
+    'background:radial-gradient(circle,#fffaf0 0 4px,rgba(255,236,200,.55) 5px,transparent 22px) 0 0/300px 300px,repeating-linear-gradient(180deg,rgba(0,0,0,.5) 0 14px,transparent 14px 300px),linear-gradient(90deg,#ff9f55aa,transparent 14%,transparent 86%,#ff9f55aa),#6b3b3c' });
+  [-1, 1].forEach(s => plane({ w: 90, h: BACK_Z * PX, x: s * (HALL_X - 1.6) * PX, y: -CEIL * PX + 2, z: mid, rx: -90, css: 'background:linear-gradient(90deg,#ff9a3c00,#ffd08a,#ff9a3c00);filter:blur(1px)' }));
   /* floor: flat in front of the first row, then raked */
   const z0 = wz(0) * PX, rise = ((BACK_Z - wz(0)) / ROW_D) * RISE * PX, run = BACK_Z * PX - z0, slant = Math.hypot(run, rise);
-  const carpet = 'background:repeating-linear-gradient(90deg,#5e5a64 0 3px,#6a6672 3px 6px)';
+  const carpet = 'background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 5px,transparent 5px 10px),repeating-linear-gradient(-45deg,rgba(0,0,0,.18) 0 5px,transparent 5px 10px),#3b3a46';
   plane({ w: HALL_X * 2 * PX, h: z0, x: 0, y: 0, z: z0 / 2, rx: 90, css: carpet });
   plane({ w: HALL_X * 2 * PX, h: slant, x: 0, y: -rise / 2, z: z0 + run / 2, rx: 90 + SLOPE, css: carpet });
+  plane({ w: 46, h: slant, x: 0, y: -rise / 2 - 1, z: z0 + run / 2, rx: 90 + SLOPE, css: 'background:repeating-linear-gradient(180deg,#ffb25c 0 5px,transparent 5px 95px),linear-gradient(90deg,transparent,rgba(120,10,24,.55) 20%,rgba(120,10,24,.55) 80%,transparent)' });   // aisle runner + step lights
+  plane({ w: SW * PX * 1.1, h: z0 + 380, x: 0, y: -2, z: (z0 + 380) / 2 - 20, rx: 90, css: 'background:radial-gradient(ellipse at 50% 12%,rgba(80,160,255,.55),rgba(60,120,255,.18) 45%,transparent 72%)' });                          // stage light spilling onto the front
+  plane({ w: HALL_X * 2 * PX, h: slant, x: 0, y: -rise / 2 - 3, z: z0 + run / 2, rx: 90 + SLOPE, css: 'background:linear-gradient(180deg,transparent 30%,rgba(5,2,3,.7))' });   // floor darkens toward the back
+  /* stage lighting rig, light beams and the lit stage edge */
+  for (let i = 0; i < 7; i++) {
+    const x = (i - 3) * 190;
+    plane({ w: 26, h: 18, x, y: -(STAGE_Y + 7.0) * PX + 8, z: 6, css: 'background:#222;border-radius:4px;box-shadow:0 0 14px 6px rgba(150,200,255,.8)' });
+    plane({ w: 150, h: 640, x: x * 0.7, y: -(STAGE_Y + 3.6) * PX, z: -170, css: 'background:linear-gradient(rgba(150,200,255,.30),rgba(150,200,255,.04));clip-path:polygon(40% 0,60% 0,100% 100%,0 100%)' });
+  }
+  plane({ w: SW * PX, h: 5, x: 0, y: -STAGE_Y * PX + 12, z: 3, css: 'background:#5fb2ff;box-shadow:0 0 12px 3px #3f9bff' });
+  /* doors beside the stage, speakers and exit signs */
+  [-1, 1].forEach(s => {
+    plane({ w: 96, h: 214, x: s * (SW * PX / 2 + 150), y: -107, z: 3, css: 'background:linear-gradient(90deg,#6a4426,#8a5b33 50%,#6a4426);border:4px solid #3b2514;border-radius:3px 3px 0 0' });
+    plane({ w: 60, h: 22, x: s * (SW * PX / 2 + 150), y: -245, z: 3, css: 'background:#0b5a2a;color:#d5ffe0;font:700 12px Jost,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px #1fe06a', html: 'EXIT' });
+    plane({ w: 90, h: 130, x: s * (SW * PX / 2 + 150), y: -480, z: 3, css: 'background:linear-gradient(#141214,#0a090a);border:3px solid #2b282b;border-radius:4px' });
+  });
   /* seat rows: the real seat photo repeated along each block */
   BYROW.forEach((row, r) => {
     const w = row[0].perSide * 55, cx = 23.2 + w / 2, y = -wy(r) * PX, z = wz(r) * PX;

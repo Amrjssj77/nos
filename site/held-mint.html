@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Held-Mint</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,700;1,800&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --bg:#06070c; --bg2:#0b0e17; --ink:#f4f5f8; --mut:#8e95a8; --blue:#3b6dff; --blue2:#6f95ff; --paper:#e9eaee; --line:rgba(255,255,255,.1);
+    --head:'Barlow Condensed','Arial Narrow',Impact,sans-serif; --tag:'Permanent Marker','Comic Sans MS',cursive; --mono:'Space Mono',ui-monospace,monospace; color-scheme:dark; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; overflow-x:hidden; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--mono); font-size:13px; line-height:1.6; overflow-x:hidden; }
+  .gut { padding-left:max(clamp(16px,5vw,64px), env(safe-area-inset-left, 0px)); padding-right:max(clamp(16px,5vw,64px), env(safe-area-inset-right, 0px)); }
+  h1, h2 { font-family:var(--head); font-style:italic; font-weight:800; text-transform:uppercase; line-height:.9; letter-spacing:-.01em; text-wrap:balance; }
+  h1 { font-size:clamp(54px,10vw,140px); } h2 { font-size:clamp(40px,7vw,96px); }
+  .paint { font-family:var(--tag); font-style:normal; font-weight:400; color:var(--blue); text-transform:none; letter-spacing:0; display:inline-block; transform:rotate(-3deg); text-shadow:0 0 22px rgba(59,109,255,.5); }
+  .tag { font-family:var(--tag); color:var(--blue2); font-size:15px; transform:rotate(-2deg); display:inline-flex; align-items:center; gap:8px; }
+  .crown { width:18px; height:14px; fill:currentColor; }
+  .btn { display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:#06070c; font:800 14px var(--head); letter-spacing:.06em; text-transform:uppercase; padding:11px 18px; border:0; text-decoration:none; cursor:pointer; box-shadow:4px 4px 0 var(--blue); transition:transform .15s, box-shadow .15s; }
+  .btn:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--blue); }
+  .btn:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid var(--blue2); outline-offset:3px; }
+  .btn.ghost { background:transparent; color:var(--ink); border:1px solid var(--line); box-shadow:none; }
+
+  /* reveal (only armed once JS is running) */
+  .js .rv { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); transition-delay:var(--d,0s); }
+  .js .rv.in { opacity:1; transform:none; }
+
+  /* nav */
+  nav { position:fixed; inset:0 0 auto 0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:max(14px, env(safe-area-inset-top, 0px)); padding-bottom:14px; background:linear-gradient(var(--bg),rgba(6,7,12,0)); }
+  .logo { display:flex; align-items:center; gap:8px; font:800 italic 22px var(--head); letter-spacing:.02em; text-transform:uppercase; color:var(--ink); text-decoration:none; }
+  .logo i { width:16px; height:16px; border-radius:50%; background:conic-gradient(var(--blue),#fff,var(--blue)); display:block; }
+  nav ul { display:flex; gap:clamp(12px,2.4vw,34px); list-style:none; font-size:10px; letter-spacing:.16em; text-transform:uppercase; }
+  nav a { color:var(--ink); text-decoration:none; opacity:.85; } nav a:hover { opacity:1; color:var(--blue2); }
+  nav .right { display:flex; align-items:center; gap:18px; font-size:10px; letter-spacing:.16em; }
+  .buy { position:relative; background:var(--ink); color:#06070c; font:800 14px var(--head); letter-spacing:.06em; padding:8px 14px; text-decoration:none; text-transform:uppercase; border-bottom:4px solid var(--blue); }
+  .buy::after { content:""; position:absolute; left:10%; right:10%; top:100%; height:14px; background:repeating-linear-gradient(90deg,var(--blue) 0 6px,transparent 6px 14px); -webkit-mask:linear-gradient(#000,transparent); mask:linear-gradient(#000,transparent); }
+  @media (max-width:760px){ nav ul, nav .lang { display:none; } }
+
+  /* hero */
+  .hero { position:relative; min-height:100svh; display:grid; align-items:end; padding-top:90px; padding-bottom:clamp(28px,6vh,64px); overflow:hidden; background:radial-gradient(60% 55% at 50% 38%,#16213f 0%,transparent 70%),var(--bg); }
+  .strip { position:absolute; top:0; bottom:0; width:6px; background:linear-gradient(transparent,rgba(111,149,255,.95) 20%,rgba(111,149,255,.95) 80%,transparent); box-shadow:0 0 28px 8px rgba(59,109,255,.55); opacity:.8; }
+  .vault { position:absolute; left:50%; top:46%; width:min(300px,52vw); aspect-ratio:3/4; transform:translate(-50%,-50%); }
+  .door { position:absolute; inset:-6%; border:7px solid #4b5160; border-radius:6px; background:linear-gradient(135deg,#1a1d27,#0b0d14); box-shadow:inset 0 0 40px rgba(111,149,255,.18), 0 0 60px rgba(59,109,255,.25); }
+  .door::before { content:""; position:absolute; inset:7px; border:2px solid #2e3340; }
+  .dial { position:absolute; right:-18%; top:50%; width:clamp(70px,13vw,120px); aspect-ratio:1; transform:translateY(-50%); border-radius:50%; background:radial-gradient(circle at 35% 30%,#8c93a3,#2a2e39 55%,#0d0f15 100%); box-shadow:0 12px 30px rgba(0,0,0,.6); }
+  .dial::before { content:""; position:absolute; inset:14%; border-radius:50%; background:repeating-conic-gradient(#aab0bf 0 4deg,#1b1e27 4deg 18deg); }
+  .dial::after { content:""; position:absolute; inset:38%; border-radius:50%; background:#0a0b10; box-shadow:0 0 0 3px #444a58; }
+  .heroCopy { position:relative; z-index:5; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,320px); gap:24px; align-items:end; }
+  .heroCopy p { color:#c8cddb; font-size:12px; }
+  .heroCopy .btn { margin-top:16px; }
+  @media (max-width:760px){ .heroCopy { grid-template-columns:1fr; } }
+  .wire { position:absolute; pointer-events:none; }
+
+  /* cards */
+  .card3 { position:relative; aspect-ratio:5/7; width:100%; padding:5px; border-radius:12px; background:linear-gradient(140deg,#e3e6ee,#7a8191 35%,#eef0f6 52%,#68707f); box-shadow:0 20px 40px -10px rgba(0,0,0,.7); }
+  .card3 .in3 { position:relative; height:100%; border-radius:8px; overflow:hidden; background:radial-gradient(120% 90% at 50% 40%,var(--c1,#1a2a58),#07080f 78%); }
+  .card3 .in3 svg { position:absolute; inset:14% 6% 14% 6%; width:88%; height:72%; }
+  .card3 .nm { position:absolute; top:6%; left:0; right:0; text-align:center; font:800 italic clamp(14px,2.2vw,28px)/1 var(--head); text-transform:uppercase; color:#ffe27a; text-shadow:0 2px 0 #000; }
+  .card3 .sr { position:absolute; top:3%; right:6%; font:700 8px var(--mono); color:#cfd5e6; }
+  .card3 .side { position:absolute; left:4%; top:36%; font:800 italic 11px/1 var(--head); color:#fff; text-transform:uppercase; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:.06em; }
+  .card3 .rank { position:absolute; right:4%; top:44%; font:800 italic 13px var(--head); color:#fff; text-transform:uppercase; writing-mode:vertical-rl; }
+  .card3 .st { position:absolute; left:0; right:0; bottom:3%; text-align:center; font:700 6.5px var(--mono); color:#d7dcec; letter-spacing:.04em; }
+  .card3 .st b { color:#ffe27a; }
+
+  /* sections */
+  section { position:relative; }
+  .sec { padding-top:clamp(70px,12vh,140px); padding-bottom:clamp(70px,12vh,140px); }
+  .intro { background:linear-gradient(var(--bg),var(--bg2)); overflow:hidden; }
+  .introGrid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:clamp(24px,5vw,72px); align-items:center; }
+  .fan { position:relative; height:clamp(300px,46vw,520px); }
+  .fan .card3 { position:absolute; width:clamp(120px,19vw,210px); left:50%; top:50%; transition:transform 1s cubic-bezier(.2,.7,.2,1); }
+  .intro h2 { font-size:clamp(28px,4.4vw,58px); line-height:.98; text-transform:uppercase; }
+  .intro h2 .blue { color:var(--blue); }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:24px; }
+  .chips span { border:1px solid var(--line); padding:5px 10px; font-size:10px; letter-spacing:.12em; text-transform:uppercase; background:rgba(255,255,255,.03); }
+  .chips span::before { content:""; }
+  @media (max-width:860px){ .introGrid { grid-template-columns:1fr; } }
+  .wirewrap { margin-top:56px; height:90px; position:relative; }
+
+  .steps { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:44px; }
+  .step { border:1px solid rgba(111,149,255,.35); background:linear-gradient(160deg,rgba(59,109,255,.12),rgba(255,255,255,.02)); padding:18px 16px 22px; min-height:200px; position:relative; clip-path:polygon(0 0,100% 0,100% 88%,94% 100%,0 100%); }
+  .step b { font:800 italic 54px/1 var(--head); color:var(--blue); display:block; }
+  .step h3 { font:800 italic 22px/1 var(--head); text-transform:uppercase; margin:10px 0 8px; }
+  .step p { color:var(--mut); font-size:11px; }
+  @media (max-width:900px){ .steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:480px){ .steps { grid-template-columns:1fr; } }
+  .strike { text-decoration:line-through; text-decoration-thickness:.08em; color:#555c6d; }
+
+  .held { background:var(--bg2); overflow:hidden; }
+  .row5 { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(8px,1.6vw,20px); margin-top:44px; align-items:end; }
+  .row5 .card3:nth-child(odd) { transform:translateY(18px); }
+  @media (max-width:760px){ .row5 { grid-template-columns:repeat(3,minmax(0,1fr)); } .row5 .card3:nth-child(n+4) { display:none; } }
+
+  .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:72px; align-items:stretch; }
+  .stat { padding:22px 20px; color:#fff; transform:rotate(var(--r,0deg)); }
+  .stat b { display:block; font:800 italic clamp(40px,6vw,76px)/.95 var(--head); font-variant-numeric:tabular-nums; }
+  .stat span { font-size:9px; letter-spacing:.18em; text-transform:uppercase; opacity:.8; }
+  .s1 { background:var(--paper); color:#06070c; --r:-2deg; box-shadow:6px 6px 0 var(--blue); }
+  .s2 { background:var(--blue); --r:1.5deg; }
+  .s3 { border:1px solid var(--line); background:rgba(255,255,255,.03); --r:-1deg; }
+  .s3 b { color:var(--blue2); }
+  @media (max-width:760px){ .stats { grid-template-columns:1fr; } }
+  .ledger { margin-top:56px; border-top:1px solid var(--line); }
+  .lrow { display:grid; grid-template-columns:90px minmax(0,1fr) 110px 120px; gap:16px; align-items:center; padding:16px 0; border-bottom:1px solid var(--line); font-size:11px; }
+  .lrow time { color:var(--blue2); } .lrow strong { font:800 italic 20px/1.1 var(--head); text-transform:uppercase; } .lrow code { color:var(--mut); }
+  .stamp { justify-self:end; font:800 18px var(--head); letter-spacing:.12em; border:3px solid var(--blue2); color:var(--blue2); padding:2px 10px; transform:rotate(-7deg) scale(1.6); opacity:0; text-transform:uppercase; transition:transform .45s cubic-bezier(.2,1.6,.4,1) .3s, opacity .3s .3s; }
+  .in .stamp, .stamp.in { transform:rotate(-7deg) scale(1); opacity:.95; }
+  @media (max-width:640px){ .lrow { grid-template-columns:1fr auto; } .lrow code { display:none; } .lrow time { grid-column:1/-1; } }
+
+  .drop { background:var(--bg); }
+  .sheet { position:relative; background:var(--paper); color:#0a0b10; padding:clamp(22px,4vw,48px); display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:24px; align-items:center; box-shadow:0 0 0 1px #000, 0 30px 80px rgba(59,109,255,.25); }
+  .sheet h2 { color:#0a0b10; font-size:clamp(54px,9vw,128px); } .sheet h2 .paint { font-size:.8em; }
+  .sheet ul { margin-top:22px; padding-left:18px; max-width:40ch; font-size:11px; } .sheet li { margin-bottom:8px; }
+  .sheet .shelf { margin-top:26px; font:700 11px var(--mono); letter-spacing:.08em; text-transform:uppercase; } .sheet .shelf b { color:var(--blue); }
+  .sheet .card3 { max-width:300px; justify-self:center; transform:rotate(4deg); }
+  .sheet .wire { left:-3%; right:-3%; }
+  @media (max-width:760px){ .sheet { grid-template-columns:1fr; } }
+
+  .member { background:linear-gradient(var(--bg),#0a0f22); overflow:hidden; }
+  .memGrid { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr); gap:32px; align-items:center; }
+  form { margin-top:28px; display:flex; flex-wrap:wrap; gap:10px; }
+  input[type=email] { flex:1 1 220px; min-width:0; background:#0e1220; color:var(--ink); border:1px solid #2b3350; padding:12px 14px; font:12px var(--mono); }
+  .note { margin-top:14px; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--mut); } .ok { color:var(--blue2); margin-top:12px; min-height:1.4em; }
+  @media (max-width:760px){ .memGrid { grid-template-columns:1fr; } .memGrid .card3 { max-width:240px; } }
+  footer { padding-top:40px; padding-bottom:max(40px, env(safe-area-inset-bottom, 0px)); border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:24px 48px; justify-content:space-between; color:var(--mut); font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+  footer a { color:var(--ink); text-decoration:none; display:block; margin-top:6px; }
+  @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .js .rv, .fan .card3, .stamp { transition:none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="crown" viewBox="0 0 18 14"><path d="M1 12 L2 3 L6 7 L9 1 L12 7 L16 3 L17 12 Z"/></symbol>
+  <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f6fb"/><stop offset=".5" stop-color="#8a92a3"/><stop offset="1" stop-color="#d8dce6"/></linearGradient>
+</defs></svg>
+
+<nav class="gut">
+  <a class="logo" href="#top"><i></i>Held-Mint</a>
+  <ul><li><a href="#held">Marketplace</a></li><li><a href="#process">Vault</a></li><li><a href="#intro">White paper</a></li><li><a href="#member">Contact us</a></li></ul>
+  <div class="right"><span class="lang">EN ▾</span><a href="#member" style="color:var(--ink);text-decoration:none">LOG IN</a><a class="buy" href="#drop">Buy NFT →</a></div>
+</nav>
+
+<main id="top">
+  <!-- 1 · hero -->
+  <section class="hero gut">
+    <i class="strip" style="left:max(16px,calc(50% - 360px))"></i><i class="strip" style="right:max(16px,calc(50% - 360px))"></i>
+    <div class="vault" id="vault" data-par="-30">
+      <div class="door"></div>
+      <div class="card3" style="--c1:#1b3a8a"><div class="in3"><span class="sr">KR777</span><span class="nm">Nype Ape</span><span class="side">True Hype</span><span class="rank">Leader</span><div class="art" data-hood="#e8ecf5" data-skin="#4a6cc4" data-hair="#f0c15a"></div><span class="st">ATTITUDE <b>100</b> WEALTH <b>99</b> LEADERSHIP <b>100</b></span></div></div>
+      <div class="dial"></div>
+    </div>
+    <svg class="wire" data-wire="1400" style="left:-5%;right:-5%;top:34%;width:110%;height:120px;transform:rotate(-12deg)" data-par="20"></svg>
+    <svg class="wire" data-wire="1400" style="left:-5%;right:-5%;top:58%;width:110%;height:120px;transform:rotate(14deg)" data-par="-20"></svg>
+    <div class="heroCopy">
+      <div>
+        <div class="tag rv"><svg class="crown"><use href="#crown"/></svg>Card Custody · Zug</div>
+        <h1 class="rv" style="--d:.1s">Rare cards<br>behind <span class="paint">steel</span></h1>
+      </div>
+      <div class="rv" style="--d:.25s"><p>Rare cards kept in a Swiss strongroom — every shell, seal and signature published on a public ledger.</p><a class="btn" href="#member">Request access</a></div>
+    </div>
+  </section>
+
+  <!-- 2 · intro -->
+  <section class="intro sec gut" id="intro">
+    <div class="introGrid">
+      <div class="fan rv" id="fan"></div>
+      <div>
+        <h2 class="rv">Graded, sealed and shelved in Zug. The chain keeps the paperwork — ownership, votes and audit trails — <span class="blue">and nothing else.</span></h2>
+        <div class="chips rv" style="--d:.15s"><span>Physical cards</span><span>Insured storage</span><span>Open ledger</span><span>Member votes</span></div>
+        <p style="margin-top:28px" class="rv" style="--d:.2s"><a class="btn" href="#process">See the process →</a></p>
+      </div>
+    </div>
+    <div class="wirewrap"><svg class="wire" data-wire="1800" style="left:-4%;width:108%;top:0;height:90px"></svg></div>
+  </section>
+
+  <!-- 3 · process -->
+  <section class="sec gut" id="process" style="background:var(--bg)">
+    <div class="tag rv"><svg class="crown"><use href="#crown"/></svg>The process</div>
+    <h2 class="rv" style="margin-top:10px">From the table<br>to the <span class="strike">shoebox</span> <span class="paint">vault</span></h2>
+    <div class="steps">
+      <div class="step rv" style="--d:.0s"><b>01</b><h3>Acquisition</h3><p>Lots are bought outright from collectors and dealers, graded and photographed on intake.</p></div>
+      <div class="step rv" style="--d:.1s"><b>02</b><h3>Authentication</h3><p>Two independent graders sign every card. Disagreements are rejected, not averaged.</p></div>
+      <div class="step rv" style="--d:.2s"><b>03</b><h3>Custody</h3><p>Sealed in a numbered shell and shelved in a Swiss strongroom under full replacement cover.</p></div>
+      <div class="step rv" style="--d:.3s"><b>04</b><h3>Registry</h3><p>Ownership, votes and audit trails are written to a public ledger. Nothing else is.</p></div>
+    </div>
+  </section>
+
+  <!-- 4 · currently held + stats + ledger -->
+  <section class="held sec gut" id="held">
+    <div class="tag rv"><svg class="crown"><use href="#crown"/></svg>The vault</div>
+    <h2 class="rv" style="margin-top:10px">Currently <span class="paint">held</span></h2>
+    <p class="rv" style="max-width:44ch;margin-top:16px;color:#c8cddb">A live slice of the registry. Every entry is a physical card on a numbered shelf — graded, sealed, insured at full value.</p>
+    <div class="row5" id="row5"></div>
+    <div class="stats">
+      <div class="stat s1 rv"><b data-count="48.6" data-pre="$" data-suf="M" data-dec="1">$48.6M</b><span>Insured value</span></div>
+      <div class="stat s2 rv" style="--d:.1s"><b data-count="12480">12,480</b><span>Cards vaulted</span></div>
+      <div class="stat s3 rv" style="--d:.2s"><b data-count="4" data-suf="×">4×</b><span>Audits a year</span></div>
+    </div>
+    <div class="ledger">
+      <div class="lrow rv"><time>12.03.26</time><strong>Quarterly vault audit closed — independent auditor</strong><code>#VA-0312</code><span class="stamp">Closed</span></div>
+      <div class="lrow rv"><time>28.02.26</time><strong>Insurance renewed — full replacement value</strong><code>#INS-2802</code><span class="stamp">Renewed</span></div>
+      <div class="lrow rv"><time>14.01.26</time><strong>Intake lot sealed — 412 cards, two signatures</strong><code>#LOT-0114</code><span class="stamp">Sealed</span></div>
+    </div>
+  </section>
+
+  <!-- 5 · drop -->
+  <section class="drop sec gut" id="drop">
+    <div class="sheet rv">
+      <svg class="wire" data-wire="1200" style="top:-34px;height:70px"></svg>
+      <svg class="wire" data-wire="1200" style="bottom:-34px;height:70px"></svg>
+      <div>
+        <div class="tag"><svg class="crown"><use href="#crown"/></svg>Featured drop</div>
+        <h2>Drop I <span class="paint">KR777</span></h2>
+        <ul><li>Graded BGS 9.5, sealed and shelved in Zug on 10.03.26. Two custodians sign the lock.</li><li>Holders cast votes on loans, shows and exits. Every entry lands on the public ledger.</li></ul>
+        <div class="shelf">Shelf A-11 · <b>$58,480</b></div>
+        <p style="margin-top:20px"><a class="btn" href="#member">Reserve this card →</a></p>
+      </div>
+      <div class="card3" style="--c1:#1d4fa8"><div class="in3"><span class="sr">KR777</span><span class="nm">Nype Ape</span><span class="side">True Hype</span><span class="rank">Leader</span><div class="art" data-hood="#4dff7a" data-skin="#3b64c8" data-hair="#f0c15a"></div><span class="st">ATTITUDE <b>100</b> WEALTH <b>99</b> LEADERSHIP <b>100</b></span></div></div>
+    </div>
+  </section>
+
+  <!-- 6 · membership -->
+  <section class="member sec gut" id="member">
+    <div class="memGrid">
+      <div>
+        <div class="tag rv"><svg class="crown"><use href="#crown"/></svg>Membership</div>
+        <h2 class="rv" style="margin-top:10px">Put your cards<br>behind the <span class="paint">door</span></h2>
+        <form id="form" class="rv" style="--d:.15s"><input id="email" type="email" required placeholder="you@domain.com" aria-label="Email address" /><button class="btn" type="submit">Enter the vault →</button></form>
+        <div class="ok" id="ok" role="status"></div>
+        <p class="note">Membership opens in blocks of fifty · next block closes 30 April</p>
+      </div>
+      <div class="card3 rv" style="--c1:#14468a;transform:rotate(5deg);justify-self:center;max-width:300px"><div class="in3"><span class="sr">BL-021</span><span class="nm">Blue Leopard</span><span class="side">True Hype</span><span class="rank">Leader</span><div class="art" data-hood="#ff8a1a" data-skin="#5a7fd0" data-hair="#cfd5e6"></div><span class="st">ATTITUDE <b>100</b> WEALTH <b>99</b> LEADERSHIP <b>100</b></span></div></div>
+    </div>
+  </section>
+</main>
+
+<footer class="gut">
+  <div><span class="logo"><i></i>Held-Mint</span><div style="margin-top:10px">© 2026 · Zug, Switzerland</div></div>
+  <div>Vault<a href="#process">The process</a><a href="#held">Currently held</a></div>
+  <div>Company<a href="#intro">White paper</a><a href="#member">Contact us</a></div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+const $ = (s, r = document) => [...r.querySelectorAll(s)];
+
+/* ---- card art: a stylised collectible character drawn in SVG (original, not an existing NFT) ---- */
+function art(hood, skin, hair) {
+  return `<svg viewBox="0 0 160 190" aria-hidden="true"><defs><linearGradient id="sk${hood.slice(1)}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${skin}"/><stop offset="1" stop-color="#16204a"/></linearGradient></defs>
+  <path d="M10 190 C10 140 40 124 80 124 C120 124 150 140 150 190 Z" fill="${hood}"/><path d="M52 124 L80 150 L108 124" fill="none" stroke="#0007" stroke-width="5"/>
+  <ellipse cx="80" cy="70" rx="48" ry="52" fill="url(#sk${hood.slice(1)})"/>
+  <path d="M36 52 C40 14 120 14 124 52 C112 36 48 36 36 52Z" fill="${hair}"/>
+  <ellipse cx="80" cy="92" rx="26" ry="20" fill="#0003"/>
+  <rect x="42" y="58" width="76" height="18" rx="8" fill="#06070c"/><rect x="46" y="61" width="28" height="4" rx="2" fill="#6f95ff" opacity=".7"/><rect x="86" y="61" width="28" height="4" rx="2" fill="#6f95ff" opacity=".7"/>
+  <path d="M68 100 Q80 108 92 100" stroke="#06070c" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+}
+$('.art').forEach(a => a.outerHTML = art(a.dataset.hood, a.dataset.skin, a.dataset.hair));
+function cardHTML(n, c1, hood, skin, hair, nm, sr) {
+  return `<div class="card3" style="--c1:${c1}"><div class="in3"><span class="sr">${sr}</span><span class="nm">${nm}</span><span class="side">True Hype</span><span class="rank">Leader</span>${art(hood, skin, hair)}<span class="st">ATTITUDE <b>100</b> WEALTH <b>99</b> LEADERSHIP <b>100</b></span></div></div>`;
+}
+const DECK = [
+  ['#1b3a8a', '#ffd24a', '#5d80d6', '#e8ecf5', 'Prime Ape', 'KR201'], ['#31246e', '#ff8a1a', '#4a6cc4', '#cfd5e6', 'Nype Ape', 'KR777'], ['#3a1a52', '#ff4d6d', '#6b8be0', '#f0c15a', 'Prime Ape', 'KR312'],
+  ['#14468a', '#4dff7a', '#3b64c8', '#f0c15a', 'Red Ape', 'KR090'], ['#52301a', '#ffffff', '#7894d8', '#3a2a1a', 'Gold Ape', 'KR418'],
+];
+document.getElementById('fan').innerHTML = DECK.slice(0, 4).map(d => cardHTML(0, d[0], d[1], d[2], d[3], d[4], d[5])).join('');
+const FAN = [[-95, 20, -12], [-32, -10, -4], [32, 14, 5], [92, -6, 12]];
+function fan(open) { $('#fan .card3').forEach((c, i) => { const f = FAN[i], k = open ? 1 : 0; c.style.transform = `translate(calc(-50% + ${f[0] * k}%), calc(-50% + ${f[1] * k}%)) rotate(${f[2] * k}deg)`; c.style.zIndex = i; }); }
+fan(false);
+document.getElementById('row5').innerHTML = DECK.map(d => cardHTML(0, d[0], d[1], d[2], d[3], d[4], d[5])).join('');
+
+/* ---- barbed wire ---- */
+$('svg[data-wire]').forEach(svg => {
+  const w = +svg.dataset.wire, h = 90; svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.setAttribute('preserveAspectRatio', 'none');
+  let d = `M0 45`, barbs = '';
+  for (let x = 0; x < w; x += 20) d += ` Q${x + 10} ${45 + (x / 20 % 2 ? 14 : -14)} ${x + 20} 45`;
+  for (let x = 60; x < w; x += 110) barbs += `<path d="M${x - 9} 33 L${x + 9} 57 M${x + 9} 33 L${x - 9} 57" stroke="url(#steel)" stroke-width="3" stroke-linecap="round"/>`;
+  svg.innerHTML = `<path d="${d}" fill="none" stroke="#0007" stroke-width="7" transform="translate(0 3)"/><path d="${d}" fill="none" stroke="url(#steel)" stroke-width="4"/>${barbs}`;
+});
+
+/* ---- reveal + counters + stamps ---- */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; const el = e.target; el.classList.add('in'); io.unobserve(el);
+  if (el.id === 'fan') fan(true);
+  $('[data-count]', el).forEach(count);
+}), { threshold: 0.18 });
+$('.rv, #fan').forEach(el => io.observe(el));
+function count(el) {
+  const to = +el.dataset.count, dec = +(el.dataset.dec || 0), pre = el.dataset.pre || '', suf = el.dataset.suf || '', t0 = performance.now();
+  (function step(t) { const k = Math.min(1, (t - t0) / 1400), v = to * (1 - Math.pow(1 - k, 3));
+    el.textContent = pre + v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf; if (k < 1) requestAnimationFrame(step); })(t0);
+}
+
+/* ---- scroll parallax in the hero ---- */
+const par = $('[data-par]'); let tick = false;
+function onScroll() { if (tick) return; tick = true; requestAnimationFrame(() => { tick = false; const y = Math.min(scrollY, innerHeight * 1.2);
+  par.forEach(el => { const k = +el.dataset.par; if (el.id === 'vault') el.style.transform = `translate(-50%,calc(-50% + ${y * k / 100}px))`; else el.style.translate = `0 ${y * k / 100}px`; }); }); }
+addEventListener('scroll', onScroll, { passive: true });
+
+/* ---- membership form ---- */
+document.getElementById('form').addEventListener('submit', e => { e.preventDefault(); document.getElementById('ok').textContent = 'You are on the list. We will write when the next block opens.'; e.target.reset(); });
+</script>
+</body>
+</html>

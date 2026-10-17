@@ -17,6 +17,15 @@
   <label class="sel">Imbalance <select id="imbSel"><option>2</option><option selected>3</option><option>4</option><option>5</option></select>:1</label>
   <div class="menu"><button id="indBtn">Indicators ▾</button><div id="indMenu" class="drop"></div></div>
   <div class="menu"><button id="paneBtn">Panes ▾</button><div id="paneMenu" class="drop"></div></div>
+  <div class="menu"><button id="dataBtn">Data ▾</button><div id="dataMenu" class="drop" style="min-width:300px">
+    <h4>Massive futures feed</h4>
+    <label>Feed <select id="dFeed"><option value="wss://delayed.massive.com/futures">Delayed (10 min)</option><option value="wss://socket.massive.com/futures">Real-time</option></select></label>
+    <label>API key <input id="dKey" type="password" placeholder="Massive API key" autocomplete="off" style="flex:1"></label>
+    <label>Contract <input id="dTicker" placeholder="auto" style="width:90px"> <small id="dAuto" style="color:var(--dim)"></small></label>
+    <label>Endpoint override <input id="dUrl" placeholder="(optional)" style="flex:1"></label>
+    <div style="display:flex;gap:6px;margin-top:6px"><button id="dGo">Connect</button><button id="dOff">Disconnect</button></div>
+    <div id="dMsg" style="margin-top:8px;color:var(--dim);white-space:normal;max-width:300px"></div>
+  </div></div>
   <label class="sel">Speed <select id="spdSel"><option value="1">1×</option><option value="3">3×</option><option value="10">10×</option><option value="0">Pause</option></select></label>
   <div class="grow"></div>
   <div id="feedTag" title="Data source">SIMULATED FEED</div>
@@ -38,6 +47,7 @@
 <script src="js/engine.js"></script>
 <script src="js/indicators.js"></script>
 <script src="js/chart.js"></script>
+<script src="js/feed-massive.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

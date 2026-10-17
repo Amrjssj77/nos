@@ -55,3 +55,21 @@ t('sim volatility is sane (1m range ticks)', () => {
   }
 });
 console.log(ok + ' tests passed');
+
+// ---- Massive adapter ----
+vm.runInContext(fs.readFileSync(path.join(__dirname, '../js/feed-massive.js'), 'utf8'), ctx);
+t('front contract selection / roll', () => {
+  const f = (s) => ctx.frontContract('ES', Date.parse(s));
+  assert.strictEqual(f('2026-10-17'), 'ESZ6'); assert.strictEqual(f('2026-12-16'), 'ESH7');
+  assert.strictEqual(f('2026-12-10'), 'ESZ6'); assert.strictEqual(f('2026-01-05'), 'ESH6'); assert.strictEqual(f('2026-03-20'), 'ESM6');
+});
+t('trade side classification (quote rule, tick rule)', () => {
+  const f = new ctx.MassiveFeed({ url: 'x', key: 'k', onStatus() {}, onTrade() {} });
+  f.msg({ ev: 'Q', sym: 'ESZ6', bp: 100, bs: 7, ap: 100.25, as: 9, t: 1 });
+  let r = f.classify({ sym: 'ESZ6', p: 100.25, s: 2, t: 2 }); assert.strictEqual(r.side, 1); assert.strictEqual(r.dq, 9);
+  r = f.classify({ sym: 'ESZ6', p: 100, s: 2, t: 3 }); assert.strictEqual(r.side, -1); assert.strictEqual(r.dq, 7);
+  r = f.classify({ sym: 'ZZ', p: 5, s: 1, t: 4 }); assert.strictEqual(r.side, 1);
+  r = f.classify({ sym: 'ZZ', p: 4, s: 1, t: 5 }); assert.strictEqual(r.side, -1);
+  assert.strictEqual(f.classify({ sym: 'ZZ', p: 4, s: 0, t: 5 }), null);
+});
+console.log('adapter tests done');

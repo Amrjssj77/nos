@@ -12,7 +12,7 @@
   INSTRUMENTS.forEach(i => { const p = i.px * (1 + (Math.random() - .5) * .004); quotes[i.sym] = { open: p, last: p, bid: p, ask: p }; });
   function stepQuotes(dt) {
     for (const i of INSTRUMENTS) {
-      const qq = quotes[i.sym]; if (sims[i.sym]) { qq.last = sims[i.sym].last; continue; }
+      const qq = quotes[i.sym]; if (cur && cur.live && cur.inst.sym === i.sym) { if (cur.last) qq.last = cur.last; continue; } if (sims[i.sym]) { qq.last = sims[i.sym].last; continue; }
       const s = i.px * 0.00004 * Math.sqrt(dt) * G_randn(); qq.last = Math.max(i.tick, Math.round((qq.last + s) / i.tick) * i.tick);
     }
   }
@@ -27,13 +27,15 @@
   /* ---- select instrument ---- */
   function select(sym) {
     sym = (sym || '').toUpperCase(); if (!INST_BY_SYM[sym]) return;
-    const inst = INST_BY_SYM[sym], sim = getSim(sym);
+    const inst = INST_BY_SYM[sym], isLive = !!(live.feed && live.authed && MassiveRoots[sym]);
+    const sim = isLive ? liveBook(inst) : getSim(sym);
     if (cur) cur.onTick = null;
     cur = sim; eng = new Engine(inst); eng.tf = cfg.tf || 60;
     eng.imbRatio = +$('imbSel').value;
-    eng.load(sim.ticks.slice(), sim.snaps); eng.snaps = sim.snaps;
+    if (isLive) { eng.load([], []); eng.snaps = []; liveSub(inst); }
+    else { eng.load(sim.ticks.slice(), sim.snaps); eng.snaps = sim.snaps; liveUnsub(); }
     eng.on(() => { if (tab === 'sig') renderTab(); });
-    sim.onTick = tk => { eng.ingest(tk, true); tapeAdd(tk); };
+    if (!isLive) sim.onTick = tk => { eng.ingest(tk, true); tapeAdd(tk); };
     const old = chart && chart.s;
     if (!chart) { chart = new Chart($('chart'), eng); chart.drawLoop(); if (cfg.chart) Object.assign(chart.s.show, cfg.chart.show), (chart.s.panes = cfg.chart.panes || chart.s.panes), (chart.s.type = cfg.chart.type || chart.s.type); }
     else chart.e = eng;
@@ -70,7 +72,7 @@
   $('indMenu').onchange = e => { chart.s.show[e.target.dataset.k] = e.target.checked; save(); chart.invalidate(); };
   $('paneMenu').onchange = e => { const k = e.target.dataset.p, p = chart.s.panes; if (e.target.checked) { if (!p.includes(k)) p.push(k); } else p.splice(p.indexOf(k), 1); save(); chart.invalidate(); };
   [['indBtn', 'indMenu'], ['paneBtn', 'paneMenu']].forEach(([b, m]) => ($(b).onclick = ev => { ev.stopPropagation(); const o = $(m).classList.contains('open'); document.querySelectorAll('.drop').forEach(d => d.classList.remove('open')); if (!o) $(m).classList.add('open'); }));
-  document.addEventListener('click', e => { if (!e.target.closest('.drop')) document.querySelectorAll('.drop').forEach(d => d.classList.remove('open')); });
+  document.addEventListener('click', e => { if (!e.target.closest('.drop') && e.target.id !== 'dataBtn') document.querySelectorAll('.drop').forEach(d => d.classList.remove('open')); });
   function save() { if (!store || !chart) return; cfg.chart = { show: chart.s.show, panes: chart.s.panes, type: chart.s.type }; try { store.setItem('of.cfg', JSON.stringify(cfg)); } catch (e) {} }
 
   /* ---- watchlist ---- */
@@ -137,6 +139,7 @@
     } else if (tab === 'sig') {
       h = eng.signals.length ? eng.signals.map(s => `<div class="sg"><small>${fm.format(new Date(s.t))}</small><i style="color:${s.side > 0 ? 'var(--up)' : s.side < 0 ? 'var(--dn)' : '#fff'}">${s.type}</i>${s.msg}</div>`).join('') : '<div class="sg" style="color:var(--dim)">Waiting for signals… (stacked imbalances, absorption, icebergs, big prints, delta divergence)</div>';
     } else {
+      if (!eng.bars.length) { $('tabBody').innerHTML = '<div class="sg" style="color:var(--dim)">Waiting for first trade…</div>'; return; }
       const b = eng.bars, ind = chart.compute(), last = b.length - 1, rg = ind.regime, pr = Engine.profile(eng.prof, .7);
       const tot = eng.ticks.reduce ? 0 : 0; let buy = 0, sell = 0; for (const x of b) { buy += x.buy; sell += x.sell; }
       const kv = (k, v, c) => `<div class="kv"><span>${k}</span><span class="${c || ''}">${v}</span></div>`;
@@ -159,10 +162,63 @@
     for (const k in sims) sims[k].advance(simClock);
     if (speed) chart && chart.invalidate();
     acc += dtReal; if (acc > 400) { stepQuotes(acc / 1000 * Math.max(1, speed)); updWatch(); renderDom(); if (tab !== 'sig') renderTab(); acc = 0; }
-    $('clock').textContent = cur ? new Intl.DateTimeFormat('en-GB', { timeZone: cur.inst.tz, dateStyle: 'medium', timeStyle: 'medium', hour12: false }).format(new Date(simClock)) + ' ' + (cur.inst.tz === 'Asia/Tokyo' ? 'JST' : 'ET') : '';
+    $('clock').textContent = cur ? new Intl.DateTimeFormat('en-GB', { timeZone: cur.inst.tz, dateStyle: 'medium', timeStyle: 'medium', hour12: false }).format(new Date(cur.live ? Date.now() : simClock)) + ' ' + (cur.inst.tz === 'Asia/Tokyo' ? 'JST' : 'ET') : '';
     $('status').textContent = cur ? `${cur.inst.sym} · ${eng.bars.length} bars · ${eng.ticks.length.toLocaleString()} prints · ${Object.keys(sims).length} streams live` : '';
     requestAnimationFrame(loop);
   }
+
+
+  /* ---- live Massive feed ---- */
+  const live = { feed: null, authed: false, ticker: null, tickers: {} };
+  function liveBook(inst) {
+    const z = () => new Float64Array(64);
+    return { live: true, inst, last: 0, D: 64, bid: z(), ask: z(), bb: 0, iceA: {}, iceB: {}, ticks: [], snaps: [], bq: null,
+      book() { return { bb: this.bb, bid: this.bid, ask: this.ask, D: 64 }; },
+      bestBid() { return this.bq ? this.bq.bp : this.last; }, bestAsk() { return this.bq ? this.bq.ap : this.last; } };
+  }
+  function tickerFor(inst) { return live.tickers[inst.sym] || frontContract(inst.sym); }
+  function setMsg(t, bad) { $('dMsg').textContent = t; $('dMsg').style.color = bad ? 'var(--dn)' : 'var(--dim)'; }
+  function setTag(t, live) { const f = $('feedTag'); f.textContent = t; f.style.color = live ? 'var(--up)' : 'var(--acc)'; f.style.borderColor = live ? '#14532f' : '#4d4012'; }
+  function liveSub(inst) {
+    const tkr = tickerFor(inst); live.ticker = tkr; live.feed.subscribe(tkr);
+    setTag('LIVE · ' + tkr + (live.feed.url.indexOf('delayed') >= 0 ? ' · DELAYED' : ''), true);
+    $('dAuto').textContent = 'auto: ' + frontContract(inst.sym);
+  }
+  function liveUnsub() { if (live.feed) live.feed.unsubscribe(); if (live.feed && live.authed) setTag('LIVE connected · ' + cur.inst.sym + ' simulated (not on futures feed)', false); else if (!live.feed) setTag('SIMULATED FEED', false); }
+  function liveTrade(tk) {
+    if (!cur || !cur.live) return;
+    const inst = cur.inst, last = eng.ticks.length ? eng.ticks[eng.ticks.length - 1].t : 0;
+    tk.t = Math.max(tk.t, last); tk.k = Math.round(tk.p / inst.tick); cur.last = tk.p;
+    eng.ingest(tk); tapeAdd(tk);
+  }
+  function liveQuote(m) {
+    if (!cur || !cur.live || m.sym !== live.ticker) return;
+    const inst = cur.inst; cur.bq = m; cur.bb = Math.round(m.bp / inst.tick);
+    cur.bid.fill(0); cur.ask.fill(0); cur.bid[0] = m.bs; cur.ask[0] = m.as; if (!cur.last) cur.last = (m.bp + m.ap) / 2;
+  }
+  function liveConnect() {
+    const key = $('dKey').value.trim(); if (!key) return setMsg('Enter your Massive API key.', true);
+    liveDisconnect(true);
+    const url = $('dUrl').value.trim() || $('dFeed').value;
+    if (store) try { store.setItem('of.feedUrl', $('dFeed').value); } catch (e) {}
+    live.feed = new MassiveFeed({ url, key,
+      onStatus: (s, msg) => {
+        if (s === 'authed') { live.authed = true; setMsg('Authenticated. Trades + quotes stream for futures symbols (ES, NQ, YM, RTY, MES, MNQ, NKD).'); select(cur.inst.sym); }
+        else if (s === 'error') { setMsg(msg, true); setTag('FEED ERROR', false); }
+        else if (s === 'closed') { live.authed = false; if (live.feed) { setMsg('Disconnected (' + msg + ').', true); setTag('SIMULATED FEED', false); } }
+        else setMsg(s + (msg ? ': ' + msg : ''));
+      }, onTrade: liveTrade, onQuote: liveQuote });
+    live.feed.connect();
+  }
+  function liveDisconnect(quiet) {
+    if (live.feed) { const f = live.feed; live.feed = null; live.authed = false; f.close(); }
+    if (!quiet) { setMsg('Disconnected. Back to simulated data.'); setTag('SIMULATED FEED', false); if (cur && cur.live) select(cur.inst.sym); }
+  }
+  $('dGo').onclick = liveConnect; $('dOff').onclick = () => liveDisconnect(false);
+  $('dTicker').onchange = e => { const v = e.target.value.trim().toUpperCase(); if (cur) { if (v) live.tickers[cur.inst.sym] = v; else delete live.tickers[cur.inst.sym]; if (live.authed && cur.live) select(cur.inst.sym); } };
+  $('dataBtn').onclick = ev => { ev.stopPropagation(); const m = $('dataMenu'), o = m.classList.contains('open'); document.querySelectorAll('.drop').forEach(d => d.classList.remove('open')); if (!o) m.classList.add('open'); };
+  document.addEventListener('click', e => { if (e.target.closest('#dataMenu') || e.target.id === 'dataBtn') return; });
+  window.OFLive = live;
 
   buildDom(); buildWatch();
   select(q.get('sym') || (store && store.getItem('of.sym')) || 'ES');

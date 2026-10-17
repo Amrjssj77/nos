@@ -147,7 +147,7 @@ B.rome = c => {
   if (p.part !== "b") {
   const top = mk("div", "row ltr", "", V); top.style.top = "96px"; top.style.cssText += ";position:absolute;top:96px;left:0;right:0;gap:12px";
   "ROME".split("").forEach((ch, k) => { const d = mk("div", "tile " + (k < 2 ? "coral" : "ink"), '<span style="font-weight:900;font-size:60px;color:#fff">' + ch + "</span>", top); d.style.cssText += ";width:92px;height:92px"; popIn(d, E("rome", 0.4) + k * 0.12, { s: 0.3 }); });
-  const lab = mk("div", "abs row ltr", '<span class="pill soft" style="font-size:26px"><b style="color:var(--coral)">R</b>espiratory · <b>O</b>pposite</span><span class="pill soft" style="font-size:26px"><b style="color:var(--ink)">M</b>etabolic · <b>E</b>qual</span>', V); lab.style.cssText += ";top:212px;left:0;right:0;gap:30px"; popIn(lab, E("rome", 0.4) + 0.7);
+  const lab = mk("div", "abs row ltr", '<span class="pill soft" style="font-size:26px"><span><b style="color:var(--coral)">R</b>espiratory · <b>O</b>pposite</span></span><span class="pill soft" style="font-size:26px"><span><b style="color:var(--ink)">M</b>etabolic · <b>E</b>qual</span></span>', V); lab.style.cssText += ";top:212px;left:0;right:0;gap:30px"; popIn(lab, E("rome", 0.4) + 0.7);
   }
   if (p.part === "a") return;
   const ROFF = p.part === "b" ? -60 : 40;
@@ -180,7 +180,7 @@ B.casecard = c => {
   const { V, E, t0, p } = c;
   const wrap = mk("div", "row", "", V); wrap.style.cssText += ";gap:34px;direction:ltr;align-items:flex-start;margin-top:-6px";
   const left = mk("div", "col", "", wrap); left.style.cssText += ";align-items:stretch;gap:14px";
-  const card = mk("div", "card pad", '<div class="row" style="justify-content:flex-start;gap:14px;margin-bottom:6px">' + tile(p.icon || "user", "ink", 54) + '<div style="direction:rtl;text-align:right"><div class="big" style="font-size:28px">' + (p.title || "") + '</div><div class="cap" style="font-size:19px">' + (p.sub || "") + "</div></div></div>" + vrows(p.values, "cv" + c.idx + "_"), left);
+  const card = mk("div", "card pad", '<div class="row" style="justify-content:flex-start;gap:14px;margin-bottom:6px">' + tile(p.icon || "user", "ink", 54) + '<div style="text-align:right"><div class="big" dir="auto" style="font-size:28px">' + (p.title || "") + '</div><div class="cap" dir="auto" style="font-size:19px">' + (p.sub || "") + "</div></div></div>" + vrows(p.values, "cv" + c.idx + "_"), left);
   card.style.width = "500px";
   const verdict = mk("div", "pill " + (p.vcls || "ink") + " ltr", p.verdict || "", left); verdict.style.cssText += ";font-size:28px;justify-content:center;align-self:center";
   const steps = mk("div", "col", "", wrap); steps.style.cssText += ";align-items:stretch;gap:12px;width:430px;direction:rtl";

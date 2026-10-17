@@ -1,4 +1,6 @@
 // ===== core: helpers, captions, transitions =====
+const PT = typeof REEL !== "undefined" && !!REEL.portrait;
+const W = PT ? 1080 : 1280, H = PT ? 1920 : 720;
 const tl = gsap.timeline({ paused: true });
 const ROOT = document.getElementById("root");
 function mk(tag, cls, html, parent) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; }
@@ -32,7 +34,7 @@ const chunks = [];
 PH.forEach((p, pi) => {
   const ws = p.w, n = ws.length;
   let pieces = 1; const ch = ws.reduce((a, w) => a + w.t.length + 1, 0);
-  pieces = Math.max(Math.ceil(n / 7), Math.ceil(ch / 46)); const per = Math.ceil(n / pieces);
+  pieces = Math.max(Math.ceil(n / (PT ? 5 : 7)), Math.ceil(ch / (PT ? 30 : 46))); const per = Math.ceil(n / pieces);
   for (let k = 0; k < n; k += per) chunks.push({ ws: ws.slice(k, k + per), pend: p.e, last: k + per >= n });
 });
 chunks.forEach((c, ci) => {
@@ -71,7 +73,7 @@ function buildScenes() {
     const rnd = lcg(i * 7919 + 13);
     // decorative bursts
     for (let k = 0; k < 2; k++) {
-      const size = 150 + Math.floor(rnd() * 130), left = k ? 1040 + rnd() * 140 : -40 + rnd() * 100, top = k ? 330 + rnd() * 120 : -40 + rnd() * 110;
+      const size = 150 + Math.floor(rnd() * 130), left = k ? W - 240 + rnd() * 140 : -40 + rnd() * 100, top = PT ? (k ? 1640 + rnd() * 120 : 20 + rnd() * 80) : (k ? 330 + rnd() * 120 : -40 + rnd() * 110);
       const holder = mk("div", "abs", burstSVG(k ? "" : "gray", size), el); el.insertBefore(holder, V); holder.style.cssText = "left:" + left.toFixed(0) + "px;top:" + top.toFixed(0) + "px;width:" + size + "px;height:" + size + "px";
       tl.fromTo(holder, { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, s.t0 + 0.1 + k * 0.15);
       tl.fromTo(holder, { rotation: k ? 0 : 20 }, { rotation: k ? 100 : -80, duration: Math.max(2, s.t1 - s.t0), ease: "none" }, s.t0);
@@ -89,18 +91,18 @@ function buildTransitions() {
   for (let i = 0; i < SC.length - 1; i++) {
     const o = "#sc" + i, n = "#sc" + (i + 1), t = SC[i + 1].t0 - 0.28;
     const ty = SC[i + 1].tr || types[i % types.length];
-    if (ty === "push") { tl.set(n, { opacity: 1 }, t); tl.to(o, { x: 1280, duration: D, ease: "power3.inOut" }, t); tl.fromTo(n, { x: -1280 }, { x: 0, duration: D, ease: "power3.inOut" }, t); tl.set(o, { opacity: 0 }, t + D); tl.set(o, { x: 0 }, t + D + 0.01); }
-    else if (ty === "vpush") { tl.set(n, { opacity: 1 }, t); tl.to(o, { y: -720, duration: D, ease: "power3.inOut" }, t); tl.fromTo(n, { y: 720 }, { y: 0, duration: D, ease: "power3.inOut" }, t); tl.set(o, { opacity: 0 }, t + D); tl.set(o, { y: 0 }, t + D + 0.01); }
+    if (ty === "push") { tl.set(n, { opacity: 1 }, t); tl.to(o, { x: W, duration: D, ease: "power3.inOut" }, t); tl.fromTo(n, { x: -W }, { x: 0, duration: D, ease: "power3.inOut" }, t); tl.set(o, { opacity: 0 }, t + D); tl.set(o, { x: 0 }, t + D + 0.01); }
+    else if (ty === "vpush") { tl.set(n, { opacity: 1 }, t); tl.to(o, { y: -H, duration: D, ease: "power3.inOut" }, t); tl.fromTo(n, { y: H }, { y: 0, duration: D, ease: "power3.inOut" }, t); tl.set(o, { opacity: 0 }, t + D); tl.set(o, { y: 0 }, t + D + 0.01); }
     else if (ty === "blur") { tl.to(o, { opacity: 0, filter: "blur(22px)", duration: D + 0.1, ease: "sine.inOut" }, t); tl.fromTo(n, { opacity: 0, filter: "blur(22px)" }, { opacity: 1, filter: "blur(0px)", duration: D + 0.1, ease: "sine.inOut" }, t); tl.set(o, { filter: "none" }, t + D + 0.11); }
     else if (ty === "zoom") { tl.to(o, { scale: 2.4, opacity: 0, duration: D, ease: "power3.in" }, t); tl.fromTo(n, { scale: 0.55, opacity: 0 }, { scale: 1, opacity: 1, duration: D, ease: "power3.out" }, t); tl.set(o, { scale: 1 }, t + D + 0.01); }
-    else if (ty === "iris") { tl.set(n, { opacity: 1 }, t); tl.fromTo(n, { clipPath: "circle(0px at 640px 250px)" }, { clipPath: "circle(900px at 640px 250px)", duration: D + 0.1, ease: "power2.inOut" }, t); tl.set(o, { opacity: 0 }, t + D + 0.1); tl.set(n, { clipPath: "none" }, t + D + 0.12); }
+    else if (ty === "iris") { tl.set(n, { opacity: 1 }, t); tl.fromTo(n, { clipPath: "circle(0px at " + (W / 2) + "px " + (PT ? 520 : 250) + "px)" }, { clipPath: "circle(" + (PT ? 1500 : 900) + "px at " + (W / 2) + "px " + (PT ? 520 : 250) + "px)", duration: D + 0.1, ease: "power2.inOut" }, t); tl.set(o, { opacity: 0 }, t + D + 0.1); tl.set(n, { clipPath: "none" }, t + D + 0.12); }
     else if (ty === "flash") { tl.to("#flash", { opacity: 1, duration: 0.14, ease: "power2.in" }, t); tl.set(o, { opacity: 0 }, t + 0.14); tl.set(n, { opacity: 1 }, t + 0.14); tl.to("#flash", { opacity: 0, duration: 0.3, ease: "power2.out" }, t + 0.16); }
     else if (ty === "blocks") {
-      for (let k = 0; k < 4; k++) { const b = "#blk" + k; tl.fromTo(b, { y: -720 }, { y: 0, duration: 0.2, ease: "power3.out" }, t + k * 0.05); tl.to(b, { y: 720, duration: 0.2, ease: "power3.in" }, t + 0.26 + k * 0.05); }
+      for (let k = 0; k < 4; k++) { const b = "#blk" + k; tl.fromTo(b, { y: -H }, { y: 0, duration: 0.2, ease: "power3.out" }, t + k * 0.05); tl.to(b, { y: H, duration: 0.2, ease: "power3.in" }, t + 0.26 + k * 0.05); }
       tl.set(o, { opacity: 0 }, t + 0.26); tl.set(n, { opacity: 1 }, t + 0.26);
     }
     else { // burst
-      tl.fromTo("#wipe", { opacity: 1, scale: 0.2, rotation: -30 }, { scale: 15, rotation: 50, duration: 0.38, ease: "power3.in" }, t);
+      tl.fromTo("#wipe", { opacity: 1, scale: 0.2, rotation: -30 }, { scale: PT ? 26 : 15, rotation: 50, duration: 0.38, ease: "power3.in" }, t);
       tl.set(o, { opacity: 0 }, t + 0.38); tl.set(n, { opacity: 1 }, t + 0.38);
       tl.to("#wipe", { opacity: 0, duration: 0.25, ease: "power1.out" }, t + 0.4);
       tl.set("#wipe", { scale: 0.2 }, t + 0.66);

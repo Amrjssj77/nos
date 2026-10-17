@@ -54,7 +54,7 @@ SPEC = [
   {"s1": 0.2, "focus": "الـ PaCO2 ثمانية", "s2": "عكس بعض", "focus2": "والـ HCO3", "s3": "ليه"}),
  ("casecard", "التالتة التعويض", {"icon": "clipboard", "title": "ABG Result", "sub": "68 y · COPD", "reveal": False, "focus": 2,
     "values": [V("pH", "7.32", "low", "7.35–7.45"), V("PaCO₂", "58", "high", "35–45"), V("HCO₃", "29", "high", "22–26"), V("PaO₂", "62", "low", "80–100"), V("SaO₂", "90%", "low", "95–100")],
-    "steps": ["الاتجاه: Acidosis", "السبب: CO₂ ▲ ← تنفسي", "التعويض: الكلى بتحتفظ بالبيكربونات ▲ لكن pH لسه واطي"], "verdict": "Respiratory acidosis · Partially compensated", "vcls": "coral"},
+    "steps": ["الاتجاه: Acidosis", "السبب: CO₂ ▲ ← تنفسي", "التعويض: HCO₃ ▲ لكن pH لسه واطي"], "verdict": "Respiratory acidosis · Partially compensated", "vcls": "coral"},
   {"focus": 0.3, "s1": 0.2, "s2": 0.4, "s3": "فبدأت تحتفظ", "dx": "التشخيص"}),
  ("chronic", "وكون الكلى", {}, {"chronic": 0.3, "acute": "وزاد عليه"}),
  ("cta", "قبل ما نكمل ونشوف", {"comment": True}, {"like": "لايك", "sub": "واشترك", "bell": "الجرس", "comment": "التعليقات"}),

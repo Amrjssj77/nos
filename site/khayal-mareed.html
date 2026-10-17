@@ -24,6 +24,7 @@
   /* ---------- 360 seat view (three.js scene of the real hall) ---------- */
   #view { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:14px; background:#0a0405; border:1px solid var(--line); touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none; }
   #view.drag { cursor:grabbing; }
+  #fb { position:absolute; inset:0; overflow:hidden; } #fbi { position:absolute; inset:0; background:url(img/hall.jpg) center/cover no-repeat; transform-origin:50% 46%; transition:transform .9s cubic-bezier(.2,.7,.2,1); }
   #gl { position:absolute; inset:0; width:100%; height:100%; display:block; }
   #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,.45) 100%), linear-gradient(to bottom, rgba(0,0,0,.6), transparent 26%); }
   #tag { position:absolute; inset-inline:12px; top:10px; display:flex; justify-content:space-between; align-items:start; gap:8px; font-size:13px; text-shadow:0 1px 4px #000; pointer-events:none; }
@@ -91,6 +92,7 @@
       <h2>المنظر من كرسيك</h2>
       <div id="view">
         <canvas id="gl"></canvas>
+        <div id="fb" hidden><div id="fbi"></div></div>
         <div id="vig"></div>
         <div id="loading">بنجهّز القاعة…</div>
         <div id="tag"><div><b id="tSeat">نظرة عامة على القاعة</b><div id="tZone"></div></div><div id="tDist"></div></div>
@@ -279,23 +281,31 @@ async function build() {
   requestAnimationFrame(tick);
 }
 
+function setLabels(t) {
+  if (!t) { document.getElementById('tSeat').textContent = 'نظرة عامة على القاعة'; document.getElementById('tZone').textContent = ''; document.getElementById('tDist').textContent = ''; return; }
+  document.getElementById('tSeat').innerHTML = `صف <bdi>${t.row}</bdi> · كرسي <bdi>${t.n}</bdi>`;
+  document.getElementById('tZone').innerHTML = `<i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} · ${fmt(t.zone.price)}`;
+  document.getElementById('tDist').textContent = `الصف ${t.r + 1} من ${ROWS}`;
+  document.getElementById('hint').innerHTML = '<span>اسحب علشان تلف 360° · العجلة للتقريب</span>';
+}
 function overviewPose() { return new THREE.Vector3(0, 11.5, BACK_Z + 6); }
 function place(p, yaw, pitch) { cam.position.copy(p); st.yaw = yaw; st.pitch = pitch; }
 function resize() { const w = view.clientWidth, h = view.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
 
 /* ---- fly to a seat ---- */
+function fallbackView(t) {
+  const el = document.getElementById('fbi'); document.getElementById('fb').hidden = false;
+  if (!t) { el.style.transform = 'none'; return; }
+  const sc = 1.1 + (1 - t.depth) * 1.5, x = (t.x - (W/2 + LEFT)) / 300;
+  el.style.transform = `translate(${-x * (sc - 1) / 2 * 90}%, ${-(1 - t.depth) * 3}%) scale(${sc})`;
+}
 function flyTo(t) {
+  setLabels(t);
+  if (!cam) { fallbackView(t); return; }
   const to = t ? new THREE.Vector3(wx(t) - 0.02, wy(t.r) + EYE, wz(t.r) - 0.02) : overviewPose();
   const nearest = st.yaw - Math.round(st.yaw / TAU) * TAU;
   st.fly = { t0: performance.now(), dur: t ? 1500 : 1400, from: cam.position.clone(), to, y0: st.yaw, y1: st.yaw - nearest, p0: st.pitch, p1: t ? -0.03 : -0.5, lift: t ? 2.2 : 0, fov0: st.fov, fov1: t ? 72 : 72 };
   st.seat = t; st.vy = st.vp = 0;
-  if (!t) document.getElementById('tSeat').textContent = 'نظرة عامة على القاعة', document.getElementById('tZone').textContent = '', document.getElementById('tDist').textContent = '';
-  else {
-    document.getElementById('tSeat').innerHTML = `صف <bdi>${t.row}</bdi> · كرسي <bdi>${t.n}</bdi>`;
-    document.getElementById('tZone').innerHTML = `<i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} · ${fmt(t.zone.price)}`;
-    document.getElementById('tDist').textContent = `الصف ${t.r + 1} من ${ROWS}`;
-    document.getElementById('hint').innerHTML = '<span>اسحب علشان تلف 360° · العجلة للتقريب</span>';
-  }
   /* the person who was sitting here (if any) is not in your way */
   if (st.people) st.people.map.forEach((si, k) => { const s2 = SEATS[si]; const m = new THREE.Matrix4(); const hide = (st.seat === s2);
     [st.people.head, st.people.body].forEach(im => { im.getMatrixAt(k, m); const e = m.elements; if (hide) { e[0] = e[5] = e[10] = 0.0001; } else { const sc = im === st.people.head ? 1 : 1; e[0] = e[5] = e[10] = sc; } im.setMatrixAt(k, m); }); });
@@ -330,7 +340,8 @@ view.addEventListener('wheel', e => { e.preventDefault(); st.fov = Math.max(35, 
 function hideHint() { const h = document.getElementById('hint'); if (st.seat) h.style.opacity = 0; }
 document.getElementById('bFace').addEventListener('click', () => { const nearest = st.yaw - Math.round(st.yaw / TAU) * TAU; st.fly = { t0: performance.now(), dur: 700, from: cam.position.clone(), to: cam.position.clone(), y0: st.yaw, y1: st.yaw - nearest, p0: st.pitch, p1: st.seat ? -0.03 : -0.5, lift: 0 }; st.fov = 72; });
 document.getElementById('bOver').addEventListener('click', () => { flyTo(null); viewing = -1; render(); document.getElementById('hint').style.opacity = 1; document.getElementById('hint').innerHTML = '<span>اختار كرسي من الخريطة وهنوديك له</span>'; });
-(typeof THREE === 'undefined' ? Promise.reject(new Error('three.js لم يتحمّل')) : build()).catch(err => { const l = document.getElementById('loading'); if (l) l.innerHTML = 'مقدرناش نحمّل المنظر ثلاثي الأبعاد<br><small dir="ltr">' + String(err && err.message || err) + '</small>'; console.error(err); });
+(typeof THREE === 'undefined' ? Promise.reject(new Error('three.js لم يتحمّل')) : build()).catch(err => { const l = document.getElementById('loading'); if (l) l.remove(); cam = null; canvas.hidden = true; document.getElementById('bar').hidden = true;
+  document.getElementById('hint').innerHTML = '<span>المنظر 360° مش شغال على جهازك، ده منظر تقريبي من صورة القاعة</span>'; console.error(err); if (st.seat) fallbackView(st.seat); });
 
 /* ---- selection ---- */
 const chosen = []; let viewing = -1;
@@ -348,7 +359,7 @@ svg.addEventListener('click', e => {
   const i = +g.dataset.i;
   if (chosen.includes(i) && viewing === i) chosen.splice(chosen.indexOf(i),1);
   else if (!chosen.includes(i)) { if (chosen.length >= MAX_SEATS) return; chosen.push(i); }
-  viewing = i; flyTo(SEATS[i]); render();
+  viewing = i; render(); try { flyTo(SEATS[i]); } catch (err) { console.error(err); }
 });
 document.getElementById('items').addEventListener('click', e => {
   const b = e.target.closest('[data-rm]'); if (!b) return;

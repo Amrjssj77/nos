@@ -4,38 +4,58 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>خيال مريض — اختار كرسيك</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
-  :root { --bg:#0e0708; --panel:#1a0e10; --line:rgba(255,255,255,.1); --ink:#f6ece4; --mut:#b9a79c; --gold:#e0b560;
-    --diamond:#7fd6ff; --platinum:#c9cfd8; --goldz:#e0b560; --silver:#a3a9b3; --crystal:#c38cff; --bronze:#c9803f; }
+  :root { --bg:#0e0708; --panel:#1a0e10; --line:rgba(255,255,255,.1); --ink:#f6ece4; --mut:#b9a79c; --gold:#e0b560; color-scheme:dark; }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background:var(--bg); color:var(--ink); font-family:'Cairo',system-ui,sans-serif; line-height:1.6; }
-  .wrap { max-width:1200px; margin:0 auto; padding:0 16px; }
+  .wrap { max-width:1200px; margin:0 auto; padding-block:0; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); }
   header { padding:28px 0 8px; display:flex; flex-wrap:wrap; gap:8px 24px; align-items:baseline; justify-content:space-between; }
   header h1 { font-size:clamp(30px,6vw,52px); font-weight:800; }
   header .meta { color:var(--mut); font-size:15px; }
   header .meta b { color:var(--gold); font-weight:600; }
   .cast { color:var(--mut); font-size:14px; padding-bottom:18px; border-bottom:1px solid var(--line); }
   .grid { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:24px; padding:24px 0; align-items:start; }
-  @media (max-width:900px){ .grid { grid-template-columns:1fr; } #viewCol { order:-1; position:sticky; top:0; z-index:5; background:var(--bg); padding-bottom:8px; } }
+  @media (max-width:900px){ .grid { grid-template-columns:1fr; } #viewCol { order:-1; } }
   h2 { font-size:18px; font-weight:600; margin-bottom:12px; }
+  .note { color:var(--mut); font-size:12px; margin-top:6px; }
+  .dot { display:inline-block; width:10px; height:10px; border-radius:3px; margin-inline-end:6px; }
 
-  /* ---------- 360 seat view (three.js scene of the real hall) ---------- */
-  #view { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:14px; background:#0a0405; border:1px solid var(--line); touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none; }
+  /* ---------- seat map: plain buttons ---------- */
+  #mapBox { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px; }
+  #legend { display:flex; flex-wrap:wrap; gap:6px 14px; margin-bottom:12px; font-size:13px; color:var(--mut); }
+  #legend span { display:flex; align-items:center; }
+  #legend b { color:var(--ink); font-family:'Jost',sans-serif; font-weight:400; margin-inline-start:4px; }
+  #fit { overflow:hidden; }
+  #map { width:620px; direction:ltr; transform-origin:0 0; }
+  #stageBar { margin:0 auto 14px; width:340px; height:34px; clip-path:polygon(0 0,100% 0,95% 100%,5% 100%); background:#27384d; color:#cfe6ff; display:flex; align-items:center; justify-content:center; font:600 13px 'Cairo'; letter-spacing:.2em; }
+  .row { display:flex; justify-content:center; align-items:center; gap:16px; margin-bottom:5px; position:relative; }
+  .row .blk { display:flex; gap:4px; }
+  .row .lbl { position:absolute; left:0; font:500 10px 'Jost'; color:#8b7a70; width:14px; }
+  .row .lbl.r { left:auto; right:0; text-align:right; }
+  .st { width:15px; height:16px; border:0; border-radius:4px 4px 3px 3px; padding:0; cursor:pointer; position:relative; }
+  .st::after { content:""; position:absolute; left:0; right:0; bottom:0; height:5px; border-radius:0 0 3px 3px; background:rgba(0,0,0,.28); }
+  .st:hover:not(:disabled) { transform:scale(1.25); }
+  .st:disabled { opacity:.2; cursor:not-allowed; }
+  .st.sel { outline:2px solid #fff; outline-offset:1px; }
+  .st.view { outline:2px solid var(--gold); outline-offset:1px; box-shadow:0 0 8px var(--gold); }
+  .st:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+
+  /* ---------- 360 view: CSS 3D room, no WebGL needed ---------- */
+  #view { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:14px; background:#0a0405; border:1px solid var(--line); touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none; perspective:700px; perspective-origin:50% 50%; }
   #view.drag { cursor:grabbing; }
-  #fb { position:absolute; inset:0; overflow:hidden; } #fbi { position:absolute; inset:0; background:url(img/hall.jpg) center/cover no-repeat; transform-origin:50% 46%; transition:transform .9s cubic-bezier(.2,.7,.2,1); }
-  #gl { position:absolute; inset:0; width:100%; height:100%; display:block; }
-  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,.45) 100%), linear-gradient(to bottom, rgba(0,0,0,.6), transparent 26%); }
+  #world { position:absolute; left:50%; top:50%; width:0; height:0; transform-style:preserve-3d; }
+  .p { position:absolute; left:0; top:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,.5) 100%), linear-gradient(to bottom, rgba(0,0,0,.6), transparent 26%); }
   #tag { position:absolute; inset-inline:12px; top:10px; display:flex; justify-content:space-between; align-items:start; gap:8px; font-size:13px; text-shadow:0 1px 4px #000; pointer-events:none; }
   #tag b { font-size:18px; }
   #hint { position:absolute; inset-inline:0; bottom:54px; text-align:center; font-size:13px; text-shadow:0 1px 4px #000; pointer-events:none; transition:opacity .6s; }
   #hint span { background:rgba(0,0,0,.5); padding:4px 12px; border-radius:99px; }
   #bar { position:absolute; inset-inline:10px; bottom:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-  #bar button { background:rgba(20,10,12,.72); color:var(--ink); border:1px solid rgba(255,255,255,.22); border-radius:99px; padding:5px 14px; font:600 13px 'Cairo'; cursor:pointer; backdrop-filter:blur(4px); }
+  #bar button { background:rgba(20,10,12,.72); color:var(--ink); border:1px solid rgba(255,255,255,.22); border-radius:99px; padding:5px 14px; font:600 13px 'Cairo'; cursor:pointer; }
   #bar button:hover { border-color:var(--gold); }
-  #loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:#0a0405; font-size:14px; color:var(--mut); transition:opacity .5s; }
-  .note { color:var(--mut); font-size:12px; margin-top:6px; }
+  .title3d { display:flex; align-items:center; justify-content:center; font:800 96px 'Cairo',sans-serif; color:#fff; text-shadow:0 0 18px #6cc4ff,0 0 42px #2f8dff; }
+
   #cart { margin-top:16px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
   #cart ul { list-style:none; margin:8px 0; display:grid; gap:6px; }
   #cart li { display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:14px; }
@@ -44,25 +64,7 @@
   #cart .total span:last-child { color:var(--gold); font-family:'Jost',sans-serif; }
   #cart .cta { width:100%; margin-top:12px; padding:12px; border:0; border-radius:10px; background:var(--gold); color:#2a1a05; font:600 16px 'Cairo'; cursor:pointer; }
   #cart .cta:disabled { opacity:.4; cursor:not-allowed; }
-  .dot { display:inline-block; width:10px; height:10px; border-radius:3px; margin-inline-end:6px; }
 
-  /* ---------- seat map ---------- */
-  #mapBox { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px; }
-  #legend { display:flex; flex-wrap:wrap; gap:6px 14px; margin-bottom:10px; font-size:13px; color:var(--mut); }
-  #legend span { display:flex; align-items:center; }
-  #legend b { color:var(--ink); font-family:'Jost',sans-serif; font-weight:400; margin-inline-start:4px; }
-  svg { width:100%; height:auto; display:block; direction:ltr; }
-  .seat { cursor:pointer; transition:transform .12s; transform-box:fill-box; transform-origin:center; }
-  .seat:hover { transform:scale(1.25); }
-  .seat.taken { cursor:not-allowed; opacity:.22; }
-  .seat.taken:hover { transform:none; }
-  .seat.sel rect { stroke:#fff; stroke-width:1.6; }
-  .seat.view rect { stroke:var(--gold); stroke-width:2.2; filter:drop-shadow(0 0 4px var(--gold)); }
-  .rowlbl { fill:#8b7a70; font:500 9px 'Jost',sans-serif; }
-  .stage { fill:#27384d; stroke:#4f7aa8; }
-  .stagetxt { fill:#cfe6ff; font:600 13px 'Cairo'; letter-spacing:.2em; }
-
-  /* ---------- real photos ---------- */
   .photos { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding-bottom:40px; }
   .photos figure { position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--line); aspect-ratio:4/3; }
   .photos img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -79,27 +81,25 @@
   <p class="cast">هشام ماجد · محمد عبد الرحمن (توتا) · هنادي مهنا · أحمد الرفاعي · محسن منصور · دينا دياب · وليد عبد الغني · نغم صالح · أحمد نادي · تأليف وإخراج محمد محمدي · إنتاج فكر برودكشن</p>
 
   <div class="grid">
-    <section id="mapCol">
+    <section>
       <h2>اختار كرسيك</h2>
       <div id="mapBox">
         <div id="legend"></div>
-        <svg id="map" role="img" aria-label="خريطة المقاعد"></svg>
-        <p class="note">دوس على أي كرسي علشان تشوف المسرح من مكانه. الكراسي الباهتة محجوزة.</p>
+        <div id="fit"><div id="map"></div></div>
+        <p class="note">دوس على أي كرسي وهنقرّب لك لمكانه ونوريك المنصة من هناك. الكراسي الباهتة محجوزة.</p>
       </div>
     </section>
 
     <section id="viewCol">
       <h2>المنظر من كرسيك</h2>
       <div id="view">
-        <canvas id="gl"></canvas>
-        <div id="fb" hidden><div id="fbi"></div></div>
+        <div id="world"></div>
         <div id="vig"></div>
-        <div id="loading">بنجهّز القاعة…</div>
         <div id="tag"><div><b id="tSeat">نظرة عامة على القاعة</b><div id="tZone"></div></div><div id="tDist"></div></div>
         <div id="hint"><span>اختار كرسي من الخريطة وهنوديك له</span></div>
         <div id="bar"><button id="bFace" type="button">واجه المنصة</button><button id="bOver" type="button">نظرة عامة</button></div>
       </div>
-      <p class="note">القاعة متبنية 3D من صور المكان الحقيقية (المنصة والستارة وألوان الكراسي). اسحب بصباعك أو الماوس علشان تلف 360° من الكرسي، واستخدم العجلة للتقريب. الأبعاد تقريبية.</p>
+      <p class="note">القاعة متبنية من صور المكان الحقيقية (ستارة المنصة وأرضيتها والكراسي). اسحب بصباعك أو الماوس علشان تلف 360° من الكرسي، والعجلة للتقريب. الأبعاد تقريبية.</p>
 
       <div id="cart">
         <h2 style="margin:0">حجزك</h2>
@@ -118,256 +118,197 @@
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-window.addEventListener('error', ev => { const h = document.getElementById('hint'); if (h) { h.style.opacity = 1; h.innerHTML = '<span dir="ltr">' + String(ev.message).slice(0,140) + '</span>'; } });
+/* any runtime error shows up under the view so it can be reported */
+window.addEventListener('error', ev => { const h = document.getElementById('hint'); if (h) { h.style.opacity = 1; h.innerHTML = '<span dir="ltr">' + String(ev.message).slice(0, 140) + '</span>'; } });
+
 const ZONES = [
-  { id:'diamond',  name:'Diamond',  ar:'دايموند',  price:2500, rows:2, color:'#7fd6ff' },
-  { id:'platinum', name:'Platinum', ar:'بلاتينيوم', price:2000, rows:3, color:'#c9cfd8' },
-  { id:'gold',     name:'Gold',     ar:'جولد',      price:1500, rows:3, color:'#e0b560' },
-  { id:'silver',   name:'Silver',   ar:'سيلفر',     price:1200, rows:4, color:'#8f97a6' },
-  { id:'crystal',  name:'Crystal',  ar:'كريستال',   price:900,  rows:3, color:'#c38cff' },
-  { id:'bronze',   name:'Bronze',   ar:'برونز',     price:750,  rows:3, color:'#c9803f' },
+  { id:'diamond',  ar:'دايموند',  name:'Diamond',  price:2500, rows:2, color:'#7fd6ff' },
+  { id:'platinum', ar:'بلاتينيوم', name:'Platinum', price:2000, rows:3, color:'#c9cfd8' },
+  { id:'gold',     ar:'جولد',      name:'Gold',     price:1500, rows:3, color:'#e0b560' },
+  { id:'silver',   ar:'سيلفر',     name:'Silver',   price:1200, rows:4, color:'#8f97a6' },
+  { id:'crystal',  ar:'كريستال',   name:'Crystal',  price:900,  rows:3, color:'#c38cff' },
+  { id:'bronze',   ar:'برونز',     name:'Bronze',   price:750,  rows:3, color:'#c9803f' },
 ];
-const ROWS = ZONES.reduce((n,z)=>n+z.rows,0);
+const ROWS = ZONES.reduce((n, z) => n + z.rows, 0);
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const MAX_SEATS = 6;
 const fmt = n => 'EGP ' + n.toLocaleString('en-US');
 
-/* deterministic "already booked" so the map looks the same on every load */
-let s = 7; const rnd = () => (s = (s*16807) % 2147483647) / 2147483647;
-
-/* build seats: fan-shaped, wider towards the back, centre aisle */
-const SEATS = []; const P = 19, LEFT = 30, W = 560, STAGE_H = 46, TOP = STAGE_H + 24, ROW_H = 21;
-let r = 0;
-ZONES.forEach(z => { for (let i=0;i<z.rows;i++,r++) {
-  const perSide = 7 + Math.round(r*0.55);
-  const rowW = perSide*2*P + 16;
-  for (let side=0; side<2; side++) for (let k=0;k<perSide;k++) {
-    const dx = (k+0.5)*P + 8;                   // distance from centre
-    const x = W/2 + (side ? dx : -dx);
-    const norm = (side ? 1 : -1) * dx / (rowW/2 + 20);   // -1..1 across the hall
-    SEATS.push({ id: LETTERS[r] + (side*perSide + k + 1), row:LETTERS[r], n:side*perSide+k+1, r, x:x+LEFT-30+30, y:TOP + r*ROW_H, norm,
-      depth:r/(ROWS-1), zone:z, taken: rnd() < (0.12 + r*0.012) });
+/* ---------- data: fan-shaped rows, centre aisle, a repeatable set of booked seats ---------- */
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const SEATS = [], BYROW = [];
+let rr = 0;
+ZONES.forEach(z => { for (let i = 0; i < z.rows; i++, rr++) {
+  const perSide = 7 + Math.round(rr * 0.55), row = [];
+  for (let side = 0; side < 2; side++) for (let k = 0; k < perSide; k++) {
+    const n = side ? perSide + k + 1 : perSide - k;                // numbered left to right across the row
+    const t = { id: LETTERS[rr] + n, row: LETTERS[rr], n, r: rr, side, k, perSide, depth: rr / (ROWS - 1), zone: z,
+      mx: (side ? 1 : -1) * ((k + 0.5) * 0.55 + 0.2316), taken: rnd() < 0.12 + rr * 0.012 };
+    SEATS.push(t); row.push(t);
   }
+  BYROW.push(row);
 }});
 
-/* ---- draw map ---- */
-const svg = document.getElementById('map');
-const H = TOP + ROWS*ROW_H + 10;
-svg.setAttribute('viewBox', `0 0 ${W+60} ${H}`);
-let html = `<path class="stage" d="M${(W+60)/2-150} 4 h300 l30 ${STAGE_H-4} h-360 z" /><text class="stagetxt" x="${(W+60)/2}" y="${STAGE_H-12}" text-anchor="middle">المسرح · STAGE</text>`;
-for (let i=0;i<ROWS;i++) {
-  html += `<text class="rowlbl" x="8" y="${TOP+i*ROW_H+10}">${LETTERS[i]}</text><text class="rowlbl" x="${W+52}" y="${TOP+i*ROW_H+10}" text-anchor="end">${LETTERS[i]}</text>`;
-}
-SEATS.forEach((t,i) => {
-  html += `<g class="seat${t.taken?' taken':''}" data-i="${i}"><rect x="${t.x-7+0}" y="${t.y}" width="14" height="15" rx="4" fill="${t.zone.color}"/><rect x="${t.x-7}" y="${t.y+10}" width="14" height="5" rx="2" fill="#000" opacity=".25"/><title>${t.id} — ${t.zone.name} · ${fmt(t.zone.price)}</title></g>`;
+/* ---------- 2D map ---------- */
+const mapEl = document.getElementById('map');
+let mh = '<div id="stageBar">المسرح · STAGE</div>';
+BYROW.forEach((row, r) => {
+  const blk = side => '<div class="blk">' + row.filter(t => t.side === side).sort((a, b) => a.n - b.n).map(t =>
+    `<button type="button" class="st" data-i="${SEATS.indexOf(t)}" style="background:${t.zone.color}"${t.taken ? ' disabled' : ''} aria-label="${t.zone.ar} ${t.id}" title="${t.id} — ${t.zone.name} · ${fmt(t.zone.price)}"></button>`).join('') + '</div>';
+  mh += `<div class="row"><span class="lbl">${LETTERS[r]}</span>${blk(0)}${blk(1)}<span class="lbl r">${LETTERS[r]}</span></div>`;
 });
-svg.innerHTML = html;
+mapEl.innerHTML = mh;
+document.getElementById('legend').innerHTML = ZONES.map(z => `<span><i class="dot" style="background:${z.color}"></i>${z.ar} <b>${z.price.toLocaleString('en-US')}</b></span>`).join('');
+function fitMap() { const box = document.getElementById('fit'), k = Math.min(1, box.clientWidth / 620 || 1);
+  mapEl.style.transform = `scale(${k})`; box.style.height = (mapEl.offsetHeight * k) + 'px'; }
+addEventListener('resize', fitMap); fitMap(); setTimeout(fitMap, 400);
 
-document.getElementById('legend').innerHTML = ZONES.map(z =>
-  `<span><i class="dot" style="background:${z.color}"></i>${z.ar} <b>${z.price.toLocaleString('en-US')}</b></span>`).join('');
-
-/* ---- selection ---- */
+/* ---------- selection ---------- */
 const chosen = []; let viewing = -1;
-const nodes = [...svg.querySelectorAll('.seat')];
+const btns = [...mapEl.querySelectorAll('.st')];
 function render() {
-  nodes.forEach((n,i)=>{ n.classList.toggle('sel', chosen.includes(i)); n.classList.toggle('view', i===viewing); });
-  document.getElementById('items').innerHTML = chosen.map(i => { const t=SEATS[i];
-    return `<li><span><i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} — ${t.id}</span><span>${fmt(t.zone.price)} <button data-rm="${i}" aria-label="إزالة">✕</button></span></li>`; }).join('')
+  btns.forEach(b => { const i = +b.dataset.i; b.classList.toggle('sel', chosen.includes(i)); b.classList.toggle('view', i === viewing); });
+  document.getElementById('items').innerHTML = chosen.map(i => { const t = SEATS[i];
+    return `<li><span><i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} — ${t.id}</span><span>${fmt(t.zone.price)} <button type="button" data-rm="${i}" aria-label="إزالة">✕</button></span></li>`; }).join('')
     || '<li style="color:var(--mut)">لسه ما اخترتش كراسي</li>';
-  document.getElementById('total').textContent = fmt(chosen.reduce((a,i)=>a+SEATS[i].zone.price,0));
+  document.getElementById('total').textContent = fmt(chosen.reduce((a, i) => a + SEATS[i].zone.price, 0));
   document.getElementById('buy').disabled = !chosen.length;
 }
-svg.addEventListener('click', e => {
-  const g = e.target.closest('.seat'); if (!g || g.classList.contains('taken')) return;
-  const i = +g.dataset.i;
-  if (chosen.includes(i) && viewing === i) chosen.splice(chosen.indexOf(i),1);
+mapEl.addEventListener('click', e => {
+  const b = e.target.closest('.st'); if (!b || b.disabled) return;
+  const i = +b.dataset.i;
+  if (chosen.includes(i) && viewing === i) chosen.splice(chosen.indexOf(i), 1);
   else if (!chosen.includes(i)) { if (chosen.length >= MAX_SEATS) return; chosen.push(i); }
-  viewing = i; render(); try { flyTo(SEATS[i]); } catch (err) { console.error(err); }
+  viewing = i; render(); gotoSeat(SEATS[i]);
 });
-document.getElementById('items').addEventListener('click', e => {
-  const b = e.target.closest('[data-rm]'); if (!b) return;
-  chosen.splice(chosen.indexOf(+b.dataset.rm),1); render();
-});
+document.getElementById('items').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b) return; chosen.splice(chosen.indexOf(+b.dataset.rm), 1); render(); });
 render();
 
-/* ---- 360 seat view: a 3D hall built from the real photos ----
-   Stage curtain, stage floor and seat colours are sampled from the real hall photo (img/hall.jpg).
-   The camera flies to the chosen seat at seated eye height; drag to look 360 degrees. */
-const view = document.getElementById('view'), canvas = document.getElementById('gl');
-const TAU = Math.PI * 2, M_PER_UNIT = 0.55 / P;           // map units -> metres (seat pitch .55m)
-const ROW_D = 0.95, RISE = 0.3, STAGE_Z0 = 3.4, EYE = 1.28, STAGE_Y = 1.1;
-const wx = t => (t.x - (W/2 + LEFT)) * M_PER_UNIT;
-const wz = r => STAGE_Z0 + r * ROW_D;
-const wy = r => r * RISE;
-const HALL_X = 10.8, BACK_Z = wz(ROWS - 1) + 1.8, CEIL = 8.8;
+/* ---------- the hall as CSS 3D (1 metre = 100px; x right, y down, z toward the audience) ---------- */
+const view = document.getElementById('view'), world = document.getElementById('world');
+const tSeat = document.getElementById('tSeat'), tZone = document.getElementById('tZone'), tDist = document.getElementById('tDist'), hint = document.getElementById('hint');
+const RISE = 0.3, ROW_D = 0.95, STAGE_Z0 = 3.4, EYE = 1.28, STAGE_Y = 1.1;
+const wz = r => STAGE_Z0 + r * ROW_D, wy = r => r * RISE;
+const HALL_X = 10.8, BACK_Z = wz(ROWS - 1) + 1.8, CEIL = 8.8, SW = 13.4, SD = 7.2;
+const PX = 100;
+const SLOPE = Math.atan(RISE / ROW_D) * 180 / Math.PI;
+const IMG = { curtain: 'img/curtain.jpg', floor: 'img/stagefloor.jpg', seat: 'img/seat.jpg' };
 
-let renderer, cam, three;
-const st = { yaw: 0, pitch: -0.45, vy: 0, vp: 0, fov: 72, fly: null, seat: null };
-
-function loadImg(src) { return new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; }); }
-function canvasTex(w, h, draw, rep) {
-  const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
-  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
-  if (rep) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep[0], rep[1]); }
-  return t;
+function plane(o) {
+  const d = document.createElement('div'); d.className = 'p' + (o.cls ? ' ' + o.cls : '');
+  d.style.cssText = `width:${o.w}px;height:${o.h}px;margin:${-o.h / 2}px 0 0 ${-o.w / 2}px;transform:translate3d(${o.x}px,${o.y}px,${o.z}px) rotateY(${o.ry || 0}deg) rotateX(${o.rx || 0}deg);${o.css || ''}`;
+  if (o.html) d.innerHTML = o.html;
+  world.appendChild(d); return d;
 }
+const wallCss = () => 'background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 6px,transparent 6px 64px),repeating-linear-gradient(90deg,rgba(0,0,0,.4) 0 6px,transparent 6px 64px),#554f52';
 
-async function build() {
-  const img = await loadImg('img/hall.jpg');
-  try { await document.fonts.load('800 60px Cairo'); } catch (e) {}
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-  renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  three = new THREE.Scene(); three.background = new THREE.Color(0x0a0405);
-  cam = new THREE.PerspectiveCamera(st.fov, 16/9, 0.05, 90); cam.rotation.order = 'YXZ';
-
-  three.add(new THREE.AmbientLight(0xffd9c8, 0.45));
-  const hemi = new THREE.HemisphereLight(0xffc9a8, 0x2a1215, 0.3); three.add(hemi);
-  const blue = new THREE.PointLight(0x4a9bff, 1.3, 26); blue.position.set(0, 6, -3); three.add(blue);
-  for (let i = 0; i < 4; i++) { const l = new THREE.PointLight(0xffb98a, 0.35, 16); l.position.set(0, CEIL - 0.6, 3 + i * 6); three.add(l); }
-
-  const box = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); three.add(m); return m; };
-  const lam = c => new THREE.MeshLambertMaterial({ color: c });
-
-  /* stage curtain: the real curtain crop from the photo + the show title */
-  const curtain = canvasTex(1024, 512, (g, w, h) => {
-    g.drawImage(img, 478, 258, 296, 92, 0, 0, w, h);
-    g.save(); g.direction = 'rtl'; g.textAlign = 'center'; g.font = '800 92px Cairo, sans-serif';
-    g.shadowColor = '#4aa8ff'; g.shadowBlur = 36; g.fillStyle = 'rgba(255,255,255,.92)'; g.fillText('خيال مريض', w/2, h*0.5);
-    g.shadowBlur = 10; g.fillText('خيال مريض', w/2, h*0.5); g.restore();
+const rowPlanes = [];          // wide planes: hidden while they are behind the camera (browsers mis-draw them)
+(function buildHall() {
+  /* stage: real curtain + floor crops from the hall photo */
+  plane({ w: SW * PX, h: 7 * PX, x: 0, y: -(STAGE_Y + 3.5) * PX, z: -SD * PX, css: `background:url(${IMG.curtain}) center/100% 100%`, html: '<div class="title3d" style="width:100%;height:100%">خيال مريض</div>' });
+  plane({ w: SW * PX, h: SD * PX, x: 0, y: -STAGE_Y * PX, z: -SD * PX / 2, rx: 90, css: `background:url(${IMG.floor}) center/100% 100%` });
+  plane({ w: SW * PX, h: STAGE_Y * PX, x: 0, y: -STAGE_Y * PX / 2, z: 0, css: 'background:linear-gradient(#2a2a34,#14141a)' });
+  [-1, 1].forEach(s => {
+    plane({ w: 70, h: 7.4 * PX, x: s * (SW * PX / 2 - 30), y: -(STAGE_Y + 3.7) * PX, z: -SD * PX + 8, css: 'background:linear-gradient(90deg,#5c0a10,#a3141c,#5c0a10)' });          // red wings
+    plane({ w: SD * PX, h: CEIL * PX, x: s * (SW * PX / 2 + 10), y: -CEIL * PX / 2, z: -SD * PX / 2, ry: -s * 90, css: 'background:#1b1114' });                                   // stage side walls
+    plane({ w: (HALL_X - SW / 2 - 0.1) * PX, h: CEIL * PX, x: s * ((HALL_X + SW / 2) / 2 * PX + 5), y: -CEIL * PX / 2, z: 0, css: wallCss() });                                  // proscenium wall
   });
-  const stageFloor = canvasTex(512, 128, (g, w, h) => { g.drawImage(img, 470, 349, 310, 36, 0, 0, w, h); });
-  const SW = 13.4, SD = 7.2;
-  const back = new THREE.Mesh(new THREE.PlaneGeometry(SW, 7), new THREE.MeshBasicMaterial({ map: curtain }));
-  back.position.set(0, STAGE_Y + 3.5, -SD); three.add(back);
-  const floorM = new THREE.Mesh(new THREE.PlaneGeometry(SW, SD), new THREE.MeshBasicMaterial({ map: stageFloor }));
-  floorM.rotation.x = -Math.PI/2; floorM.position.set(0, STAGE_Y + 0.01, -SD/2); three.add(floorM);
-  box(SW, STAGE_Y, SD, lam(0x1b1b22), 0, STAGE_Y/2, -SD/2);                              // stage body
-  box(SW + 0.4, 0.28, 0.5, lam(0x2c2c36), 0, STAGE_Y - 0.14, 0.15);                       // front lip
-  [-1, 1].forEach(sd => {
-    box(0.7, 7.4, SD, new THREE.MeshLambertMaterial({ color: 0x7a0f14 }), sd * (SW/2 - 0.1), STAGE_Y + 3.7, -SD/2);   // red wings
-    box(0.22, CEIL - 0.4, 0.22, lam(0x9aa0a8), sd * (SW/2 + 0.6), (CEIL - 0.4)/2, -0.3);                             // proscenium truss
+  const hdr = CEIL - STAGE_Y - 7.2;
+  plane({ w: SW * PX, h: hdr * PX, x: 0, y: -(STAGE_Y + 7.2 + hdr / 2) * PX, z: 0, css: 'background:linear-gradient(#2a2227,#161013)' });                                         // proscenium header
+  plane({ w: SW * PX, h: 26, x: 0, y: -(STAGE_Y + 7.2) * PX, z: 2, css: 'background:linear-gradient(#aab0b8,#6b7078)' });                                                         // truss
+  /* room shell */
+  const mid = BACK_Z / 2 * PX;
+  [-1, 1].forEach(s => plane({ w: BACK_Z * PX, h: CEIL * PX, x: s * HALL_X * PX, y: -CEIL * PX / 2, z: mid, ry: -s * 90, css: wallCss() }));
+  plane({ w: HALL_X * 2 * PX, h: CEIL * PX, x: 0, y: -CEIL * PX / 2, z: BACK_Z * PX, ry: 180, css: 'background:#2a1a1c' });
+  plane({ w: HALL_X * 2 * PX, h: BACK_Z * PX, x: 0, y: -CEIL * PX, z: mid, rx: -90, css: 'background:radial-gradient(circle,#fff6e6 0 5px,transparent 6px) 0 0/320px 320px,#b26b66' });
+  [-1, 1].forEach(s => plane({ w: 90, h: BACK_Z * PX, x: s * (HALL_X - 1.6) * PX, y: -CEIL * PX + 2, z: mid, rx: -90, css: 'background:linear-gradient(90deg,#ff9a3c00,#ffc069,#ff9a3c00)' }));
+  /* floor: flat in front of the first row, then raked */
+  const z0 = wz(0) * PX, rise = ((BACK_Z - wz(0)) / ROW_D) * RISE * PX, run = BACK_Z * PX - z0, slant = Math.hypot(run, rise);
+  const carpet = 'background:repeating-linear-gradient(90deg,#5e5a64 0 3px,#6a6672 3px 6px)';
+  plane({ w: HALL_X * 2 * PX, h: z0, x: 0, y: 0, z: z0 / 2, rx: 90, css: carpet });
+  plane({ w: HALL_X * 2 * PX, h: slant, x: 0, y: -rise / 2, z: z0 + run / 2, rx: 90 + SLOPE, css: carpet });
+  /* seat rows: the real seat photo repeated along each block */
+  BYROW.forEach((row, r) => {
+    const w = row[0].perSide * 55, cx = 23.2 + w / 2, y = -wy(r) * PX, z = wz(r) * PX;
+    [-1, 1].forEach(s => {
+      const span = { x0: s * cx - w / 2, x1: s * cx + w / 2 };
+      rowPlanes.push({ el: plane({ w, h: 70, x: s * cx, y: y - 70, z: z + 24, css: `background:url(${IMG.seat}) 0 0/55px 70px repeat-x` }), z: z + 24, ...span });
+    });
   });
-  box(SW + 1.6, 0.4, 0.4, lam(0x9aa0a8), 0, 7.9, -0.3);
-  box(SW + 1.6, 0.9, 0.3, lam(0x2a2a30), 0, CEIL - 0.45, -0.3);
+  /* audience on the booked seats */
+  const colors = ['#2d2f3a', '#3a3030', '#cfcfd2', '#20324a', '#4a3a2a', '#594a64'], skins = ['#c99a78', '#a97550', '#e2b794', '#8a5a3c'];
+  SEATS.forEach(t => { if (!t.taken) return;
+    const x = t.mx * PX, y = -wy(t.r) * PX, z = wz(t.r) * PX + 8;
+    t.body = plane({ w: 38, h: 46, x, y: y - 98, z, css: `background:${colors[(t.n + t.r * 5) % colors.length]};border-radius:16px 16px 0 0` });
+    t.head = plane({ w: 22, h: 24, x, y: y - 128, z: z + 1, css: `background:${skins[(t.n * 3 + t.r) % skins.length]};border-radius:50%` });
+  });
+})();
 
-  /* acoustic wall panels (grey blocks, as in the photo) */
-  const panel = canvasTex(256, 256, (g, w, h) => {
-    g.fillStyle = '#4a4547'; g.fillRect(0, 0, w, h);
-    for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) {
-      const v = 58 + ((x * 7 + y * 13) % 5) * 9; g.fillStyle = `rgb(${v},${v-2},${v+2})`; g.fillRect(x*64+3, y*64+3, 58, 58);
-      g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(x*64+3, y*64+54, 58, 7); g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(x*64+3, y*64+3, 58, 5);
-    } });
-  const len = BACK_Z + SD;
-  const wallMat = new THREE.MeshLambertMaterial({ map: panel }); panel.repeat.set(len / 3, CEIL / 3);
-  [-1, 1].forEach(sd => { const w = new THREE.Mesh(new THREE.PlaneGeometry(len, CEIL), wallMat.clone()); w.material.map = panel.clone(); w.material.map.needsUpdate = true; w.material.map.repeat.set(len/3, CEIL/3);
-    w.rotation.y = -sd * Math.PI/2; w.position.set(sd * HALL_X, CEIL/2, (BACK_Z - SD)/2); three.add(w); });
-  const backWall = new THREE.Mesh(new THREE.PlaneGeometry(HALL_X*2, CEIL), lam(0x2a1a1c)); backWall.rotation.y = Math.PI; backWall.position.set(0, CEIL/2, BACK_Z); three.add(backWall);
-  /* ceiling with the warm cove light from the photo */
-  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(HALL_X*2, len), lam(0xb26b66)); ceil.rotation.x = Math.PI/2; ceil.position.set(0, CEIL, (BACK_Z - SD)/2); three.add(ceil);
-  [-1, 1].forEach(sd => { const c = new THREE.Mesh(new THREE.PlaneGeometry(1.0, len), new THREE.MeshBasicMaterial({ color: 0xffb25c })); c.rotation.x = Math.PI/2; c.position.set(sd * (HALL_X - 1.6), CEIL - 0.02, (BACK_Z - SD)/2); three.add(c); });
-  const spot = new THREE.MeshBasicMaterial({ color: 0xfff4e0 });
-  for (let z = 1; z < BACK_Z; z += 3.2) for (let x = -7; x <= 7; x += 3.5) { const d = new THREE.Mesh(new THREE.CircleGeometry(0.13, 12), spot); d.rotation.x = Math.PI/2; d.position.set(x, CEIL - 0.03, z); three.add(d); }
-
-  /* raked floor, one carpet step per row */
-  const carpet = canvasTex(128, 128, (g, w, h) => { g.fillStyle = '#6d6a72'; g.fillRect(0, 0, w, h); for (let i = 0; i < 900; i++) { const v = 80 + Math.random()*40; g.fillStyle = `rgba(${v},${v},${v+6},.35)`; g.fillRect(Math.random()*w, Math.random()*h, 2, 2); } }, [8, 1]);
-  const carpetMat = new THREE.MeshLambertMaterial({ map: carpet });
-  for (let r = -1; r < ROWS; r++) { const top = Math.max(0, wy(r)); box(HALL_X*2, top + 0.02, ROW_D, carpetMat, 0, (top+0.02)/2 - 0.02, wz(r)); }
-  box(HALL_X*2, 0.1, STAGE_Z0 + 2, carpetMat, 0, -0.05, STAGE_Z0/2 - 1);
-
-  /* real seat colours: red velvet seat + top, wooden back (sampled from the photo) */
-  const n = SEATS.length;
-  const cush = new THREE.InstancedMesh(new THREE.BoxGeometry(0.5, 0.1, 0.48), lam(0xb0101c), n);
-  const bk = new THREE.InstancedMesh(new THREE.BoxGeometry(0.5, 0.58, 0.07), lam(0x6a3b2a), n);
-  const cap = new THREE.InstancedMesh(new THREE.BoxGeometry(0.5, 0.16, 0.1), lam(0xc4121e), n);
-  const arm = new THREE.InstancedMesh(new THREE.BoxGeometry(0.05, 0.05, 0.42), lam(0x5a3424), n);
-  const o = new THREE.Object3D(); const put = (m, i, x, y, z) => { o.position.set(x, y, z); o.updateMatrix(); m.setMatrixAt(i, o.matrix); };
-  SEATS.forEach((t, i) => { const x = wx(t), y = wy(t.r), z = wz(t.r);
-    put(cush, i, x, y + 0.42, z); put(bk, i, x, y + 0.72, z + 0.24); put(cap, i, x, y + 1.09, z + 0.24); put(arm, i, x + 0.27, y + 0.64, z - 0.02); });
-  [cush, bk, cap, arm].forEach(m => { m.instanceMatrix.needsUpdate = true; three.add(m); });
-
-  /* audience: a person on each already-booked seat */
-  const taken = SEATS.map((t, i) => [t, i]).filter(([t]) => t.taken);
-  const head = new THREE.InstancedMesh(new THREE.SphereGeometry(0.11, 10, 8), new THREE.MeshLambertMaterial({ color: 0xffffff }), taken.length);
-  const body = new THREE.InstancedMesh(new THREE.BoxGeometry(0.36, 0.42, 0.2), new THREE.MeshLambertMaterial({ color: 0xffffff }), taken.length);
-  const skin = [0xc99a78, 0xa97550, 0xe2b794, 0x8a5a3c], cloth = [0x2d2f3a, 0x3a3030, 0xcfcfd2, 0x20324a, 0x4a3a2a, 0x594a64];
-  taken.forEach(([t], k) => { const x = wx(t), y = wy(t.r), z = wz(t.r);
-    put(head, k, x, y + 1.3, z + 0.08); put(body, k, x, y + 0.98, z + 0.1);
-    head.setColorAt(k, new THREE.Color(skin[(t.n * 3 + t.r) % skin.length])); body.setColorAt(k, new THREE.Color(cloth[(t.n + t.r * 5) % cloth.length])); });
-  [head, body].forEach(m => { m.instanceMatrix.needsUpdate = true; m.instanceColor.needsUpdate = true; three.add(m); });
-  st.people = { head, body, map: taken.map(([, i]) => i) };
-
-  /* start with a cut-away overview from above the back of the hall */
-  place(overviewPose(), 0, -0.5);
-  resize(); new ResizeObserver(resize).observe(view);
-  document.getElementById('loading').style.opacity = 0; setTimeout(() => document.getElementById('loading').remove(), 600);
-  requestAnimationFrame(tick);
+/* ---------- camera ---------- */
+const TAU = Math.PI * 2;
+const overview = () => ({ x: 0, y: -1150, z: (BACK_Z + 6) * PX });
+const cam = Object.assign(overview(), { yaw: 0, pitch: -0.5 }), st = { fov: 72, fly: null, vy: 0, vp: 0, seat: null };
+function cullRows() {
+  const fx = Math.sin(cam.yaw), fz = -Math.cos(cam.yaw), cp = Math.cos(cam.pitch);
+  rowPlanes.forEach(p => {
+    const d = Math.max((p.x0 - cam.x) * fx + (p.z - cam.z) * fz, (p.x1 - cam.x) * fx + (p.z - cam.z) * fz);
+    const hide = d < -10 && Math.abs(fx) < 0.99 || d < -10;
+    if (hide !== p.hid) { p.hid = hide; p.el.style.display = hide ? 'none' : ''; }
+  });
 }
-
+function applyCam() {
+  cullRows();
+  const W = view.clientWidth || 640; view.style.perspective = (W / 2 / Math.tan(st.fov * Math.PI / 360)) + 'px';
+  world.style.transform = `rotateX(${cam.pitch}rad) rotateY(${cam.yaw}rad) translate3d(${-cam.x}px,${-cam.y}px,${-cam.z}px)`;
+}
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const faceYaw = () => cam.yaw - Math.round(cam.yaw / TAU) * TAU;      // how far we are from "looking at the stage"
+function fly(to, pitch1, dur, lift) {
+  st.fly = { t0: performance.now(), dur, from: { x: cam.x, y: cam.y, z: cam.z }, to, y0: cam.yaw, y1: cam.yaw - faceYaw(), p0: cam.pitch, p1: pitch1, lift }; st.vy = st.vp = 0;
+}
 function setLabels(t) {
-  if (!t) { document.getElementById('tSeat').textContent = 'نظرة عامة على القاعة'; document.getElementById('tZone').textContent = ''; document.getElementById('tDist').textContent = ''; return; }
-  document.getElementById('tSeat').innerHTML = `صف <bdi>${t.row}</bdi> · كرسي <bdi>${t.n}</bdi>`;
-  document.getElementById('tZone').innerHTML = `<i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} · ${fmt(t.zone.price)}`;
-  document.getElementById('tDist').textContent = `الصف ${t.r + 1} من ${ROWS}`;
-  document.getElementById('hint').innerHTML = '<span>اسحب علشان تلف 360° · العجلة للتقريب</span>';
+  if (!t) { tSeat.textContent = 'نظرة عامة على القاعة'; tZone.textContent = ''; tDist.textContent = ''; return; }
+  tSeat.innerHTML = `صف <bdi>${t.row}</bdi> · كرسي <bdi>${t.n}</bdi>`;
+  tZone.innerHTML = `<i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} · ${fmt(t.zone.price)}`;
+  tDist.textContent = `الصف ${t.r + 1} من ${ROWS}`;
+  hint.innerHTML = '<span>اسحب علشان تلف 360° · العجلة للتقريب</span>'; hint.style.opacity = 1;
 }
-function overviewPose() { return new THREE.Vector3(0, 11.5, BACK_Z + 6); }
-function place(p, yaw, pitch) { cam.position.copy(p); st.yaw = yaw; st.pitch = pitch; }
-function resize() { const w = view.clientWidth, h = view.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
-
-/* ---- fly to a seat ---- */
-function fallbackView(t) {
-  const el = document.getElementById('fbi'); document.getElementById('fb').hidden = false;
-  if (!t) { el.style.transform = 'none'; return; }
-  const sc = 1.1 + (1 - t.depth) * 1.5, x = (t.x - (W/2 + LEFT)) / 300;
-  el.style.transform = `translate(${-x * (sc - 1) / 2 * 90}%, ${-(1 - t.depth) * 3}%) scale(${sc})`;
+function gotoSeat(t) {
+  setLabels(t); st.seat = t; st.fov = 72;
+  SEATS.forEach(s => { if (s.body) s.body.style.visibility = s.head.style.visibility = (s === t ? 'hidden' : ''); });
+  fly({ x: t.mx * PX, y: -(wy(t.r) + EYE) * PX, z: wz(t.r) * PX - 2 }, -0.03, 1600, 220);
 }
-function flyTo(t) {
-  setLabels(t);
-  if (!cam) { fallbackView(t); return; }
-  const to = t ? new THREE.Vector3(wx(t) - 0.02, wy(t.r) + EYE, wz(t.r) - 0.02) : overviewPose();
-  const nearest = st.yaw - Math.round(st.yaw / TAU) * TAU;
-  st.fly = { t0: performance.now(), dur: t ? 1500 : 1400, from: cam.position.clone(), to, y0: st.yaw, y1: st.yaw - nearest, p0: st.pitch, p1: t ? -0.03 : -0.5, lift: t ? 2.2 : 0, fov0: st.fov, fov1: t ? 72 : 72 };
-  st.seat = t; st.vy = st.vp = 0;
-  /* the person who was sitting here (if any) is not in your way */
-  if (st.people) st.people.map.forEach((si, k) => { const s2 = SEATS[si]; const m = new THREE.Matrix4(); const hide = (st.seat === s2);
-    [st.people.head, st.people.body].forEach(im => { im.getMatrixAt(k, m); const e = m.elements; if (hide) { e[0] = e[5] = e[10] = 0.0001; } else { const sc = im === st.people.head ? 1 : 1; e[0] = e[5] = e[10] = sc; } im.setMatrixAt(k, m); }); });
-  if (st.people) { st.people.head.instanceMatrix.needsUpdate = st.people.body.instanceMatrix.needsUpdate = true; }
-}
-const ease = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2;
-
-function tick(now) {
+function frame(now) {
   const f = st.fly;
   if (f) {
     const k = Math.min(1, (now - f.t0) / f.dur), e = ease(k);
-    cam.position.lerpVectors(f.from, f.to, e); cam.position.y += Math.sin(Math.PI * k) * f.lift;
-    st.yaw = f.y0 + (f.y1 - f.y0) * e; st.pitch = f.p0 + (f.p1 - f.p0) * e;
+    cam.x = f.from.x + (f.to.x - f.from.x) * e; cam.z = f.from.z + (f.to.z - f.from.z) * e;
+    cam.y = f.from.y + (f.to.y - f.from.y) * e - Math.sin(Math.PI * k) * f.lift;
+    cam.yaw = f.y0 + (f.y1 - f.y0) * e; cam.pitch = f.p0 + (f.p1 - f.p0) * e;
     if (k >= 1) st.fly = null;
-  } else {
-    st.yaw += st.vy; st.pitch = Math.max(-1.25, Math.min(1.25, st.pitch + st.vp)); st.vy *= 0.93; st.vp *= 0.93;
+  } else if (Math.abs(st.vy) + Math.abs(st.vp) > 1e-5) {
+    cam.yaw += st.vy; cam.pitch = Math.max(-1.3, Math.min(1.3, cam.pitch + st.vp)); st.vy *= 0.93; st.vp *= 0.93;
   }
-  cam.rotation.set(st.pitch, st.yaw, 0);
-  if (cam.fov !== st.fov) { cam.fov = st.fov; cam.updateProjectionMatrix(); }
-  renderer.render(three, cam);
-  requestAnimationFrame(tick);
+  applyCam(); requestAnimationFrame(frame);
 }
+requestAnimationFrame(frame);
 
-/* ---- look around: drag / touch, wheel to zoom ---- */
+/* ---------- look around ---------- */
 let drag = null;
-view.addEventListener('pointerdown', e => { if (e.target.closest('#bar')) return; drag = { x: e.clientX, y: e.clientY }; view.setPointerCapture(e.pointerId); view.classList.add('drag'); st.fly = null; st.vy = st.vp = 0; });
+view.addEventListener('pointerdown', e => { if (e.target.closest('#bar')) return; drag = { x: e.clientX, y: e.clientY }; try { view.setPointerCapture(e.pointerId); } catch (_) {} view.classList.add('drag'); st.fly = null; st.vy = st.vp = 0; });
 view.addEventListener('pointermove', e => { if (!drag) return; const k = st.fov / 72 * 0.0052, dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-  drag.x = e.clientX; drag.y = e.clientY; st.yaw += dx * k; st.pitch = Math.max(-1.25, Math.min(1.25, st.pitch + dy * k)); st.vy = dx * k; st.vp = dy * k; hideHint(); });
-const end = () => { drag = null; view.classList.remove('drag'); };
-view.addEventListener('pointerup', end); view.addEventListener('pointercancel', end);
+  drag.x = e.clientX; drag.y = e.clientY; cam.yaw -= dx * k; cam.pitch = Math.max(-1.3, Math.min(1.3, cam.pitch + dy * k)); st.vy = -dx * k; st.vp = dy * k; if (st.seat) hint.style.opacity = 0; });
+const endDrag = () => { drag = null; view.classList.remove('drag'); };
+view.addEventListener('pointerup', endDrag); view.addEventListener('pointercancel', endDrag);
 view.addEventListener('wheel', e => { e.preventDefault(); st.fov = Math.max(35, Math.min(95, st.fov + e.deltaY * 0.04)); }, { passive: false });
-function hideHint() { const h = document.getElementById('hint'); if (st.seat) h.style.opacity = 0; }
-document.getElementById('bFace').addEventListener('click', () => { const nearest = st.yaw - Math.round(st.yaw / TAU) * TAU; st.fly = { t0: performance.now(), dur: 700, from: cam.position.clone(), to: cam.position.clone(), y0: st.yaw, y1: st.yaw - nearest, p0: st.pitch, p1: st.seat ? -0.03 : -0.5, lift: 0 }; st.fov = 72; });
-document.getElementById('bOver').addEventListener('click', () => { flyTo(null); viewing = -1; render(); document.getElementById('hint').style.opacity = 1; document.getElementById('hint').innerHTML = '<span>اختار كرسي من الخريطة وهنوديك له</span>'; });
-(typeof THREE === 'undefined' ? Promise.reject(new Error('three.js لم يتحمّل')) : build()).catch(err => { const l = document.getElementById('loading'); if (l) l.remove(); cam = null; canvas.hidden = true; document.getElementById('bar').hidden = true;
-  document.getElementById('hint').innerHTML = '<span>المنظر 360° مش شغال على جهازك، ده منظر تقريبي من صورة القاعة</span>'; console.error(err); if (st.seat) fallbackView(st.seat); });
-
+document.getElementById('bFace').addEventListener('click', () => { st.fov = 72; fly({ x: cam.x, y: cam.y, z: cam.z }, st.seat ? -0.03 : -0.5, 700, 0); });
+document.getElementById('bOver').addEventListener('click', () => {
+  st.seat = null; viewing = -1; render(); setLabels(null); hint.innerHTML = '<span>اختار كرسي من الخريطة وهنوديك له</span>'; hint.style.opacity = 1;
+  SEATS.forEach(s => { if (s.body) s.body.style.visibility = s.head.style.visibility = ''; }); st.fov = 72;
+  fly(overview(), -0.5, 1500, 0);
+});
+applyCam();
 </script>
 </body>
 </html>

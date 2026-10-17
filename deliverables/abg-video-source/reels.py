@@ -9,13 +9,39 @@ GSAP = os.path.join(BASE, "proj", "abg", "assets", "gsap.min.js")
 FONTS = os.path.join(BASE, "proj", "abg", "assets", "fonts")
 ICONS_SRC = open(os.path.join(BASE, "build.py")).read()
 
+DIAC = __import__("re").compile(r'[\u064B-\u0652\u0670]'); PUNCT = __import__("re").compile(r'[،.؟?:!]')
+def _norm(t): return PUNCT.sub("", DIAC.sub("", t))
+def _merge(ws):
+    out = []; i = 0
+    while i < len(ws):
+        if ws[i] == "الـ" and i + 1 < len(ws): out.append(ws[i] + " " + ws[i+1]); i += 2
+        else: out.append(ws[i]); i += 1
+    return out
+TOK = [{"n": _norm(w["t"]), "s": w["s"], "e": w["e"]} for p in ALIGN for w in p["w"]]
+def _find(anchor, start=0):
+    a = [_norm(x) for x in _merge(anchor.split())]
+    for i in range(start, len(TOK) - len(a) + 1):
+        if all(TOK[i + k]["n"] == a[k] for k in range(len(a))): return i, i + len(a) - 1
+    raise SystemExit("anchor not found: " + anchor)
+def SEG(a_anchor, b_anchor, after=0.0):
+    i0 = next(i for i, t in enumerate(TOK) if t["s"] >= after)
+    ia, _ = _find(a_anchor, i0); _, ib = _find(b_anchor, ia)
+    a = TOK[ia]["s"] - 0.1; b = TOK[ib]["e"] + 0.1
+    if ia > 0: a = max(a, (TOK[ia-1]["e"] + TOK[ia]["s"]) / 2)
+    if ib + 1 < len(TOK): b = min(b, (TOK[ib]["e"] + TOK[ib+1]["s"]) / 2)
+    return (round(max(a, 0.0), 3), round(b, 3))
+_s_hook = SEG("لو بتبص", "تلات خطوات بس")
+_s_steps = SEG("تعالى نشوف الطريقة", "اتجاه سبب تعويض", after=140)
+_s_pat = SEG("المريض راجل", "مرهق ونعسان")
+_s_case = SEG("الدكتور طلب ABG", "بتعويض جزئي", after=_s_pat[1])
+_s_c5 = SEG("الحالة الخامسة", "fully compensated")
 REELS = [
- {"name": "reel1", "segs": [(0.12, 7.44), (153.776, 222.96)],
+ {"name": "reel1", "segs": [_s_hook, _s_steps],
   "hook": ["الـ ABG مش لغز!", "3 خطوات بس تفسّر أي نتيجة"], "hl": 0, "override": {"rome": {"rome": 0.6}}},
- {"name": "reel2", "segs": [(249.85, 259.83), (272.208, 347.59)],
+ {"name": "reel2", "segs": [_s_pat, _s_case],
   "hook": ["مريض <bdi dir=\"ltr\">COPD</bdi>", "<bdi dir=\"ltr\">pH = 7.32</bdi>", "تشخّصه إزاي؟"], "hl": 2,
   "override": {"patient": {"rr": 1.8, "hr": 3.0, "bp": 4.2, "spo2": 5.4}}},
- {"name": "reel3", "segs": [(534.31, 569.15)],
+ {"name": "reel3", "segs": [_s_c5],
   "hook": ["الـ <bdi dir=\"ltr\">pH</bdi> طبيعي؟", "يعني المريض سليم؟", "لأ! والسبب غريب"], "hl": 2},
 ]
 HOOK_T = 2.7
@@ -61,7 +87,7 @@ def build_reel(R):
     PH = []
     for p in ALIGN:
         for k, (a, b) in enumerate(R["segs"]):
-            if p["s"] >= a - 0.05 and p["e"] <= b + 0.08:
+            if p["s"] >= a - 0.25 and p["e"] <= b + 0.3:
                 PH.append({"s": mapt(p["s"], k), "e": mapt(p["e"], k), "end": p.get("end", True), "w": [{"t": w["t"], "s": mapt(w["s"], k), "e": mapt(w["e"], k)} for w in p["w"]]}); break
     # scenes
     SC = []

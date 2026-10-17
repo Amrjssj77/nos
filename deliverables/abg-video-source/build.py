@@ -138,3 +138,4 @@ html = """<!doctype html>
 """ % (css, sprite, wipe_lines, "\n      ".join(audio))
 open(os.path.join(PROJ, "index.html"), "w").write(html)
 print("sfx", len(sfx))
+json.dump(scenes, open(os.path.join(BASE, "scenes.json"), "w"), ensure_ascii=False)

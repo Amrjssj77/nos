@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Teatro Arkan Scroll Tour</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;600&family=Space+Mono:wght@400;700&family=Cairo:wght@600&display=swap" rel="stylesheet" />
+<style>
+  :root { --bg:#050507; --ink:#f2f2f4; --mut:#9a9aa6; --glass:rgba(255,255,255,.1); --glass-line:rgba(255,255,255,.22); --lime:#d8ff5a; --blue:#58b4ff;
+    --disp:'Anton','Arial Narrow',Impact,sans-serif; --sans:'Inter Tight',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace; color-scheme:dark; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { background:var(--bg); }
+  body { background:var(--bg); color:var(--ink); font-family:var(--sans); }
+  #track { height:900vh; position:relative; }
+  #view { position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+    background:radial-gradient(90% 55% at 50% 0%,#6a2222 0%,#2a1114 38%,transparent 70%),linear-gradient(#150a0d,#060608 60%); }
+  #fog { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 60%,rgba(255,255,255,.06),transparent 60%); }
+  #grain { position:absolute; inset:-50%; width:200%; height:200%; pointer-events:none; opacity:.09; mix-blend-mode:overlay; animation:grain .6s steps(4) infinite;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  @keyframes grain { 25% { transform:translate(-3%,2%); } 50% { transform:translate(2%,-3%); } 75% { transform:translate(-2%,-1%); } }
+  .layer { position:absolute; inset:0; will-change:opacity,transform; pointer-events:none; }
+  .layer.on { pointer-events:auto; }
+
+  /* HUD */
+  .hud { position:absolute; z-index:20; font:11px var(--mono); letter-spacing:.06em; color:rgba(255,255,255,.75); }
+  #fps { left:max(18px,env(safe-area-inset-left,0px)); top:max(18px,env(safe-area-inset-top,0px)); }
+  #rec { right:max(18px,env(safe-area-inset-right,0px)); top:max(18px,env(safe-area-inset-top,0px)); display:flex; align-items:center; gap:6px; }
+  #rec i { width:7px; height:7px; border-radius:50%; background:#ff3b3b; animation:blink 1.2s steps(2) infinite; } @keyframes blink { 50% { opacity:.2; } }
+  #menu { left:50%; transform:translateX(-50%); top:max(14px,env(safe-area-inset-top,0px)); display:flex; gap:4px; background:rgba(20,20,24,.6); border:1px solid var(--glass-line); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-radius:8px; padding:4px; font-family:var(--sans); letter-spacing:0; }
+  #menu a { font:400 11px var(--sans); color:#fff; text-decoration:none; padding:5px 12px; border-radius:5px; cursor:pointer; }
+  #menu a.act { background:#f2f2f4; color:#050507; }
+  #progress { position:absolute; left:0; bottom:0; height:2px; background:var(--lime); width:0; z-index:20; }
+
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 18px; font:600 12px var(--sans); color:#050507; background:var(--lime); border:0; border-radius:4px; cursor:pointer; text-decoration:none; }
+  .btn.alt { background:rgba(255,255,255,.12); color:#fff; border:1px solid var(--glass-line); }
+  .btn:focus-visible { outline:2px solid #fff; outline-offset:3px; }
+  .disp { font-family:var(--disp); text-transform:uppercase; line-height:.95; letter-spacing:.005em; font-weight:400; }
+
+  /* 1 · hero: wall of floating screens */
+  #world { position:absolute; inset:0; transform-style:preserve-3d; }
+  #persp { position:absolute; inset:0; perspective:900px; perspective-origin:50% 50%; }
+  .scr { position:absolute; left:50%; top:50%; border-radius:6px; overflow:hidden; background:#000; border:3px solid #15151b; box-shadow:0 0 30px 4px var(--glow,rgba(120,180,255,.35)); transform-style:flat; }
+  .scr img, .scr .cur { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:var(--f,none); }
+  .scr .cur { background:var(--curtain) center/100% 100%; }
+  .scr::after { content:""; position:absolute; inset:0; background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px); mix-blend-mode:multiply; }
+  #heroCopy { display:grid; place-items:center; text-align:center; padding:0 24px; }
+  #heroCopy h1 { font-size:clamp(40px,7.4vw,112px); text-shadow:0 4px 40px rgba(0,0,0,.7); }
+  #heroCopy p { margin:16px auto 0; max-width:46ch; font-size:13px; line-height:1.5; color:#d8d8e0; text-shadow:0 2px 14px #000; }
+  #heroCopy .row { display:flex; gap:10px; justify-content:center; margin-top:22px; }
+
+  /* 2 · stretched words */
+  #words { display:grid; align-content:center; gap:2vh; overflow:hidden; }
+  #words div { white-space:nowrap; font-size:clamp(70px,16vw,260px); transform-origin:0 50%; will-change:transform; color:rgba(255,255,255,.88); -webkit-text-stroke:0; }
+  #words div.o { color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,.7); }
+
+  /* 3 · shows carousel */
+  .head { position:absolute; left:0; right:0; top:clamp(70px,11vh,110px); text-align:center; }
+  .head h2 { font-size:clamp(36px,5vw,64px); } .head small { display:block; margin-top:8px; font:11px var(--mono); color:var(--mut); letter-spacing:.14em; }
+  #cases .car { position:absolute; left:0; right:0; top:50%; height:0; }
+  .case { position:absolute; left:50%; top:0; width:clamp(240px,40vw,560px); aspect-ratio:16/11; transform:translate(-50%,-50%); border-radius:14px; overflow:hidden; border:10px solid #131318; background:#000; box-shadow:0 0 0 2px #2b2b34, 0 0 90px 10px var(--glow,rgba(255,170,150,.35)); }
+  .case img { width:100%; height:100%; object-fit:cover; display:block; }
+  .case::after { content:""; position:absolute; inset:0; background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px); }
+  .cap { position:absolute; left:0; right:0; bottom:clamp(40px,9vh,90px); text-align:center; display:grid; gap:10px; justify-items:center; }
+  .cap h3 { font:400 clamp(20px,2.4vw,30px) var(--sans); font-weight:600; } .tags { font:11px var(--mono); color:var(--mut); display:flex; gap:10px; }
+  .nav { position:absolute; top:50%; transform:translateY(-50%); font-size:10px; padding:5px 10px; background:rgba(0,0,0,.55); border:1px solid var(--glass-line); color:#fff; border-radius:3px; cursor:pointer; z-index:3; font-family:var(--sans); }
+  #prev { left:max(16px,6vw); } #next { right:max(16px,6vw); }
+
+  /* 4 · cast */
+  #castRow { position:absolute; left:0; right:0; top:50%; height:0; }
+  .person { position:absolute; left:50%; top:0; width:clamp(90px,15vw,200px); aspect-ratio:3/4; transform:translate(-50%,-50%); background:linear-gradient(#2d8fe0,#0b2a55); border-radius:4px; overflow:hidden; }
+  .person svg { position:absolute; inset:0; width:100%; height:100%; }
+  #frame { position:absolute; left:50%; top:50%; width:clamp(104px,17vw,224px); aspect-ratio:3/4; transform:translate(-50%,-50%); border:1px solid #fff; border-radius:4px; pointer-events:none; margin-top:-0px; }
+  #frame b { position:absolute; left:50%; bottom:-34px; transform:translateX(-50%); white-space:nowrap; font:400 10px var(--sans); background:#fff; color:#050507; padding:5px 10px; border-radius:99px; }
+  #blocks { position:absolute; left:0; right:0; top:0; height:30%; display:grid; grid-template-columns:repeat(16,1fr); grid-auto-rows:1fr; pointer-events:none; }
+  #blocks i { background:#8a2f2a; transition:opacity .2s; }
+
+  /* 5 · about */
+  #about { display:grid; place-items:center; padding:0 max(24px,8vw); }
+  #about p { max-width:30ch; font:300 clamp(22px,3.2vw,44px)/1.25 var(--sans); } #about span { opacity:.22; transition:opacity .2s; }
+  #about small { position:absolute; left:max(24px,8vw); top:clamp(70px,12vh,120px); font:12px var(--mono); color:var(--mut); }
+
+  /* 6 · contact */
+  #contact { display:grid; place-items:center; text-align:center; }
+  #contact h2 { font-size:clamp(40px,7vw,100px); } #contact p { margin-top:10px; color:var(--mut); }
+  #big { position:absolute; left:50%; top:62%; width:min(70vw,720px); aspect-ratio:16/9; transform:translate(-50%,0); background:radial-gradient(circle at 50% 40%,#fff,#d9d9df 60%,#9a9aa4); border:14px solid #121217; border-radius:22px 22px 0 0; display:grid; place-items:center; }
+  #big span { font:400 clamp(28px,6vw,72px) var(--disp); text-transform:uppercase; color:#0a0a0e; border:3px solid #0a0a0e; border-radius:26px; padding:.15em .6em; }
+
+  @media (max-width:640px){ #menu a:nth-child(1){ display:none; } .nav { display:none; } }
+  @media (prefers-reduced-motion:reduce) { #grain, #rec i { animation:none; } }
+</style>
+</head>
+<body>
+<div id="track">
+<div id="view">
+  <div id="fog"></div>
+
+  <!-- 1 -->
+  <div id="persp" class="layer"><div id="world"></div></div>
+  <div class="layer" id="heroCopy"><div>
+    <h1 class="disp">We make the evening<br>feel new</h1>
+    <p>Live comedy at Teatro Arkan. A seat, a curtain, eight o'clock, and a room that listens back.</p>
+    <div class="row"><a class="btn" href="#" data-go="3">Book a seat</a><a class="btn alt" href="#" data-go="2">See the hall</a></div>
+  </div></div>
+
+  <!-- 2 -->
+  <div class="layer" id="words"><div class="disp" id="w1">Laughs built to hold attention</div><div class="disp o" id="w2">the noise, tuned out</div></div>
+
+  <!-- 3 -->
+  <div class="layer" id="cases">
+    <div class="head"><h2 class="disp">Inside the house</h2><small id="caseCount">[ 01 / 03 ]</small></div>
+    <div class="car" id="caseCar"></div>
+    <button class="nav" id="prev" type="button">Previous</button><button class="nav" id="next" type="button">Next</button>
+    <div class="cap"><h3 id="caseTitle"></h3><div class="tags" id="caseTags"></div><a class="btn" href="#" id="caseBtn">Explore <span>→</span></a></div>
+  </div>
+
+  <!-- 4 -->
+  <div class="layer" id="cast">
+    <div class="head"><h2 class="disp">Meet the cast</h2><small id="castCount">[ 01 / 08 ]</small></div>
+    <div id="castRow"></div><div id="frame"><b id="castName"></b></div>
+    <div id="blocks"></div>
+  </div>
+
+  <!-- 5 -->
+  <div class="layer" id="about"><small>About</small><p id="aboutP"></p></div>
+
+  <!-- 6 -->
+  <div class="layer" id="contact"><div style="margin-top:-24vh"><h2 class="disp">Have an idea?</h2><p>Let's put it on the stage.</p><div style="margin-top:20px"><a class="btn" href="#">Start a project</a></div></div><div id="big"><span>Book a seat</span></div></div>
+
+  <div id="grain"></div>
+  <div class="hud" id="fps">-- fps</div>
+  <div class="hud" id="rec"><i></i>REC</div>
+  <div class="hud" id="menu"><a data-go="0" class="act">&lt;/&gt;</a><a data-go="1">Menu</a><a data-go="5">Contact</a></div>
+  <div id="progress"></div>
+</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), seg = (p, a, b) => clamp((p - a) / (b - a)), ease = t => t * t * (3 - 2 * t), lerp = (a, b, t) => a + (b - a) * t;
+const IMG = { hall: 'img/hall.jpg', side: 'img/hall-side.jpg', lobby: 'img/lobby.jpg', curtain: 'img/curtain.jpg' };
+document.documentElement.style.setProperty('--curtain', `url('${IMG.curtain}')`);
+
+/* ---------- 1 · wall of floating screens (mini stages + real hall photos) ---------- */
+let seed = 5; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const world = $('world'), SCR = [];
+for (let i = 0; i < 20; i++) {
+  const z = -(80 + i * 130 + rnd() * 100), w = 260 + rnd() * 240, el = document.createElement('div'); el.className = 'scr';
+  const hue = Math.floor(rnd() * 360), photo = i % 5 === 0;
+  el.style.cssText = `width:${w}px;height:${w * .66}px;margin:${-w * .33}px 0 0 ${-w / 2}px;--f:${photo ? 'none' : `hue-rotate(${hue}deg) saturate(1.2)`};--glow:hsla(${hue},90%,62%,.4);`;
+  el.innerHTML = photo ? `<img src="${[IMG.hall, IMG.side, IMG.lobby][i / 5 % 3]}" alt="">` : '<div class="cur"></div>';
+  const side = i % 2 ? 1 : -1, x = side * (170 + rnd() * 640), y = (rnd() - .5) * 520;
+  SCR.push({ el, x, y, z, ry: -side * (8 + rnd() * 18), rx: (rnd() - .5) * 8, ph: rnd() * 6 });
+  world.appendChild(el);
+}
+
+/* ---------- 3 · shows carousel (real photos) ---------- */
+const CASES = [
+  { t: 'The hall', img: IMG.hall, tags: ['Stage', 'Seats', 'Lighting'], glow: 'rgba(255,170,130,.4)' },
+  { t: 'The seats', img: IMG.side, tags: ['Velvet', 'Wood', 'Aisles'], glow: 'rgba(255,90,90,.4)' },
+  { t: 'The lobby', img: IMG.lobby, tags: ['Entry', 'Posters', 'Tickets'], glow: 'rgba(200,100,255,.4)' },
+];
+const caseEls = CASES.map(c => { const d = document.createElement('div'); d.className = 'case'; d.style.setProperty('--glow', c.glow); d.innerHTML = `<img src="${c.img}" alt="${c.t}">`; $('caseCar').appendChild(d); return d; });
+
+/* ---------- 4 · cast ---------- */
+const CAST = ['Mohamed Abdel Rahman (Tota)', 'Hanady Mehanna', 'Ahmed El Rafaie', 'Mohsen Mansour', 'Dina Diab', 'Walid Abdel Ghany', 'Nagham Saleh', 'Ahmed Nady'];
+function face(i) { const skin = ['#d9a982', '#c48e6a', '#e6bd98', '#b57d5a'][i % 4], hair = ['#1a1210', '#3a2418', '#0e0e12', '#5a3b22'][(i * 3) % 4], long = i % 2 === 1, shirt = ['#0b0d12', '#16181f', '#201a1a'][i % 3];
+  return `<svg viewBox="0 0 120 160"><path d="M10 160 C14 118 40 108 60 108 C80 108 106 118 110 160Z" fill="${shirt}"/>${long ? `<path d="M30 70 C28 30 92 30 90 70 L96 130 L24 130Z" fill="${hair}"/>` : ''}<ellipse cx="60" cy="68" rx="26" ry="32" fill="${skin}"/><path d="M33 62 C32 36 88 36 87 62 C78 48 44 48 33 62Z" fill="${hair}"/><rect x="46" y="64" width="9" height="4" rx="2" fill="#0008"/><rect x="65" y="64" width="9" height="4" rx="2" fill="#0008"/><path d="M52 84 Q60 90 68 84" stroke="#0009" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`; }
+const personEls = CAST.map((n, i) => { const d = document.createElement('div'); d.className = 'person'; d.innerHTML = face(i); $('castRow').appendChild(d); return d; });
+const blocks = $('blocks'); for (let i = 0; i < 16 * 8; i++) blocks.appendChild(document.createElement('i'));
+const blockEls = [...blocks.children], blockRnd = blockEls.map(() => Math.random());
+
+/* ---------- 5 · about text, word by word ---------- */
+const ABOUT = 'We are eight players who make live comedy that is meant to be looked at twice, and we finish every night we start.'.split(' ');
+$('aboutP').innerHTML = ABOUT.map(w => `<span>${w}</span>`).join(' ');
+const aboutEls = [...$('aboutP').children];
+
+/* ---------- scroll model ---------- */
+const track = $('track'), layers = { hero: $('persp'), copy: $('heroCopy'), words: $('words'), cases: $('cases'), cast: $('cast'), about: $('about'), contact: $('contact') };
+let target = 0, cur = 0, mx = 0, my = 0, smx = 0, smy = 0, shown = {};
+const onScroll = () => { target = clamp(-track.getBoundingClientRect().top / (track.offsetHeight - innerHeight)); };
+addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll); onScroll();
+addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+const STOPS = [0, .14, .31, .52, .73, .9];                     // where the menu / buttons jump to
+const go = i => scrollTo({ top: STOPS[i] * (track.offsetHeight - innerHeight) + track.offsetTop, behavior: 'smooth' });
+document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(+a.dataset.go); }));
+
+const fade = (p, a, b, c, d) => seg(p, a, b) * (1 - seg(p, c, d));
+function setLayer(k, o) { const el = layers[k]; el.style.opacity = o; el.style.visibility = o < .01 ? 'hidden' : 'visible'; el.classList.toggle('on', o > .5); }
+let lastCase = -1, lastCast = -1;
+
+function render(p, time) {
+  smx += (mx - smx) * .06; smy += (my - smy) * .06;
+  // 1 · fly through the wall of screens
+  const trav = ease(seg(p, 0, .24)) * 2300;
+  world.style.transform = `rotateY(${smx * -9}deg) rotateX(${smy * 6}deg)`;
+  SCR.forEach(s => { const z = s.z + trav, near = z > 250; s.el.style.opacity = near ? clamp(1 - (z - 250) / 250) : clamp(1 + (z + 2200) / 600);
+    s.el.style.transform = `translate3d(${s.x - smx * 60 * (1 + z / 1500)}px,${s.y + Math.sin(time * .0009 + s.ph) * 8 - smy * 40}px,${z}px) rotateY(${s.ry}deg) rotateX(${s.rx}deg)`; });
+  setLayer('hero', 1 - seg(p, .2, .26));
+  setLayer('copy', 1 - seg(p, .06, .13)); layers.copy.style.transform = `translateY(${seg(p, .04, .13) * -40}px) scale(${1 + seg(p, .04, .13) * .08})`;
+
+  // 2 · giant condensed words slide across
+  const wp = seg(p, .15, .33);
+  setLayer('words', fade(p, .15, .19, .29, .33));
+  $('w1').style.transform = `translateX(${lerp(40, -62, wp)}vw) scaleX(1.25)`; $('w2').style.transform = `translateX(${lerp(-90, 12, wp)}vw) scaleX(1.25)`;
+
+  // 3 · shows carousel
+  setLayer('cases', fade(p, .3, .34, .5, .54));
+  const cp = seg(p, .34, .5) * (CASES.length - 1), ci = Math.round(cp);
+  caseEls.forEach((el, i) => { const d = i - cp, ad = Math.min(1, Math.abs(d)); el.style.transform = `translate(calc(-50% + ${d * 52}vw),-50%) scale(${1 - ad * .4}) rotateY(${-d * 14}deg)`; el.style.opacity = 1 - ad * .65; el.style.zIndex = 10 - Math.round(Math.abs(d)); });
+  if (ci !== lastCase) { lastCase = ci; $('caseTitle').textContent = CASES[ci].t; $('caseTags').innerHTML = CASES[ci].tags.map(t => `<span>[${t}]</span>`).join(''); $('caseCount').textContent = `[ 0${ci + 1} / 0${CASES.length} ]`; }
+
+  // 4 · cast row with a pixel dissolve on entry
+  setLayer('cast', fade(p, .5, .54, .71, .75));
+  const kp = seg(p, .545, .71) * (CAST.length - 1), ki = Math.round(kp), dis = seg(p, .5, .58);
+  personEls.forEach((el, i) => { const d = i - kp, ad = Math.min(1, Math.abs(d)); el.style.transform = `translate(calc(-50% + ${d * 17}vw),-50%) scale(${1 - ad * .22})`; el.style.opacity = 1 - ad * .5; el.style.filter = `brightness(${1 - ad * .3})`; });
+  if (ki !== lastCast) { lastCast = ki; $('castName').textContent = CAST[ki]; $('castCount').textContent = `[ 0${ki + 1} / 0${CAST.length} ]`; }
+  blockEls.forEach((b, i) => b.style.opacity = blockRnd[i] > dis ? 1 : 0);
+
+  // 5 · about
+  setLayer('about', fade(p, .73, .77, .87, .91));
+  const ap = seg(p, .76, .86) * (aboutEls.length + 3);
+  aboutEls.forEach((w, i) => w.style.opacity = clamp(.22 + (ap - i) * .6, .22, 1));
+
+  // 6 · contact
+  setLayer('contact', seg(p, .88, .93));
+  $('big').style.transform = `translate(-50%,${lerp(40, 0, ease(seg(p, .9, 1)))}%)`;
+  $('progress').style.width = (p * 100) + '%';
+  const act = p < STOPS[1] - .03 ? 0 : p > STOPS[5] - .04 ? 2 : 1; document.querySelectorAll('#menu a').forEach((a, i) => a.classList.toggle('act', i === act));
+}
+let frames = 0, t0 = performance.now();
+function loop(now) {
+  cur += (target - cur) * .1; if (Math.abs(target - cur) < 1e-4) cur = target;
+  render(cur, now);
+  frames++; if (now - t0 > 700) { $('fps').textContent = Math.round(frames * 1000 / (now - t0)) + ' fps'; frames = 0; t0 = now; }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* shows: previous / next and explore step the scroll position */
+const caseSpan = (i) => (.34 + (.5 - .34) * i / (CASES.length - 1)) * (track.offsetHeight - innerHeight) + track.offsetTop;
+$('prev').addEventListener('click', () => scrollTo({ top: caseSpan(Math.max(0, lastCase - 1)), behavior: 'smooth' }));
+$('next').addEventListener('click', () => scrollTo({ top: caseSpan(Math.min(CASES.length - 1, lastCase + 1)), behavior: 'smooth' }));
+$('caseBtn').addEventListener('click', e => { e.preventDefault(); $('next').click(); });
+</script>
+</body>
+</html>

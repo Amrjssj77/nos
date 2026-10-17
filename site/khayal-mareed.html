@@ -330,7 +330,7 @@ view.addEventListener('wheel', e => { e.preventDefault(); st.fov = Math.max(35, 
 function hideHint() { const h = document.getElementById('hint'); if (st.seat) h.style.opacity = 0; }
 document.getElementById('bFace').addEventListener('click', () => { const nearest = st.yaw - Math.round(st.yaw / TAU) * TAU; st.fly = { t0: performance.now(), dur: 700, from: cam.position.clone(), to: cam.position.clone(), y0: st.yaw, y1: st.yaw - nearest, p0: st.pitch, p1: st.seat ? -0.03 : -0.5, lift: 0 }; st.fov = 72; });
 document.getElementById('bOver').addEventListener('click', () => { flyTo(null); viewing = -1; render(); document.getElementById('hint').style.opacity = 1; document.getElementById('hint').innerHTML = '<span>اختار كرسي من الخريطة وهنوديك له</span>'; });
-build().catch(err => { const l = document.getElementById('loading'); if (l) l.textContent = 'مقدرناش نحمّل المنظر ثلاثي الأبعاد على جهازك'; console.error(err); });
+(typeof THREE === 'undefined' ? Promise.reject(new Error('three.js لم يتحمّل')) : build()).catch(err => { const l = document.getElementById('loading'); if (l) l.innerHTML = 'مقدرناش نحمّل المنظر ثلاثي الأبعاد<br><small dir="ltr">' + String(err && err.message || err) + '</small>'; console.error(err); });
 
 /* ---- selection ---- */
 const chosen = []; let viewing = -1;

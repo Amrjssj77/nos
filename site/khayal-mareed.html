@@ -120,6 +120,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+window.addEventListener('error', ev => { const h = document.getElementById('hint'); if (h) { h.style.opacity = 1; h.innerHTML = '<span dir="ltr">' + String(ev.message).slice(0,140) + '</span>'; } });
 const ZONES = [
   { id:'diamond',  name:'Diamond',  ar:'دايموند',  price:2500, rows:2, color:'#7fd6ff' },
   { id:'platinum', name:'Platinum', ar:'بلاتينيوم', price:2000, rows:3, color:'#c9cfd8' },
@@ -166,6 +167,30 @@ svg.innerHTML = html;
 
 document.getElementById('legend').innerHTML = ZONES.map(z =>
   `<span><i class="dot" style="background:${z.color}"></i>${z.ar} <b>${z.price.toLocaleString('en-US')}</b></span>`).join('');
+
+/* ---- selection ---- */
+const chosen = []; let viewing = -1;
+const nodes = [...svg.querySelectorAll('.seat')];
+function render() {
+  nodes.forEach((n,i)=>{ n.classList.toggle('sel', chosen.includes(i)); n.classList.toggle('view', i===viewing); });
+  document.getElementById('items').innerHTML = chosen.map(i => { const t=SEATS[i];
+    return `<li><span><i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} — ${t.id}</span><span>${fmt(t.zone.price)} <button data-rm="${i}" aria-label="إزالة">✕</button></span></li>`; }).join('')
+    || '<li style="color:var(--mut)">لسه ما اخترتش كراسي</li>';
+  document.getElementById('total').textContent = fmt(chosen.reduce((a,i)=>a+SEATS[i].zone.price,0));
+  document.getElementById('buy').disabled = !chosen.length;
+}
+svg.addEventListener('click', e => {
+  const g = e.target.closest('.seat'); if (!g || g.classList.contains('taken')) return;
+  const i = +g.dataset.i;
+  if (chosen.includes(i) && viewing === i) chosen.splice(chosen.indexOf(i),1);
+  else if (!chosen.includes(i)) { if (chosen.length >= MAX_SEATS) return; chosen.push(i); }
+  viewing = i; render(); try { flyTo(SEATS[i]); } catch (err) { console.error(err); }
+});
+document.getElementById('items').addEventListener('click', e => {
+  const b = e.target.closest('[data-rm]'); if (!b) return;
+  chosen.splice(chosen.indexOf(+b.dataset.rm),1); render();
+});
+render();
 
 /* ---- 360 seat view: a 3D hall built from the real photos ----
    Stage curtain, stage floor and seat colours are sampled from the real hall photo (img/hall.jpg).
@@ -343,29 +368,6 @@ document.getElementById('bOver').addEventListener('click', () => { flyTo(null); 
 (typeof THREE === 'undefined' ? Promise.reject(new Error('three.js لم يتحمّل')) : build()).catch(err => { const l = document.getElementById('loading'); if (l) l.remove(); cam = null; canvas.hidden = true; document.getElementById('bar').hidden = true;
   document.getElementById('hint').innerHTML = '<span>المنظر 360° مش شغال على جهازك، ده منظر تقريبي من صورة القاعة</span>'; console.error(err); if (st.seat) fallbackView(st.seat); });
 
-/* ---- selection ---- */
-const chosen = []; let viewing = -1;
-const nodes = [...svg.querySelectorAll('.seat')];
-function render() {
-  nodes.forEach((n,i)=>{ n.classList.toggle('sel', chosen.includes(i)); n.classList.toggle('view', i===viewing); });
-  document.getElementById('items').innerHTML = chosen.map(i => { const t=SEATS[i];
-    return `<li><span><i class="dot" style="background:${t.zone.color}"></i>${t.zone.ar} — ${t.id}</span><span>${fmt(t.zone.price)} <button data-rm="${i}" aria-label="إزالة">✕</button></span></li>`; }).join('')
-    || '<li style="color:var(--mut)">لسه ما اخترتش كراسي</li>';
-  document.getElementById('total').textContent = fmt(chosen.reduce((a,i)=>a+SEATS[i].zone.price,0));
-  document.getElementById('buy').disabled = !chosen.length;
-}
-svg.addEventListener('click', e => {
-  const g = e.target.closest('.seat'); if (!g || g.classList.contains('taken')) return;
-  const i = +g.dataset.i;
-  if (chosen.includes(i) && viewing === i) chosen.splice(chosen.indexOf(i),1);
-  else if (!chosen.includes(i)) { if (chosen.length >= MAX_SEATS) return; chosen.push(i); }
-  viewing = i; render(); try { flyTo(SEATS[i]); } catch (err) { console.error(err); }
-});
-document.getElementById('items').addEventListener('click', e => {
-  const b = e.target.closest('[data-rm]'); if (!b) return;
-  chosen.splice(chosen.indexOf(+b.dataset.rm),1); render();
-});
-render();
 </script>
 </body>
 </html>

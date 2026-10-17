@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Khayal Mareed Stage</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter+Tight:wght@300;400;600&family=Cairo:wght@600&display=swap" rel="stylesheet" />
+<style>
+  :root { --ink:#fff; --glass:rgba(255,255,255,.14); --glass-line:rgba(255,255,255,.28); --script:'Dancing Script','Brush Script MT',cursive; --sans:'Inter Tight',system-ui,sans-serif; color-scheme:dark; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { height:100%; background:#0a0c1f; }
+  body { font-family:var(--sans); color:var(--ink); overflow:hidden; }
+
+  #hero { position:relative; width:100%; height:100svh; min-height:520px; overflow:hidden; cursor:none;
+    background:linear-gradient(#070a22 0%,#1b1a5a 26%,#6a3a80 46%,#e2795f 56%,#ffc27d 60%,#150d1c 60.2%); }
+  #hero.touch { cursor:auto; }
+  .blob { position:absolute; border-radius:50%; filter:blur(38px); opacity:.55; mix-blend-mode:screen; animation:drift 40s linear infinite alternate; }
+  .b1 { left:8%; top:12%; width:34vw; height:12vw; background:radial-gradient(#ffd7e8,transparent 70%); }
+  .b2 { right:6%; top:18%; width:30vw; height:10vw; background:radial-gradient(#ffc8a0,transparent 70%); animation-duration:55s; animation-direction:alternate-reverse; }
+  .b3 { left:36%; top:6%; width:40vw; height:11vw; background:radial-gradient(#b9a8ff,transparent 70%); animation-duration:70s; }
+  @keyframes drift { to { transform:translateX(6vw); } }
+  .beam { position:absolute; top:-6%; width:16vw; height:70%; mix-blend-mode:screen; filter:blur(10px); opacity:.35; transform-origin:50% 0; background:linear-gradient(rgba(190,225,255,.9),rgba(190,225,255,0) 90%); clip-path:polygon(44% 0,56% 0,100% 100%,0 100%); animation:sweep 9s ease-in-out infinite alternate; }
+  .beam.l { left:14%; --a:-12deg; } .beam.r { right:14%; --a:12deg; animation-delay:-4s; }
+  @keyframes sweep { from { transform:rotate(calc(var(--a) - 5deg)); } to { transform:rotate(calc(var(--a) + 5deg)); } }
+
+  /* the stage that replaces the floating TV */
+  #stage { position:absolute; left:50%; width:clamp(210px,22vw,380px); transform:translate(-50%, 0) translate(var(--px,0px), var(--py,0px)); will-change:transform; }
+  #stage .halo { position:absolute; left:-45%; right:-45%; top:-70%; bottom:-30%; background:radial-gradient(closest-side,rgba(255,196,120,.75),rgba(255,160,90,.25) 45%,transparent 75%); filter:blur(18px); animation:pulse 5s ease-in-out infinite; pointer-events:none; }
+  @keyframes pulse { 50% { opacity:.75; transform:scale(1.05); } }
+  #stage .arch { position:relative; aspect-ratio:16/10; border:clamp(5px,.7vw,10px) solid #17131d; border-bottom:0; border-radius:6px 6px 0 0; background:#000 center/cover; overflow:hidden; box-shadow:0 0 0 2px #3a2f3f, 0 0 60px 10px rgba(255,190,120,.45), 0 0 140px 40px rgba(120,170,255,.25); }
+  #stage .arch::before { content:""; position:absolute; inset:0; background:var(--curtain) center/100% 100%; filter:saturate(1.25) brightness(1.15); }
+  #stage .arch::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,#4d060c 0,#a3121c 7%,transparent 16%,transparent 84%,#a3121c 93%,#4d060c 100%), linear-gradient(#25080c 0,transparent 16%); }
+  #stage .ttl { position:absolute; inset:0; z-index:2; display:grid; place-items:center; font:700 clamp(15px,3vw,44px)/1 'Cairo',sans-serif; text-shadow:0 0 12px #7cc4ff,0 0 32px #2f8dff; text-align:center; }
+  #stage .ttl small { display:block; font:300 clamp(7px,.9vw,12px) var(--sans); letter-spacing:.3em; text-transform:uppercase; margin-top:6px; text-shadow:none; opacity:.85; }
+  #stage .deck { position:relative; height:clamp(14px,2.6vw,38px); background:linear-gradient(#27385a,#0e1428); border:2px solid #3a2f3f; border-top:2px solid #5fb2ff; box-shadow:0 8px 40px rgba(60,140,255,.55); }
+  #stage .deck::after { content:""; position:absolute; left:6%; right:6%; top:-1px; height:3px; background:#8fd0ff; box-shadow:0 0 14px 3px #5fb2ff; }
+  #stage .rig { position:absolute; left:-4%; right:-4%; top:-14px; height:10px; background:linear-gradient(#aab0b8,#555a63); display:flex; justify-content:space-around; }
+  #stage .rig i { width:12px; height:12px; margin-top:8px; border-radius:50%; background:#fff; box-shadow:0 0 14px 5px rgba(170,215,255,.9); }
+
+  #seats { position:absolute; inset:0; width:100%; height:100%; display:block; }
+  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 55%,transparent 55%,rgba(5,3,10,.6) 100%), linear-gradient(to top,rgba(5,3,10,.7),transparent 28%); }
+
+  /* frame brackets (viewfinder) */
+  .vf { position:absolute; width:22px; height:22px; border:2px solid rgba(255,255,255,.7); pointer-events:none; }
+  .vf.tl { left:max(18px,env(safe-area-inset-left,0px)); top:84px; border-right:0; border-bottom:0; } .vf.tr { right:max(18px,env(safe-area-inset-right,0px)); top:84px; border-left:0; border-bottom:0; }
+  .vf.bl { left:max(18px,env(safe-area-inset-left,0px)); bottom:18px; border-right:0; border-top:0; } .vf.br { right:max(18px,env(safe-area-inset-right,0px)); bottom:18px; border-left:0; border-top:0; }
+
+  /* nav + copy */
+  nav { position:absolute; top:max(16px,env(safe-area-inset-top,0px)); left:0; right:0; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0 max(24px,env(safe-area-inset-left,0px)); z-index:5; cursor:auto; }
+  .pill { background:var(--glass); border:1px solid var(--glass-line); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-radius:99px; padding:9px 18px; font-size:12px; color:#fff; text-decoration:none; }
+  .logo { font:600 15px var(--sans); letter-spacing:.02em; } .logo b { font-weight:600; opacity:.7; }
+  nav ul { display:flex; gap:6px; list-style:none; } nav ul a { display:block; }
+  .cta-sm { background:#fff; color:#0a0c1f; font-weight:600; }
+  @media (max-width:720px){ nav ul { display:none; } }
+
+  .copy { position:absolute; left:0; right:0; top:clamp(84px,12vh,130px); text-align:center; z-index:4; padding:0 24px; pointer-events:none; }
+  .copy h1 { font:700 clamp(36px,6vw,80px)/1 var(--script); text-shadow:0 2px 24px rgba(20,10,60,.5); }
+  .copy h2 { font:300 clamp(20px,3.6vw,48px)/1.05 var(--sans); margin-top:6px; letter-spacing:-.01em; opacity:.95; text-shadow:0 2px 24px rgba(20,10,60,.5); }
+  .bottom { position:absolute; left:0; right:0; bottom:clamp(36px,8vh,80px); display:flex; flex-direction:column; align-items:center; gap:18px; z-index:5; text-align:center; padding:0 24px; }
+  .bottom p { max-width:46ch; font-size:12px; line-height:1.55; opacity:.9; text-shadow:0 1px 12px rgba(0,0,0,.6); }
+  .cta { display:inline-flex; align-items:center; gap:14px; padding:6px 6px 6px 22px; border-radius:99px; background:var(--glass); border:1px solid var(--glass-line); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); color:#fff; text-decoration:none; font-size:13px; cursor:pointer; transition:background .2s; }
+  .cta:hover { background:rgba(255,255,255,.26); }
+  .cta i { width:34px; height:34px; border-radius:50%; background:#0b0c14; display:grid; place-items:center; font-style:normal; font-size:15px; }
+  .cta:focus-visible, .pill:focus-visible { outline:2px solid #fff; outline-offset:3px; }
+  @media (prefers-reduced-motion:reduce) { .blob, .beam, #stage .halo { animation:none; } }
+</style>
+</head>
+<body>
+<main id="hero">
+  <i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+  <i class="beam l"></i><i class="beam r"></i>
+  <div id="stage" aria-label="The stage">
+    <i class="halo"></i>
+    <div class="arch"><div class="ttl"><span>خيال مريض<small>Teatro Arkan · 8 PM</small></span></div></div>
+    <div class="deck"><div class="rig"><i></i><i></i><i></i><i></i><i></i></div></div>
+  </div>
+  <canvas id="seats" aria-hidden="true"></canvas>
+  <div id="vig"></div>
+  <i class="vf tl"></i><i class="vf tr"></i><i class="vf bl"></i><i class="vf br"></i>
+
+  <nav>
+    <a class="pill logo" href="#">teatro<b>.arkan</b></a>
+    <ul><li><a class="pill" href="#">Shows</a></li><li><a class="pill" href="#">Seats</a></li><li><a class="pill" href="#">Pricing</a></li><li><a class="pill" href="#">Contact</a></li></ul>
+    <a class="pill cta-sm" href="#">Get tickets</a>
+  </nav>
+
+  <div class="copy">
+    <h1>Every night is live.</h1>
+    <h2>The seats are filling up too.</h2>
+  </div>
+  <div class="bottom">
+    <p>Khayal Mareed, a new interactive comedy by Mohammed Mohamdy. Pick your row, check the view from your seat, and the curtain does the rest.</p>
+    <a class="cta" href="#">Pick your seat <i aria-hidden="true">→</i></a>
+  </div>
+</main>
+
+<script>
+const hero = document.getElementById('hero'), cv = document.getElementById('seats'), g = cv.getContext('2d'), stage = document.getElementById('stage');
+stage.style.setProperty('--curtain', "url('img/curtain.jpg')");
+const DPR = Math.min(devicePixelRatio || 1, 2);
+let W = 0, H = 0, HY = 0, U = 1;
+const ROWS = 15;
+let rows = [];                       // per row: seat state arrays
+const mouse = { x: -999, y: -999, sx: 0, sy: 0 };
+const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+const css = c => `rgb(${c[0]},${c[1]},${c[2]})`;
+const FOG = [58, 40, 96];
+
+function layout() {
+  W = hero.clientWidth; H = hero.clientHeight; cv.width = W * DPR; cv.height = H * DPR; g.setTransform(DPR, 0, 0, DPR, 0, 0);
+  HY = H * 0.6; U = Math.max(.55, Math.min(1.4, W / 1400));
+  stage.style.top = (HY - stage.offsetHeight + 2) + 'px';
+  rows = [];
+  for (let i = 0; i < ROWS; i++) {
+    const t = i / (ROWS - 1), d = Math.pow(t, 1.75), s = (0.16 + d * 2.0) * U, w = 58 * s, sp = w * 1.1;
+    const n = Math.ceil((W + sp * 2) / sp) + 1;
+    rows.push({ d, s, w, h: w * 1.28, sp, y: HY + 14 + (H - HY + 60) * d, off: (i % 2) * sp / 2 - sp, n, ang: new Float32Array(n), vel: new Float32Array(n) });
+  }
+}
+addEventListener('resize', layout);
+new ResizeObserver(layout).observe(stage);
+
+function rr(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+
+const motes = Array.from({ length: 80 }, () => ({ x: Math.random(), y: Math.random(), v: .00025 + Math.random() * .0007, r: .6 + Math.random() * 1.8, p: Math.random() * 6 }));
+
+function frame(t) {
+  g.clearRect(0, 0, W, H);
+  const time = t / 1000;
+  // ease the cursor position so the stage parallax and seat push feel soft
+  if (mouse.x < -500) { mouse.sx = mouse.sy = -999; } else { mouse.sx += (mouse.x - mouse.sx) * .12; mouse.sy += (mouse.y - mouse.sy) * .12; }
+  const nx = (Math.min(Math.max(mouse.sx, 0), W) / W - .5), ny = (Math.min(Math.max(mouse.sy, 0), H) / H - .5);
+  stage.style.setProperty('--px', (-nx * 18) + 'px'); stage.style.setProperty('--py', (Math.sin(time * 1.2) * 4 - ny * 8) + 'px');
+
+  for (let i = 0; i < ROWS; i++) {
+    const R = rows[i], fogT = Math.max(0, .82 * (1 - R.d) - .02) , dark = Math.max(0, (R.d - .72) * 1.6);
+    const cap = mix(mix([196, 18, 30], FOG, fogT), [4, 2, 8], dark), wood = mix(mix([112, 62, 44], FOG, fogT), [4, 2, 8], dark), hi = mix(cap, [255, 120, 120], .35), arm = mix(wood, [200, 160, 120], .15);
+    const reach = 190 * U * (.5 + R.s * .9);
+    for (let k = 0; k < R.n; k++) {
+      const x = R.off + k * R.sp + R.w / 2 + R.sp * .05, y = R.y;
+      const dx = x - mouse.sx, dy = (y - R.h * .5) - mouse.sy, dist = Math.hypot(dx, dy);
+      let target = Math.sin(time * 1.1 + k * .55 + i * .9) * .018;
+      if (dist < reach) { const f = 1 - dist / reach; target += Math.sign(dx || 1) * f * f * 1.0 * (.75 + .25 * Math.min(1, Math.abs(dx) / reach * 3)); }
+      R.vel[k] += (target - R.ang[k]) * .12; R.vel[k] *= .82; R.ang[k] += R.vel[k];
+      g.save(); g.translate(x, y); g.rotate(R.ang[k]);
+      const w = R.w, h = R.h;
+      g.fillStyle = 'rgba(0,0,0,.35)'; g.beginPath(); g.ellipse(0, 2, w * .55, w * .08, 0, 0, 7); g.fill();
+      g.fillStyle = css(arm); g.fillRect(-w * .58, -h * .42, w * .1, h * .3); g.fillRect(w * .48, -h * .42, w * .1, h * .3);
+      rr(-w / 2, -h, w, h, w * .12); g.fillStyle = css(wood); g.fill();
+      g.save(); rr(-w / 2, -h, w, h, w * .12); g.clip(); g.fillStyle = css(cap); g.fillRect(-w / 2, -h, w, h * .3); g.fillStyle = css(hi); g.fillRect(-w / 2, -h, w, Math.max(1, h * .035)); g.fillStyle = 'rgba(0,0,0,.18)'; g.fillRect(-w / 2, -h * .7, w, Math.max(1, h * .03)); g.restore();
+      g.restore();
+    }
+  }
+  // warm light spilling from the stage onto the first rows
+  const sg = g.createRadialGradient(W / 2, HY, 0, W / 2, HY, W * .5); sg.addColorStop(0, 'rgba(255,190,120,.28)'); sg.addColorStop(1, 'rgba(255,190,120,0)'); g.fillStyle = sg; g.fillRect(0, HY - 40, W, H - HY + 40);
+
+  // dust motes drifting up
+  g.globalCompositeOperation = 'lighter';
+  motes.forEach(m => { m.y -= m.v * 16; if (m.y < -.02) { m.y = 1.02; m.x = Math.random(); }
+    const a = .35 + .45 * Math.sin(time * 2 + m.p); g.fillStyle = `rgba(150,235,255,${a})`; g.beginPath(); g.arc(m.x * W + Math.sin(time * .6 + m.p) * 14, m.y * H, m.r * U, 0, 7); g.fill(); });
+  g.globalCompositeOperation = 'source-over';
+
+  // cursor halo
+  if (mouse.sx > -500) { const c = g.createRadialGradient(mouse.sx, mouse.sy, 0, mouse.sx, mouse.sy, 26); c.addColorStop(0, 'rgba(255,255,255,.55)'); c.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = c; g.beginPath(); g.arc(mouse.sx, mouse.sy, 26, 0, 7); g.fill(); }
+  requestAnimationFrame(frame);
+}
+function move(e) { const r = hero.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; if (e.pointerType === 'touch') hero.classList.add('touch'); if (mouse.sx < -500) { mouse.sx = mouse.x; mouse.sy = mouse.y; } }
+hero.addEventListener('pointermove', move); hero.addEventListener('pointerdown', move);
+hero.addEventListener('pointerleave', () => { mouse.x = -999; mouse.y = -999; });
+document.fonts && document.fonts.ready.then(layout);
+layout(); mouse.sx = mouse.sy = -999;
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

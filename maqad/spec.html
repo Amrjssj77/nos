@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>وثيقة منصة حجز الفعاليات</title>
+  <style>
+    :root {
+      --bg: #071018;
+      --bg-soft: #0b1420;
+      --card: #0f1826;
+      --card-2: #121d2e;
+      --text: #eef4ff;
+      --muted: #9fb0c5;
+      --accent: #d9ff3d;
+      --accent-2: #7cffc4;
+      --danger: #ff7d7d;
+      --line: rgba(255,255,255,.09);
+      --shadow: 0 12px 35px rgba(0,0,0,.28);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(217,255,61,.08), transparent 26%),
+        radial-gradient(circle at top right, rgba(124,255,196,.07), transparent 22%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1350px, 92%);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,16,24,.86);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+    }
+
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #061018;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding: 10px 13px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .2s ease;
+      font-size: 14px;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(217,255,61,.35);
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #071018;
+      font-weight: 800;
+    }
+
+    header.hero {
+      padding: 42px 0 18px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .hero-card, .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 38px;
+      line-height: 1.25;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 28px;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    h4 {
+      margin: 16px 0 8px;
+      font-size: 17px;
+      color: var(--accent);
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .accent {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(217,255,61,.12);
+      color: var(--accent);
+      border: 1px solid rgba(217,255,61,.24);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-left: 6px;
+    }
+
+    .badge.green {
+      background: rgba(124,255,196,.12);
+      color: var(--accent-2);
+      border-color: rgba(124,255,196,.24);
+    }
+
+    .side-card {
+      padding: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+    }
+
+    .list {
+      margin: 0;
+      padding-right: 20px;
+    }
+
+    .list li {
+      margin-bottom: 8px;
+    }
+
+    main {
+      padding: 18px 0 50px;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+      animation: fade .25s ease;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0,1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0,1fr));
+    }
+
+    .card {
+      padding: 20px;
+    }
+
+    .section-title {
+      margin: 26px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 11px 10px;
+      text-align: right;
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(255,255,255,.04);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(255,255,255,.015);
+    }
+
+    .code-block, pre {
+      direction: ltr;
+      text-align: left;
+      background: #050b11;
+      color: #d8e8ff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      overflow: auto;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    details {
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 18px 0 30px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .notice {
+      border: 1px dashed rgba(217,255,61,.4);
+      background: rgba(217,255,61,.06);
+      padding: 14px;
+      border-radius: 14px;
+    }
+
+    .mini-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi {
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .flow-step {
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+
+    .flow-step b {
+      color: var(--accent);
+    }
+
+    .color-box {
+      height: 64px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      text-shadow: 0 1px 4px rgba(0,0,0,.3);
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid, .grid-4, .grid-3, .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+    }
+
+    @media print {
+      .topbar, .tab-btn {
+        display: none;
+      }
+
+      .panel {
+        display: block !important;
+        page-break-after: always;
+      }
+
+      body {
+        background: white;
+        color: black;
+      }
+
+      .card, .hero-card, details, .flow-step {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">م</div>
+        <div>
+          مَقْعَد | MAQAD
+          <div class="muted" style="font-size:12px; font-weight:500;">وثيقة تنفيذ منصة حجز فعاليات</div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="tab-btn active" data-target="overview">نظرة عامة</button>
+        <button class="tab-btn" data-target="stories">User Stories</button>
+        <button class="tab-btn" data-target="erd">ERD</button>
+        <button class="tab-btn" data-target="architecture">Architecture</button>
+        <button class="tab-btn" data-target="structure">هيكل المشروع</button>
+        <button class="tab-btn" data-target="apis">APIs</button>
+        <button class="tab-btn" data-target="roadmap">Roadmap</button>
+        <button class="tab-btn" data-target="mvp">MVP</button>
+        <button class="tab-btn" data-target="flows">User Flows</button>
+        <button class="tab-btn" data-target="brand">الاسم والهوية</button>
+        <button class="tab-btn" data-target="marketing">الإطلاق التسويقي</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-card">
+        <div>
+          <span class="badge">PRD</span>
+          <span class="badge green">Technical Doc</span>
+          <span class="badge">MVP</span>
+          <span class="badge green">Go-To-Market</span>
+        </div>
+
+        <h1>منصة حجز فعاليات متفوقة على المنافسين</h1>
+        <p class="muted">
+          وثيقة تنفيذ متكاملة لمنصة حجز فعاليات ترفيهية وثقافية ورياضية، تشمل تجربة المستخدم، الحجز بالمقاعد،
+          الدفع، التذاكر، لوحة المنظم، سوق إعادة البيع، قوائم الانتظار، تقسيم الفاتورة، التوصيات، الولاء، وخطة الإطلاق.
+        </p>
+
+        <div class="grid grid-3">
+          <div class="card" style="padding:16px;">
+            <div class="mini-label">الاسم المقترح</div>
+            <div class="accent" style="font-size:24px; font-weight:900;">مَقْعَد | MAQAD</div>
+          </div>
+          <div class="card" style="padding:16px;">
+            <div class="mini-label">الشعار</div>
+            <div style="font-weight:800;">احجز مكانك صح</div>
+          </div>
+          <div class="card" style="padding:16px;">
+            <div class="mini-label">أهم ميزة تنافسية</div>
+            <div style="font-weight:800;">مقعد دقيق + إعادة بيع رسمية</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card side-card">
+        <h3>ملخص سريع</h3>
+        <ul class="list muted">
+          <li>ويب + جوال</li>
+          <li>عربي / إنجليزي</li>
+          <li>خريطة مقاعد تفاعلية</li>
+          <li>دفع إلكتروني متعدد</li>
+          <li>تذاكر QR آمنة</li>
+          <li>لوحة منظم + ماسح تذاكر</li>
+          <li>Resale Market + Waitlist + Split Payment</li>
+          <li>Dynamic Pricing + Loyalty + AI Recommendations</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Overview -->
+    <section id="overview" class="panel active">
+      <div class="section-title">
+        <h2>1) نظرة عامة على المشروع</h2>
+        <p class="muted">الهدف: بناء منصة حجز فعاليات حديثة قادرة على المنافسة والاستحواذ على السوق عبر تجربة مستخدم أفضل، أمان أعلى، وميزات اجتماعية وتجارية ذكية.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>المستخدمون الأساسيون</h3>
+          <ul class="list">
+            <li><b>مستخدم:</b> يبحث، يحجز، يدفع، ويحصل على التذكرة.</li>
+            <li><b>منظم:</b> يضيف الفعاليات ويدير الأسعار والمقاعد.</li>
+            <li><b>إدارة المنصة:</b> توافق على الفعاليات وتدير المدفوعات والمخاطر.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>الميزات الأساسية</h3>
+          <ul class="list">
+            <li>التصفح والبحث الذكي</li>
+            <li>صفحة تفاصيل الفعالية</li>
+            <li>خريطة مقاعد تفاعلية</li>
+            <li>سلة شراء ومؤقت حجز</li>
+            <li>دفع إلكتروني</li>
+            <li>محفظة تذاكر QR</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>الميزات القاتلة</h3>
+          <ul class="list">
+            <li>سوق إعادة بيع رسمي</li>
+            <li>تقسيم الفاتورة</li>
+            <li>رؤية 360° من المقعد</li>
+            <li>تسعير ديناميكي</li>
+            <li>توصيات ذكاء اصطناعي</li>
+            <li>نظام ولاء وقوائم انتظار</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>مؤشرات النجاح المقترحة</h3>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card">
+          <div class="mini-label">Conversion Rate</div>
+          <div class="kpi">4–8%</div>
+          <div class="muted">من صفحة الفعالية إلى الشراء</div>
+        </div>
+        <div class="card">
+          <div class="mini-label">Payment Success Rate</div>
+          <div class="kpi">+95%</div>
+          <div class="muted">نسبة نجاح عمليات الدفع</div>
+        </div>
+        <div class="card">
+          <div class="mini-label">Time to Book</div>
+          <div class="kpi">&lt; 3 د</div>
+          <div class="muted">متوسط زمن إتمام الحجز</div>
+        </div>
+        <div class="card">
+          <div class="mini-label">Retention</div>
+          <div class="kpi">30 يوم</div>
+          <div class="muted">نسبة العودة بعد أول حجز</div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>الافتراضات الأساسية</h3>
+      </div>
+
+      <div class="card">
+        <ul class="list">
+          <li>المنصة ستطلق أولاً في سوق واحد أو سوقين مع دعم تعدد العملات لاحقاً.</li>
+          <li>الدفع سيتم عبر بوابة خارجية متوافقة مع متطلبات الأمان.</li>
+          <li>الفعاليات قد تكون بمقاعد محددة أو دخول عام.</li>
+          <li>يوجد دور مراجعة إدارية قبل نشر الفعاليات في المرحلة الأولى.</li>
+          <li>الهدف الأول هو إثبات الثقة وسلاسة الحجز قبل التوسع الكامل في الميزات المتقدمة.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- User Stories -->
+    <section id="stories" class="panel">
+      <div class="section-title">
+        <h2>2) User Stories + Acceptance Criteria</h2>
+        <p class="muted">أهم قصص المستخدم مع معايير القبول بشكل مختصر وقابل للتحويل لاحقاً إلى Jira / Linear.</p>
+      </div>
+
+      <div class="card">
+        <div class="notice">
+          هذه نسخة مضغوطة من القصص. يمكن لاحقاً تحويل كل سطر إلى Ticket مستقل مع تفاصيل أعمق، وتصميم، وحواف، واختبارات.
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:80px;">ID</th>
+            <th style="width:170px;">Epic</th>
+            <th style="width:330px;">User Story</th>
+            <th>Acceptance Criteria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>US-001</td>
+            <td>الحسابات</td>
+            <td>كمستخدم جديد، أريد التسجيل برقم الجوال أو البريد حتى أستطيع الحجز.</td>
+            <td>تسجيل عبر جوال/بريد، إرسال OTP، منع التكرار، رسائل خطأ واضحة، توجيه للرئيسية بعد النجاح.</td>
+          </tr>
+          <tr>
+            <td>US-002</td>
+            <td>الحسابات</td>
+            <td>كمستخدم مسجل، أريد تسجيل الدخول بسهولة.</td>
+            <td>دخول آمن، Access/Refresh tokens، Rate limiting، رسائل خطأ عامة غير كاشفة.</td>
+          </tr>
+          <tr>
+            <td>US-003</td>
+            <td>الحسابات</td>
+            <td>كمستخدم، أريد استعادة كلمة المرور عند نسيانها.</td>
+            <td>رابط/رمز صالح لفترة محددة، تحديث آمن، تسجيل أمني للعملية.</td>
+          </tr>
+          <tr>
+            <td>US-004</td>
+            <td>الحسابات</td>
+            <td>كمستخدم، أريد تعديل بياناتي وتفضيلاتي.</td>
+            <td>تعديل الاسم واللغة والعملة والدولة والإشعارات، حفظ فوري، عرض حالة التحقق.</td>
+          </tr>
+          <tr>
+            <td>US-005</td>
+            <td>المنظمون</td>
+            <td>كمنظم، أريد إنشاء حساب منظم ورفع بياناتي.</td>
+            <td>حقول إضافية للمنظم، رفع مستندات، حالة مراجعة، إشعار بالقبول/الرفض.</td>
+          </tr>
+          <tr>
+            <td>US-006</td>
+            <td>الاكتشاف</td>
+            <td>كمستخدم، أريد تصفح الفعاليات من الصفحة الرئيسية.</td>
+            <td>فعاليات اليوم، رائج، قريب، تصنيفات، دعم الوضع الليلي، عرض سريع وجذاب.</td>
+          </tr>
+          <tr>
+            <td>US-007</td>
+            <td>الاكتشاف</td>
+            <td>كمستخدم، أريد البحث مع فلاتر متقدمة.</td>
+            <td>بحث بالاسم/الفنان/المدينة، فلاتر التاريخ والسعر والفئة، نتائج سريعة وواضحة.</td>
+          </tr>
+          <tr>
+            <td>US-008</td>
+            <td>الاكتشاف</td>
+            <td>كمستخدم، أريد رؤية تفاصيل الفعالية قبل الحجز.</td>
+            <td>بوستر، وصف، وقت، موقع، شروط، أسعار، زر حجز، مشاركة، حالة التوفر.</td>
+          </tr>
+          <tr>
+            <td>US-009</td>
+            <td>الاكتشاف</td>
+            <td>كمستخدم، أريد حفظ الفعاليات المفضلة.</td>
+            <td>إضافة/إزالة من المفضلة، قائمة مفضلة، متابعة فنان/منظم، إشعارات اختيارية.</td>
+          </tr>
+          <tr>
+            <td>US-010</td>
+            <td>المقاعد</td>
+            <td>كمستخدم، أريد رؤية خريطة المقاعد بشكل تفاعلي.</td>
+            <td>أقسام/صفوف/مقاعد، ترميز لوني، تكبير/تصغير، حالة المقاعد، أداء جيد على الجوال.</td>
+          </tr>
+          <tr>
+            <td>US-011</td>
+            <td>المقاعد</td>
+            <td>كمستخدم، أريد اختيار مقاعد محددة بدقة.</td>
+            <td>اختيار ضمن الحد الأقصى، منع اختيار مقعد محجوز، ملخص لحظي للسعر.</td>
+          </tr>
+          <tr>
+            <td>US-012</td>
+            <td>الحجز</td>
+            <td>كمستخدم، أريد مؤقتاً يحجز مقاعدي أثناء الدفع.</td>
+            <td>مؤقت 10 دقائق، تحرير تلقائي عند الانتهاء، تثبيت الحجز عند نجاح الدفع.</td>
+          </tr>
+          <tr>
+            <td>US-013</td>
+            <td>الحجز</td>
+            <td>كمستخدم، أريد رؤية السعر النهائي بوضوح.</td>
+            <td>سعر التذكرة، الرسوم، الضريبة، الخصم، الإجمالي، العملة الصحيحة.</td>
+          </tr>
+          <tr>
+            <td>US-014</td>
+            <td>الدفع</td>
+            <td>كمستخدم، أريد الدفع بطرق متعددة وآمنة.</td>
+            <td>بطاقة، Apple Pay، K-Net/مدى حسب الدولة، إصدار التذاكر فقط بعد نجاح الدفع.</td>
+          </tr>
+          <tr>
+            <td>US-015</td>
+            <td>الدفع</td>
+            <td>كمستخدم، أريد معرفة حالة الدفع عند الفشل.</td>
+            <td>رسالة فشل واضحة، إعادة محاولة، منع تكرار الدفع، معالجة انتهاء المهلة.</td>
+          </tr>
+          <tr>
+            <td>US-016</td>
+            <td>العروض</td>
+            <td>كمستخدم، أريد استخدام كود خصم.</td>
+            <td>التحقق من الصلاحية والاستخدام، تطبيق الخصم، رسالة فشل/نجاح واضحة.</td>
+          </tr>
+          <tr>
+            <td>US-017</td>
+            <td>الاسترجاع</td>
+            <td>كمستخدم/مدير، أريد إدارة الإلغاء والاسترجاع.</td>
+            <td>سياسة واضحة، طلب استرجاع، حالات متعددة، تدقيق كامل.</td>
+          </tr>
+          <tr>
+            <td>US-018</td>
+            <td>التذاكر</td>
+            <td>كمستخدم، أريد رؤية تذاكري في محفظة واحدة.</td>
+            <td>قادمة/سابقة/ملغاة، تفاصيل واضحة، حالة التذكرة.</td>
+          </tr>
+          <tr>
+            <td>US-019</td>
+            <td>التذاكر</td>
+            <td>كمستخدم، أريد تذكرة QR آمنة.</td>
+            <td>QR فريد، تحقق من الصلاحية، منع الاستخدام المتكرر، تحديث الحالة بعد المسح.</td>
+          </tr>
+          <tr>
+            <td>US-020</td>
+            <td>التذاكر</td>
+            <td>كمستخدم، أريد إضافة التذكرة إلى Wallet.</td>
+            <td>دعم Apple/Google Wallet إن أمكن، عرض بيانات الفعالية، تحديث عند الإلغاء.</td>
+          </tr>
+          <tr>
+            <td>US-021</td>
+            <td>لوحة المنظم</td>
+            <td>كمنظم، أريد إنشاء فعالية جديدة.</td>
+            <td>إدخال العنوان/الوصف/التاريخ/المكان/الصور، حفظ كمسودة، إرسال للنشر.</td>
+          </tr>
+          <tr>
+            <td>US-022</td>
+            <td>لوحة المنظم</td>
+            <td>كمنظم، أريد تصميم خريطة المقاعد.</td>
+            <td>إضافة أقسام/صفوف/مقاعد، ربطها بالفئات، معاينة، منع التعارض.</td>
+          </tr>
+          <tr>
+            <td>US-023</td>
+            <td>لوحة المنظم</td>
+            <td>كمنظم، أريد تحديد الأسعار والفئات.</td>
+            <td>VIP/ذهبي/فضي، سعر لكل فئة، حدود شراء، تحقق من صحة القيم.</td>
+          </tr>
+          <tr>
+            <td>US-024</td>
+            <td>لوحة المنظم</td>
+            <td>كمنظم، أريد نشر الفعالية بعد الموافقة.</td>
+            <td>حالات: مسودة/مراجعة/موافقة/منشور/مرفوض، إشعارات للمنظم.</td>
+          </tr>
+          <tr>
+            <td>US-025</td>
+            <td>لوحة المنظم</td>
+            <td>كمنظم، أريد رؤية إحصائيات المبيعات.</td>
+            <td>تذاكر مباعة، إيرادات، إشغال، فلاتر زمنية، أرقام متسقة مع الطلبات.</td>
+          </tr>
+          <tr>
+            <td>US-026</td>
+            <td>ماسح التذاكر</td>
+            <td>كمنظم/موظف بوابة، أريد مسح تذاكر الحضور.</td>
+            <td>مسح QR، نتيجة فورية، منع التكرار، تسجيل وقت المسح والجهاز.</td>
+          </tr>
+          <tr>
+            <td>US-027</td>
+            <td>الإدارة</td>
+            <td>كمدير منصة، أريد الموافقة على الفعاليات.</td>
+            <td>مراجعة الفعاليات، قبول/رفض مع سبب، سجل تدقيق.</td>
+          </tr>
+          <tr>
+            <td>US-028</td>
+            <td>الإدارة</td>
+            <td>كمدير منصة، أريد إدارة المستخدمين.</td>
+            <td>بحث، عرض الطلبات والتذاكر، إيقاف/تفعيل، ملاحظات إدارية.</td>
+          </tr>
+          <tr>
+            <td>US-029</td>
+            <td>الإدارة</td>
+            <td>كمدير منصة، أريد مراقبة المدفوعات.</td>
+            <td>قوائم عمليات ناجحة/فاشلة/معلقة، فلاتر، استرجاع، تدقيق.</td>
+          </tr>
+          <tr>
+            <td>US-030</td>
+            <td>Killer Feature</td>
+            <td>كمستخدم، أريد إعادة بيع تذكرتي رسمياً.</td>
+            <td>سعر لا يتجاوز الأصلي، قفل التذكرة أثناء العرض، إصدار تذكرة جديدة للمشتري.</td>
+          </tr>
+          <tr>
+            <td>US-031</td>
+            <td>Killer Feature</td>
+            <td>كمستخدم، أريد شراء تذكرة من سوق إعادة البيع.</td>
+            <td>شراء رسمي داخل المنصة، منع النقل الخارجي، تأكيد فوري.</td>
+          </tr>
+          <tr>
+            <td>US-032</td>
+            <td>Killer Feature</td>
+            <td>كمستخدم، أريد الانضمام لقائمة انتظار.</td>
+            <td>إشعار فوري عند التوفر، مهلة حجز، نقل الفرصة للتالي عند انتهاء المهلة.</td>
+          </tr>
+          <tr>
+            <td>US-033</td>
+            <td>Killer Feature</td>
+            <td>كمستخدم، أريد تقسيم الفاتورة مع أصدقائي.</td>
+            <td>روابط دفع، حالة لكل فرد، إصدار التذاكر بعد اكتمال الدفع، إلغاء عند انتهاء المهلة.</td>
+          </tr>
+          <tr>
+            <td>US-034</td>
+            <td>Killer Feature</td>
+            <td>كمنظم/منصة، أريد تطبيق تسعير ديناميكي.</td>
+            <td>Early Bird، خصومات آخر لحظة، أولوية قواعد، وضوح السعر النهائي.</td>
+          </tr>
+          <tr>
+            <td>US-035</td>
+            <td>Killer Feature</td>
+            <td>كمستخدم، أريد توصيات ذكية.</td>
+            <td>اقتراح حسب السلوك والموقع والتفضيلات، إمكانية إخفاء أو تعديل الاهتمامات.</td>
+          </tr>
+          <tr>
+            <td>US-036</td>
+            <td>Killer Feature</td>
+            <td>كمستخدم، أريد كسب نقاط ولاء.</td>
+            <td>كسب نقاط، سجل حركات، استبدال بمكافآت، معالجة الإلغاء والاسترجاع.</td>
+          </tr>
+          <tr>
+            <td>US-037</td>
+            <td>Killer Feature</td>
+            <td>كمستخدم، أريد رؤية منظور المقعد قبل الشراء.</td>
+            <td>عرض 360°/بانوراما عند توفر المحتوى، أداء سلس، بديل عند عدم توفر المحتوى.</td>
+          </tr>
+          <tr>
+            <td>US-038</td>
+            <td>الإشعارات</td>
+            <td>كمستخدم، أريد استقبال إشعارات مهمة فقط.</td>
+            <td>Push/Email/In-app، تحكم في التفضيلات، إشعارات الحجز والتوفر والعروض.</td>
+          </tr>
+          <tr>
+            <td>US-039</td>
+            <td>Non-functional</td>
+            <td>كمنصة، أريد أداءً مستقراً في الذروة.</td>
+            <td>اختبار حمل، زمن استجابة جيد، دقة الحجز تحت الضغط.</td>
+          </tr>
+          <tr>
+            <td>US-040</td>
+            <td>Non-functional</td>
+            <td>كمنصة، أريد حماية البيانات والمدفوعات.</td>
+            <td>TLS، hashing، rate limit، audit logs، عدم تخزين بيانات البطاقات.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ERD -->
+    <section id="erd" class="panel">
+      <div class="section-title">
+        <h2>3) ERD تفصيلي لقاعدة البيانات</h2>
+        <p class="muted">نموذج مختصر لكن شامل لأهم الكيانات والعلاقات، وقابل للتحويل إلى PostgreSQL مباشرة.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>الكيانات الأساسية</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>الجدول</th>
+                <th>الغرض</th>
+                <th>أهم الحقول</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>users</td>
+                <td>المستخدمون</td>
+                <td>id, name, email, phone, password_hash, role, status, locale, currency_code</td>
+              </tr>
+              <tr>
+                <td>organizer_profiles</td>
+                <td>ملفات المنظمين</td>
+                <td>user_id, company_name, trade_license_no, status, payout_method</td>
+              </tr>
+              <tr>
+                <td>venues</td>
+                <td>أماكن الفعاليات</td>
+                <td>id, name, city, country_code, latitude, longitude, capacity</td>
+              </tr>
+              <tr>
+                <td>venue_maps</td>
+                <td>خرائط الأماكن</td>
+                <td>venue_id, name, version, map_data</td>
+              </tr>
+              <tr>
+                <td>sections</td>
+                <td>أقسام الخريطة</td>
+                <td>venue_map_id, name, type, shape_data</td>
+              </tr>
+              <tr>
+                <td>rows</td>
+                <td>صفوف المقاعد</td>
+                <td>section_id, label, display_order</td>
+              </tr>
+              <tr>
+                <td>seats</td>
+                <td>المقاعد</td>
+                <td>row_id, seat_number, seat_type, x, y</td>
+              </tr>
+              <tr>
+                <td>categories</td>
+                <td>تصنيفات الفعاليات</td>
+                <td>parent_id, name_ar, name_en, slug</td>
+              </tr>
+              <tr>
+                <td>events</td>
+                <td>الفعاليات</td>
+                <td>organizer_id, venue_id, category_id, title_ar, starts_at, status, city, currency_code</td>
+              </tr>
+              <tr>
+                <td>event_sessions</td>
+                <td>جلسات/مواعيد الفعالية</td>
+                <td>event_id, starts_at, ends_at, status</td>
+              </tr>
+              <tr>
+                <td>ticket_categories</td>
+                <td>فئات التذاكر</td>
+                <td>event_session_id, name_ar, base_price, color_code, max_per_order</td>
+              </tr>
+              <tr>
+                <td>session_seat_inventory</td>
+                <td>حالة المقاعد لكل جلسة</td>
+                <td>event_session_id, seat_id, ticket_category_id, status, price_override</td>
+              </tr>
+              <tr>
+                <td>orders</td>
+                <td>الطلبات</td>
+                <td>user_id, event_session_id, status, total_amount, payment_status, expires_at</td>
+              </tr>
+              <tr>
+                <td>order_items</td>
+                <td>بنود الطلب</td>
+                <td>order_id, ticket_category_id, seat_id, unit_price, total_price</td>
+              </tr>
+              <tr>
+                <td>payments</td>
+                <td>عمليات الدفع</td>
+                <td>order_id, gateway, amount, status, gateway_payment_id, paid_at</td>
+              </tr>
+              <tr>
+                <td>tickets</td>
+                <td>التذاكر النهائية</td>
+                <td>order_item_id, user_id, event_session_id, seat_id, qr_hash, status</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3>كيانات الميزات التنافسية</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>الجدول</th>
+                <th>الغرض</th>
+                <th>أهم الحقول</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>resale_listings</td>
+                <td>سوق إعادة البيع</td>
+                <td>ticket_id, seller_id, price, max_allowed_price, status</td>
+              </tr>
+              <tr>
+                <td>waitlist_entries</td>
+                <td>قوائم الانتظار</td>
+                <td>event_session_id, user_id, ticket_category_id, status, offer_expires_at</td>
+              </tr>
+              <tr>
+                <td>group_payment_orders</td>
+                <td>طلبات الدفع الجماعي</td>
+                <td>order_id, created_by_user_id, status, expires_at</td>
+              </tr>
+              <tr>
+                <td>group_payment_invitations</td>
+                <td>دعوات تقسيم الفاتورة</td>
+                <td>group_payment_order_id, amount_due, token, status</td>
+              </tr>
+              <tr>
+                <td>pricing_rules</td>
+                <td>قواعد التسعير الديناميكي</td>
+                <td>event_id, ticket_category_id, rule_type, adjustment_type, priority</td>
+              </tr>
+              <tr>
+                <td>loyalty_accounts</td>
+                <td>حساب الولاء</td>
+                <td>user_id, points_balance, tier, lifetime_points</td>
+              </tr>
+              <tr>
+                <td>loyalty_transactions</td>
+                <td>حركات النقاط</td>
+                <td>user_id, type, points, balance_after, reason</td>
+              </tr>
+              <tr>
+                <td>promotions</td>
+                <td>أكواد الخصم</td>
+                <td>code, type, value, max_usage, starts_at, ends_at</td>
+              </tr>
+              <tr>
+                <td>notifications</td>
+                <td>الإشعارات</td>
+                <td>user_id, title, body, type, channel, read_at</td>
+              </tr>
+              <tr>
+                <td>audit_logs</td>
+                <td>سجل التدقيق</td>
+                <td>actor_user_id, action, entity_type, old_values, new_values</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>العلاقات الأساسية</h3>
+      </div>
+
+      <div class="card">
+        <ul class="list">
+          <li><span class="accent">users</span> ← لهم طلبات، تذاكر، مفضلات، إشعارات، ولاء.</li>
+          <li><span class="accent">users</span> ← قد يكون لهم <span class="accent">organizer_profiles</span>.</li>
+          <li><span class="accent">organizer_profiles</span> ← يملكون فعاليات.</li>
+          <li><span class="accent">venues</span> ← تحتوي على فعاليات وخرائط مقاعد.</li>
+          <li><span class="accent">venue_maps</span> ← تحتوي على sections ← rows ← seats.</li>
+          <li><span class="accent">events</span> ← تحتوي على sessions.</li>
+          <li><span class="accent">event_sessions</span> ← لها ticket categories وinventory.</li>
+          <li><span class="accent">orders</span> ← لها order items وpayments.</li>
+          <li><span class="accent">order_items</span> ← تصدر منها tickets.</li>
+          <li><span class="accent">tickets</span> ← يمكن عرضها في resale أو مسحها عند البوابة.</li>
+        </ul>
+      </div>
+
+      <div class="section-title">
+        <h3>قواعد مهمة جداً في التصميم</h3>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h4>منع الحجز المزدوج</h4>
+          <p class="muted">Unique constraint على (event_session_id, seat_id) في الجرد، مع transaction عند الحجز والدفع.</p>
+        </div>
+        <div class="card">
+          <h4>الحجز المؤقت</h4>
+          <p class="muted">جدول seat_holds أو Redis مع TTL، وتحرير تلقائي عند انتهاء المهلة.</p>
+        </div>
+        <div class="card">
+          <h4>سوق إعادة البيع</h4>
+          <p class="muted">CHECK constraint يمنع سعر إعادة بيع أعلى من الحد المسموح.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture" class="panel">
+      <div class="section-title">
+        <h2>4) Technical Architecture Document</h2>
+        <p class="muted">البنية المقترحة: Modular Monolith أولاً، مع قابلية فصل الخدمات لاحقاً عند النمو.</p>
+      </div>
+
+      <div class="card">
+        <h3>المخطط العام</h3>
+        <pre>
+[Web App - Next.js]        [Mobile App - React Native]        [Scanner App]
+          |                              |                           |
+          +------------------------------+---------------------------+
+                                         |
+                                     HTTPS/TLS
+                                         |
+                                    [CDN / WAF]
+                                         |
+                              [Load Balancer / API Gateway]
+                                         |
+                           [Backend API - NestJS / Node.js]
+                                         |
+     +----------------+------------------+------------------+----------------+
+     |                |                  |                  |                |
+[Auth Module]  [Events Module]   [Booking Module]   [Payments Module] [Notifications]
+     |                |                  |                  |                |
+     +----------------+------------------+------------------+----------------+
+                                         |
+     +----------------+------------------+------------------+----------------+
+     |                |                  |                  |                |
+[PostgreSQL]      [Redis]        [Search Engine]     [Queue/Workers]  [Object Storage]
+        </pre>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>Frontend</h3>
+          <ul class="list">
+            <li>ويب: Next.js + TypeScript</li>
+            <li>جوال: React Native أو Flutter</li>
+            <li>دعم RTL</li>
+            <li>Dark Mode افتراضي</li>
+            <li>خرائط مقاعد تفاعلية</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Backend</h3>
+          <ul class="list">
+            <li>NestJS / Node.js</li>
+            <li>REST API + Webhooks</li>
+            <li>Modular architecture</li>
+            <li>Workers للعمليات غير المتزامنة</li>
+            <li>Rate limiting + validation + audit logs</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Data</h3>
+          <ul class="list">
+            <li>PostgreSQL للمعاملات</li>
+            <li>Redis للحجز المؤقت والكاش</li>
+            <li>Meilisearch / Elasticsearch للبحث</li>
+            <li>S3 أو بديل له للوسائط</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>قرارات معمارية مهمة</h3>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>إدارة الحجز المؤقت</h4>
+          <ul class="list">
+            <li>عند اختيار المقاعد: إنشاء hold مؤقت.</li>
+            <li>TTL افتراضي 10 دقائق.</li>
+            <li>عند نجاح الدفع: تثبيت الحجز.</li>
+            <li>عند انتهاء المهلة: تحرير المقاعد تلقائياً.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>الدفع والتذاكر</h4>
+          <ul class="list">
+            <li>لا تصدر تذكرة قبل نجاح الدفع.</li>
+            <li>Webhooks لتأكيد الحالة.</li>
+            <li>Idempotency keys لتفادي التكرار.</li>
+            <li>QR موقّع أو hash فريد لكل تذكرة.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>الأمان والتوسع</h3>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card">
+          <h4>أمان</h4>
+          <p class="muted">TLS - JWT - RBAC - Audit Logs - Rate limiting</p>
+        </div>
+        <div class="card">
+          <h4>مدفوعات</h4>
+          <p class="muted">بوابة متوافقة مع PCI، عدم تخزين بيانات البطاقات</p>
+        </div>
+        <div class="card">
+          <h4>توسع</h4>
+          <p class="muted">Stateless API - Caching - Queue - CDN</p>
+        </div>
+        <div class="card">
+          <h4>مراقبة</h4>
+          <p class="muted">Logs - Metrics - Alerts - Error tracking</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Structure -->
+    <section id="structure" class="panel">
+      <div class="section-title">
+        <h2>5) هيكل المشروع المقترح</h2>
+        <p class="muted">Monorepo حديث يسهل إدارة الويب والجوال والحزم المشتركة والخدمات الخلفية.</p>
+      </div>
+
+      <div class="card">
+        <h3>الهيكل العام</h3>
+        <pre>
+event-platform/
+├── apps/
+│   ├── web/                     # تطبيق الويب للمستخدم
+│   ├── mobile/                  # تطبيق الجوال للمستخدم
+│   ├── scanner/                 # تطبيق مسح التذاكر
+│   ├── organizer/               # لوحة تحكم المنظم
+│   └── admin/                   # لوحة الإدارة
+│
+├── packages/
+│   ├── ui/                      # مكونات مشتركة
+│   ├── api-client/              # client للتواصل مع API
+│   ├── types/                   # shared types
+│   ├── i18n/                    # الترجمات
+│   ├── utils/                   # دوال مساعدة
+│   └── config/                  # إعدادات مشتركة
+│
+├── services/
+│   ├── api/                     # Backend API الرئيسي
+│   ├── worker/                  # Background jobs
+│   ├── search-indexer/          # فهرسة البحث
+│   └── notifications/           # خدمة إشعارات لاحقاً
+│
+├── infra/
+│   ├── docker/
+│   ├── terraform/
+│   ├── kubernetes/
+│   └── ci/
+│
+└── docs/
+    ├── api.md
+    ├── architecture.md
+    ├── database.md
+    └── flows.md
+        </pre>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>هيكل الـ Backend</h3>
+          <pre>
+services/api/src/
+├── main.ts
+├── app.module.ts
+├── common/
+│   ├── guards/
+│   ├── decorators/
+│   ├── filters/
+│   └── interceptors/
+├── config/
+├── database/
+│   ├── entities/
+│   ├── migrations/
+│   └── seeds/
+├── modules/
+│   ├── auth/
+│   ├── users/
+│   ├── organizers/
+│   ├── events/
+│   ├── venues/
+│   ├── seatmaps/
+│   ├── search/
+│   ├── booking/
+│   ├── orders/
+│   ├── payments/
+│   ├── tickets/
+│   ├── scanner/
+│   ├── resale/
+│   ├── waitlists/
+│   ├── split-payments/
+│   ├── pricing/
+│   ├── loyalty/
+│   ├── recommendations/
+│   ├── notifications/
+│   ├── analytics/
+│   └── admin/
+└── integrations/
+    ├── payment-gateway/
+    ├── sms/
+    ├── email/
+    ├── push/
+    └── maps/
+          </pre>
+        </div>
+
+        <div class="card">
+          <h3>هيكل الواجهة الأمامية</h3>
+          <pre>
+apps/web/src/
+├── app/
+│   ├── (public)/
+│   │   ├── page.tsx
+│   │   ├── events/
+│   │   ├── search/
+│   │   └── auth/
+│   ├── (user)/
+│   │   ├── account/
+│   │   ├── tickets/
+│   │   └── favorites/
+│   └── api/
+├── components/
+│   ├── common/
+│   ├── events/
+│   ├── seatmap/
+│   ├── checkout/
+│   └── layout/
+├── features/
+│   ├── auth/
+│   ├── booking/
+│   ├── payments/
+│   ├── tickets/
+│   ├── resale/
+│   ├── waitlist/
+│   └── loyalty/
+├── hooks/
+├── lib/
+├── stores/
+├── styles/
+└── types/
+          </pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- APIs -->
+    <section id="apis" class="panel">
+      <div class="section-title">
+        <h2>6) قائمة الـ APIs المطلوبة</h2>
+        <p class="muted">الأساس: REST API تحت <span class="accent">/api/v1</span> مع إمكانية تحويلها لاحقاً إلى Swagger/OpenAPI.</p>
+      </div>
+
+      <details open>
+        <summary>Authentication</summary>
+        <ul class="list">
+          <li><code>POST /auth/register</code> — تسجيل مستخدم جديد</li>
+          <li><code>POST /auth/login</code> — تسجيل الدخول</li>
+          <li><code>POST /auth/otp/send</code> — إرسال رمز التحقق</li>
+          <li><code>POST /auth/otp/verify</code> — التحقق من الرمز</li>
+          <li><code>POST /auth/refresh</code> — تحديث التوكن</li>
+          <li><code>POST /auth/logout</code> — تسجيل الخروج</li>
+          <li><code>POST /auth/forgot-password</code> — طلب استعادة كلمة المرور</li>
+          <li><code>POST /auth/reset-password</code> — إعادة تعيين كلمة المرور</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Users</summary>
+        <ul class="list">
+          <li><code>GET /users/me</code> — بياناتي</li>
+          <li><code>PATCH /users/me</code> — تحديث الملف الشخصي</li>
+          <li><code>GET /users/me/preferences</code> — التفضيلات</li>
+          <li><code>PATCH /users/me/preferences</code> — تعديل التفضيلات</li>
+          <li><code>GET /users/me/favorites</code> — المفضلة</li>
+          <li><code>POST /users/me/favorites</code> — إضافة مفضلة</li>
+          <li><code>DELETE /users/me/favorites/{id}</code> — إزالة من المفضلة</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Organizers</summary>
+        <ul class="list">
+          <li><code>POST /organizers/profile</code> — إنشاء ملف منظم</li>
+          <li><code>GET /organizers/profile</code> — جلب ملفي كمنظم</li>
+          <li><code>PATCH /organizers/profile</code> — تحديث الملف</li>
+          <li><code>POST /organizers/documents</code> — رفع مستند</li>
+          <li><code>GET /organizers/events</code> — فعالياتي</li>
+          <li><code>GET /organizer/analytics/overview</code> — نظرة عامة على الأداء</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Events & Venues</summary>
+        <ul class="list">
+          <li><code>GET /venues</code> — الأماكن</li>
+          <li><code>GET /venues/{id}</code> — تفاصيل مكان</li>
+          <li><code>GET /events</code> — الفعاليات</li>
+          <li><code>GET /events/featured</code> — مميزة</li>
+          <li><code>GET /events/today</code> — فعاليات اليوم</li>
+          <li><code>GET /events/nearby</code> — قريبة</li>
+          <li><code>GET /events/{slug}</code> — تفاصيل فعالية</li>
+          <li><code>GET /events/{id}/sessions</code> — الجلسات</li>
+          <li><code>POST /events</code> — إنشاء فعالية</li>
+          <li><code>PATCH /events/{id}</code> — تعديل فعالية</li>
+          <li><code>POST /events/{id}/submit</code> — إرسال للمراجعة</li>
+          <li><code>POST /events/{id}/publish</code> — نشر</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Seat Maps & Booking</summary>
+        <ul class="list">
+          <li><code>GET /sessions/{sessionId}/seatmap</code> — خريطة الجلسة</li>
+          <li><code>GET /sessions/{sessionId}/availability</code> — توفر المقاعد</li>
+          <li><code>POST /sessions/{sessionId}/seat-holds</code> — حجز مؤقت</li>
+          <li><code>DELETE /seat-holds/{token}</code> — إلغاء حجز مؤقت</li>
+          <li><code>POST /checkout/quote</code> — حساب السعر</li>
+          <li><code>POST /orders</code> — إنشاء طلب</li>
+          <li><code>GET /orders/{id}</code> — تفاصيل الطلب</li>
+          <li><code>POST /orders/{id}/cancel</code> — إلغاء الطلب</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Payments & Tickets</summary>
+        <ul class="list">
+          <li><code>POST /payments/intent</code> — إنشاء نية دفع</li>
+          <li><code>POST /payments/confirm</code> — تأكيد الدفع</li>
+          <li><code>POST /webhooks/payments/{gateway}</code> — Webhook</li>
+          <li><code>GET /users/me/tickets</code> — تذاكري</li>
+          <li><code>GET /tickets/{id}</code> — تفاصيل تذكرة</li>
+          <li><code>GET /tickets/{id}/qr</code> — رمز QR</li>
+          <li><code>POST /tickets/{id}/add-to-wallet</code> — إضافة للمحفظة</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Resale / Waitlist / Split</summary>
+        <ul class="list">
+          <li><code>GET /events/{id}/resale-listings</code> — تذاكر إعادة البيع</li>
+          <li><code>POST /resale-listings</code> — عرض تذكرة للبيع</li>
+          <li><code>POST /resale-listings/{id}/purchase</code> — شراء من السوق</li>
+          <li><code>POST /waitlists</code> — انضمام لقائمة انتظار</li>
+          <li><code>GET /waitlists/me</code> — قوائم انتظاري</li>
+          <li><code>POST /orders/{id}/split-payment</code> — إنشاء دفع جماعي</li>
+          <li><code>GET /split-payments/{id}</code> — حالة المجموعة</li>
+          <li><code>POST /split-payments/invite/{token}/pay</code> — دفع حصة</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Loyalty / Pricing / Notifications / Admin</summary>
+        <ul class="list">
+          <li><code>GET /loyalty/me</code> — رصيد النقاط</li>
+          <li><code>POST /loyalty/redeem</code> — استبدال نقاط</li>
+          <li><code>POST /promotions/validate</code> — التحقق من كود خصم</li>
+          <li><code>GET /sessions/{sessionId}/pricing</code> — السعر النهائي</li>
+          <li><code>GET /notifications/me</code> — الإشعارات</li>
+          <li><code>POST /notifications/register-device</code> — تسجيل جهاز</li>
+          <li><code>GET /admin/events/pending</code> — فعاليات بانتظار الموافقة</li>
+          <li><code>POST /admin/events/{id}/approve</code> — الموافقة</li>
+          <li><code>POST /admin/events/{id}/reject</code> — الرفض</li>
+          <li><code>GET /admin/orders</code> — الطلبات</li>
+          <li><code>GET /admin/payments</code> — المدفوعات</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="panel">
+      <div class="section-title">
+        <h2>7) Roadmap على مراحل مع تقديرات زمنية تقريبية</h2>
+        <p class="muted">التقديرات مبنية على فريق متوسط الحجم، ويمكن تعديلها حسب الجاهزية ونطاق العمل.</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>المرحلة</th>
+            <th>المدة</th>
+            <th>النطاق</th>
+            <th>النتيجة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>المرحلة 0: الاكتشاف والتصميم</td>
+            <td>2 أسبوع</td>
+            <td>تأكيد النطاق، تصميم الرحلات، اختيار التقنيات، إعداد الوثائق النهائية</td>
+            <td>PRD + Wireframes + ERD + API contract</td>
+          </tr>
+          <tr>
+            <td>المرحلة 1: MVP</td>
+            <td>10–14 أسبوع</td>
+            <td>حسابات، بحث، صفحة فعالية، خريطة مقاعد، دفع، تذاكر، لوحة منظم أساسية، إدارة أساسية</td>
+            <td>منتج قابل للإطلاق التجريبي</td>
+          </tr>
+          <tr>
+            <td>المرحلة 2: الميزات التنافسية</td>
+            <td>8–10 أسابيع</td>
+            <td>Resale، Waitlist، Split Payment، Dynamic Pricing، إشعارات متقدمة</td>
+            <td>تفريق واضح عن المنافسين</td>
+          </tr>
+          <tr>
+            <td>المرحلة 3: الميزات المتقدمة</td>
+            <td>10–12 أسبوع</td>
+            <td>توصيات ذكية، ولاء، رؤية 360°، تحليلات متقدمة، ماسح محسّن</td>
+            <td>منصة ناضجة قابلة للتوسع</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>MVP سريع</h3>
+          <div class="kpi">12 أسبوع</div>
+          <p class="muted">إذا أردنا إطلاقاً تجريبياً خلال حوالي 3 أشهر.</p>
+        </div>
+        <div class="card">
+          <h3>إطلاق تجاري أفضل</h3>
+          <div class="kpi">20–24 أسبوع</div>
+          <p class="muted">مع الميزات التنافسية الأساسية.</p>
+        </div>
+        <div class="card">
+          <h3>منصة متكاملة</h3>
+          <div class="kpi">30–38 أسبوع</div>
+          <p class="muted">مع الميزات المتقدمة والتحليلات والنضج التشغيلي.</p>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>ترتيب التنفيذ المقترح</h3>
+      </div>
+
+      <div class="card">
+        <div class="flow-step"><b>1)</b> تجهيز البنية الأساسية وقاعدة البيانات</div>
+        <div class="flow-step"><b>2)</b> بناء الحسابات والمصادقة</div>
+        <div class="flow-step"><b>3)</b> إدارة الفعاليات والأماكن</div>
+        <div class="flow-step"><b>4)</b> خريطة المقاعد والحجز المؤقت</div>
+        <div class="flow-step"><b>5)</b> الدفع وإصدار التذاكر</div>
+        <div class="flow-step"><b>6)</b> لوحة المنظم والإدارة</div>
+        <div class="flow-step"><b>7)</b> إطلاق تجريبي</div>
+        <div class="flow-step"><b>8)</b> إضافة الميزات التنافسية</div>
+      </div>
+    </section>
+
+    <!-- MVP -->
+    <section id="mvp" class="panel">
+      <div class="section-title">
+        <h2>8) وثيقة MVP الرسمية</h2>
+        <p class="muted">نسخة جاهزة لفريق التطوير لتحديد ما داخل الإطلاق الأول وما خارجه.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>داخل MVP</h3>
+          <ul class="list">
+            <li>تسجيل ودخول المستخدمين</li>
+            <li>تصفح وبحث وفلاتر أساسية</li>
+            <li>صفحة تفاصيل الفعالية</li>
+            <li>خريطة مقاعد تفاعلية</li>
+            <li>حجز مؤقت للمقاعد</li>
+            <li>دفع إلكتروني عبر بوابة واحدة أو اثنتين</li>
+            <li>محفظة تذاكر مع QR</li>
+            <li>لوحة منظم أساسية</li>
+            <li>لوحة إدارة أساسية</li>
+            <li>إشعارات أساسية</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>خارج MVP مبدئياً</h3>
+          <ul class="list">
+            <li>سوق إعادة البيع</li>
+            <li>تقسيم الفاتورة</li>
+            <li>رؤية 360°</li>
+            <li>التوصيات الذكية الكاملة</li>
+            <li>نظام الولاء المتقدم</li>
+            <li>تقارير ديموغرافية متقدمة</li>
+            <li>تعدد الدول الكامل</li>
+            <li>ماسح Offline كامل</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>معايير القبول العامة للإطلاق</h3>
+      </div>
+
+      <div class="card">
+        <ul class="list">
+          <li>لا يمكن حجز مقعد محجوز مسبقاً.</li>
+          <li>لا تصدر تذكرة بدون دفع ناجح.</li>
+          <li>يمكن إتمام الحجز كاملاً من الجوال.</li>
+          <li>يمكن مسح التذكرة والتحقق منها.</li>
+          <li>يمكن للمنظم إنشاء فعالية ونشرها بعد الموافقة.</li>
+          <li>يمكن للإدارة متابعة الطلبات والمدفوعات.</li>
+          <li>لا توجد أخطاء حرجة في مسار الحجز والدفع.</li>
+        </ul>
+      </div>
+
+      <div class="section-title">
+        <h3>أهم المتطلبات غير الوظيفية</h3>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card">
+          <h4>الأداء</h4>
+          <p class="muted">زمن استجابة جيد لصفحات الفعاليات والحجز.</p>
+        </div>
+        <div class="card">
+          <h4>الأمان</h4>
+          <p class="muted">TLS، JWT، Rate limiting، Audit logs.</p>
+        </div>
+        <div class="card">
+          <h4>التوافر</h4>
+          <p class="muted">Uptime مستهدف 99.5% في الإطلاق الأول.</p>
+        </div>
+        <div class="card">
+          <h4>قابلية التوسع</h4>
+          <p class="muted">تصميم يسمح بإضافة ميزات دون إعادة بناء.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- User Flows -->
+    <section id="flows" class="panel">
+      <div class="section-title">
+        <h2>9) تدفقات المستخدم الأساسية</h2>
+        <p class="muted">أهم الرحلات خطوة بخطوة.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>تدفق الحجز الأساسي</h3>
+          <div class="flow-step"><b>1.</b> المستخدم يفتح المنصة</div>
+          <div class="flow-step"><b>2.</b> يبحث أو يتصفح الفعاليات</div>
+          <div class="flow-step"><b>3.</b> يختار فعالية</div>
+          <div class="flow-step"><b>4.</b> يطلع على التفاصيل</div>
+          <div class="flow-step"><b>5.</b> يضغط احجز الآن</div>
+          <div class="flow-step"><b>6.</b> يختار الجلسة</div>
+          <div class="flow-step"><b>7.</b> يختار المقاعد</div>
+          <div class="flow-step"><b>8.</b> يبدأ مؤقت الحجز</div>
+          <div class="flow-step"><b>9.</b> يراجع السعر</div>
+          <div class="flow-step"><b>10.</b> يدفع</div>
+          <div class="flow-step"><b>11.</b> تصدر التذاكر</div>
+          <div class="flow-step"><b>12.</b> يصل إشعار التأكيد</div>
+        </div>
+
+        <div class="card">
+          <h3>تدفق فشل الدفع</h3>
+          <div class="flow-step"><b>1.</b> المستخدم يختار المقاعد</div>
+          <div class="flow-step"><b>2.</b> يبدأ الدفع</div>
+          <div class="flow-step"><b>3.</b> تفشل العملية</div>
+          <div class="flow-step"><b>4.</b> تظهر رسالة فشل واضحة</div>
+          <div class="flow-step"><b>5.</b> إذا كانت المهلة سارية يمكن إعادة المحاولة</div>
+          <div class="flow-step"><b>6.</b> إذا انتهت المهلة تُحرر المقاعد</div>
+          <div class="flow-step"><b>7.</b> يمكن إعادة الاختيار من جديد</div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h3>تدفق سوق إعادة البيع</h3>
+          <div class="flow-step"><b>1.</b> المستخدم يفتح تذكرته</div>
+          <div class="flow-step"><b>2.</b> يختار عرض إعادة البيع</div>
+          <div class="flow-step"><b>3.</b> يحدد السعر ضمن الحد المسموح</div>
+          <div class="flow-step"><b>4.</b> تظهر في السوق الرسمي</div>
+          <div class="flow-step"><b>5.</b> مستخدم آخر يشتريها</div>
+          <div class="flow-step"><b>6.</b> تُلغى التذكرة القديمة</div>
+          <div class="flow-step"><b>7.</b> تصدر تذكرة جديدة للمشتري</div>
+          <div class="flow-step"><b>8.</b> يصل إشعار للطرفين</div>
+        </div>
+
+        <div class="card">
+          <h3>تدفق قائمة الانتظار</h3>
+          <div class="flow-step"><b>1.</b> الفعالية كاملة العدد</div>
+          <div class="flow-step"><b>2.</b> المستخدم ينضم لقائمة الانتظار</div>
+          <div class="flow-step"><b>3.</b> يتحدد ترتيبه</div>
+          <div class="flow-step"><b>4.</b> عند توفر تذكرة يصل إشعار فوري</div>
+          <div class="flow-step"><b>5.</b> يمنح مهلة قصيرة للحجز</div>
+          <div class="flow-step"><b>6.</b> إذا أكمل الدفع يحصل على التذكرة</div>
+          <div class="flow-step"><b>7.</b> إذا انتهت المهلة تنتقل الفرصة للتالي</div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h3>تدفق إنشاء فعالية</h3>
+          <div class="flow-step"><b>1.</b> المنظم يسجل حساباً</div>
+          <div class="flow-step"><b>2.</b> يرفع بيانات التوثيق</div>
+          <div class="flow-step"><b>3.</b> توافق الإدارة أو يُفعل حسب السياسة</div>
+          <div class="flow-step"><b>4.</b> يدخل لوحة التحكم</div>
+          <div class="flow-step"><b>5.</b> ينشئ فعالية جديدة</div>
+          <div class="flow-step"><b>6.</b> يضيف الوسائط والتفاصيل</div>
+          <div class="flow-step"><b>7.</b> يحدد خريطة المقاعد والأسعار</div>
+          <div class="flow-step"><b>8.</b> يرسل للمراجعة</div>
+          <div class="flow-step"><b>9.</b> بعد الموافقة تُنشر الفعالية</div>
+        </div>
+
+        <div class="card">
+          <h3>تدفق مسح التذكرة</h3>
+          <div class="flow-step"><b>1.</b> الموظف يفتح تطبيق المسح</div>
+          <div class="flow-step"><b>2.</b> يختار الفعالية/الجلسة</div>
+          <div class="flow-step"><b>3.</b> يمسح QR</div>
+          <div class="flow-step"><b>4.</b> يتحقق النظام من الصلاحية</div>
+          <div class="flow-step"><b>5.</b> تظهر النتيجة فوراً</div>
+          <div class="flow-step"><b>6.</b> إذا كانت صالحة يسمح بالدخول</div>
+          <div class="flow-step"><b>7.</b> يسجل المسح في النظام</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand -->
+    <section id="brand" class="panel">
+      <div class="section-title">
+        <h2>10) الاسم التجاري والهوية المقترحة</h2>
+        <p class="muted">الهدف: اسم قوي، سهل الانتشار، ويعكس الثقة والتجربة والمقاعد.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>الاسم المرشح</h3>
+          <div class="accent" style="font-size:34px; font-weight:900;">مَقْعَد</div>
+          <div class="muted">MAQAD</div>
+          <p class="muted">يرتبط مباشرة بالحجز واختيار المقعد، وهو مناسب جداً لميزة رؤية المقعد قبل الشراء.</p>
+        </div>
+
+        <div class="card">
+          <h3>أسماء بديلة</h3>
+          <ul class="list">
+            <li><b>تِكرا | Tikra</b> — هوية عاطفية مرتبطة بالذكريات</li>
+            <li><b>صفّ | Saff</b> — قصير وعصري</li>
+            <li><b>حافل | Hafel</b> — عربي واضح</li>
+            <li><b>لحظة | Lahza</b> — مناسب للتسويق الشبابي</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>الشعارات المقترحة</h3>
+          <ul class="list">
+            <li><b>احجز مكانك صح</b></li>
+            <li><b>مقعدك… لحظتك</b></li>
+            <li><b>شوفها من مقعدك قبل ما تحجز</b></li>
+            <li><b>لا تفوّت أفضل المقاعد</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>الهوية البصرية</h3>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card">
+          <div class="color-box" style="background:#071018; color:#fff;">#071018</div>
+          <p class="muted" style="margin-top:8px;">خلفية داكنة أساسية</p>
+        </div>
+        <div class="card">
+          <div class="color-box" style="background:#d9ff3d; color:#071018;">#D9FF3D</div>
+          <p class="muted" style="margin-top:8px;">أصفر نيون للتفاعل</p>
+        </div>
+        <div class="card">
+          <div class="color-box" style="background:#7cffc4; color:#071018;">#7CFFC4</div>
+          <p class="muted" style="margin-top:8px;">لمسة ثانوية منتعشة</p>
+        </div>
+        <div class="card">
+          <div class="color-box" style="background:#eef4ff; color:#071018;">#EEF4FF</div>
+          <p class="muted" style="margin-top:8px;">نصوص فاتحة</p>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h3>الخطوط المقترحة</h3>
+          <ul class="list">
+            <li>عربي: IBM Plex Sans Arabic أو Tajawal</li>
+            <li>إنجليزي: Inter أو Space Grotesk</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>أسلوب العلامة</h3>
+          <ul class="list">
+            <li>موثوقة</li>
+            <li>ذكية</li>
+            <li>شابة</li>
+            <li>سريعة</li>
+            <li>واضحة</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marketing -->
+    <section id="marketing" class="panel">
+      <div class="section-title">
+        <h2>11) خطة الإطلاق التسويقي الأولية</h2>
+        <p class="muted">الهدف: بناء طلب مبكر، جذب منظمين، وتفعيل أول قاعدة مستخدمين حقيقيين.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>مرحلة ما قبل الإطلاق</h3>
+          <p class="muted">4–6 أسابيع</p>
+          <ul class="list">
+            <li>Landing page مع قائمة انتظار</li>
+            <li>تشويق بميزة المقعد ورؤية 360°</li>
+            <li>شراكات مع 3–5 منظمين</li>
+            <li>محتوى قصير على TikTok وInstagram وSnapchat</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>الإطلاق التجريبي</h3>
+          <p class="muted">4 أسابيع</p>
+          <ul class="list">
+            <li>إطلاق مع عدد محدود من الفعاليات</li>
+            <li>خصم أول حجز</li>
+            <li>دعم فني سريع</li>
+            <li>جمع ملاحظات وتحسين القمع</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>الإطلاق العام</h3>
+          <p class="muted">بعد اختبار النظام</p>
+          <ul class="list">
+            <li>حملة إعلانية موسعة</li>
+            <li>برنامج إحالة</li>
+            <li>شراكات مع أماكن فعاليات</li>
+            <li>رسائل تركز على الأمان وسهولة الحجز</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>الرسائل التسويقية الأساسية</h3>
+      </div>
+
+      <div class="card">
+        <ul class="list">
+          <li><b>للمستخدم:</b> “احجز مقعدك بدقة وشوفه قبل ما تدفع.”</li>
+          <li><b>للمنظم:</b> “بِع تذاكرك بسهولة وتابع مبيعاتك لحظياً.”</li>
+          <li><b>للسوق:</b> “لا للسوق السوداء… إعادة البيع الرسمية تبدأ من هنا.”</li>
+        </ul>
+      </div>
+
+      <div class="section-title">
+        <h3>توزيع الميزانية المقترح</h3>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>البند</th>
+            <th>النسبة المقترحة</th>
+            <th>الهدف</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>إعلانات مدفوعة</td>
+            <td>35–40%</td>
+            <td>جلب مستخدمين جدد بسرعة</td>
+          </tr>
+          <tr>
+            <td>مؤثرون محليون</td>
+            <td>20–25%</td>
+            <td>بناء ثقة وانتشار اجتماعي</td>
+          </tr>
+          <tr>
+            <td>محتوى وتصميم</td>
+            <td>15%</td>
+            <td>تحسين جودة الرسائل والإعلانات</td>
+          </tr>
+          <tr>
+            <td>شراكات وفعاليات ميدانية</td>
+            <td>10–15%</td>
+            <td>تفعيل على الأرض وجذب منظمين</td>
+          </tr>
+          <tr>
+            <td>أدوات تحليل وCRM</td>
+            <td>5%</td>
+            <td>قياس الأداء وتحسين التحويل</td>
+          </tr>
+          <tr>
+            <td>عروض وخصومات إطلاق</td>
+            <td>10%</td>
+            <td>تحفيز أول عمليات حجز</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid grid-4" style="margin-top:16px;">
+        <div class="card">
+          <div class="mini-label">KPI 1</div>
+          <div class="kpi">CAC</div>
+          <p class="muted">تكلفة اكتساب المستخدم</p>
+        </div>
+        <div class="card">
+          <div class="mini-label">KPI 2</div>
+          <div class="kpi">Activation</div>
+          <p class="muted">نسبة من أتموا أول حجز</p>
+        </div>
+        <div class="card">
+          <div class="mini-label">KPI 3</div>
+          <div class="kpi">GMV</div>
+          <p class="muted">إجمالي قيمة الحجوزات</p>
+        </div>
+        <div class="card">
+          <div class="mini-label">KPI 4</div>
+          <div class="kpi">Retention</div>
+          <p class="muted">العودة خلال 30 يوم</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      هذه وثيقة عرض وتنفيذ أولية يمكن توسيعها لاحقاً إلى:
+      Swagger API - Jira Tickets - SQL Migrations - Figma Wireframes - خطة سبرنت أسبوعية.
+    </div>
+  </footer>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        panels.forEach(panel => panel.classList.remove('active'));
+
+        button.classList.add('active');
+        const target = document.getElementById(button.dataset.target);
+        if (target) target.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

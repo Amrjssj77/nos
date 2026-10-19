@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Composition</title>
+<script src="gsap.min.js"></script>
+<style>
+  html, body { margin: 0; background: #000; }
+  #stage { position: relative; width: 1280px; height: 720px; overflow: hidden;
+           background: linear-gradient(135deg, #1b1b2f, #3a2a1a); font-family: Georgia, serif; color: #f5e9d0; }
+  .scene { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; }
+  h1 { font-size: 88px; margin: 0; letter-spacing: .02em; }
+  p  { font-size: 36px; margin: 16px 0 0; text-align: center; opacity: .8; }
+</style>
+</head>
+<body>
+<div id="stage" data-width="1280" data-height="720" data-duration="6">
+  <div class="scene" id="s1"><div><h1 id="t1">Title</h1><p id="sub1">Subtitle</p></div></div>
+  <div class="scene" id="s2"><div><h1 id="t2">Second scene</h1></div></div>
+</div>
+<script>
+  const tl = gsap.timeline({ paused: true });
+  tl.set("#s1", { opacity: 1 }, 0)
+    .from("#t1", { y: 40, opacity: 0, duration: 0.8, ease: "expo.out" }, 0.2)
+    .from("#sub1", { y: 20, opacity: 0, duration: 0.8, ease: "power2.out" }, 0.6)
+    .to("#s1", { opacity: 0, duration: 0.4 }, 2.6)
+    .set("#s2", { opacity: 1 }, 2.9)
+    .from("#t2", { scale: 0.9, opacity: 0, duration: 0.8, ease: "power2.out" }, 2.9)
+    .to("#s2", { opacity: 0, duration: 0.4 }, 5.6);
+  tl.duration(6);
+  window.__tl = tl;
+  const q = new URLSearchParams(location.search).get("t");
+  if (q !== null) tl.seek(parseFloat(q));
+</script>
+</body>
+</html>

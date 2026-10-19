@@ -11,8 +11,9 @@ const args = process.argv.slice(2);
 const flag = (n, d) => { const i = args.indexOf(n); return i < 0 ? d : args.splice(i, 2)[1]; };
 const scrub = args.includes("--scrub") && !!args.splice(args.indexOf("--scrub"), 1);
 const fps = Number(flag("--fps", 24));
+const audio = flag("--audio", null);
 const [input, output] = args;
-if (!input || !output) { console.error("usage: render.mjs <composition.html> <out.mp4> [--fps 24] [--scrub]"); process.exit(1); }
+if (!input || !output) { console.error("usage: render.mjs <composition.html> <out.mp4> [--fps 24] [--scrub] [--audio voice.wav]"); process.exit(1); }
 
 function loadPlaywright() {
   const roots = [process.cwd(), execSync("npm root -g").toString().trim()];
@@ -46,7 +47,9 @@ const frames = Math.round(dur * fps);
 
 const enc = scrub ? ["-g", "1", "-crf", "20"] : ["-g", "48", "-crf", "18"];
 const ff = spawn("ffmpeg", ["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(fps), "-i", "-",
-  "-c:v", "libx264", ...enc, "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", output],
+  ...(audio ? ["-i", audio] : []),
+  "-c:v", "libx264", ...enc, "-pix_fmt", "yuv420p", "-movflags", "+faststart",
+  ...(audio ? ["-c:a", "aac", "-b:a", "160k", "-shortest"] : ["-an"]), output],
   { stdio: ["pipe", "inherit", "inherit"] });
 const done = new Promise((r, j) => { ff.on("exit", (c) => (c ? j(new Error("ffmpeg exit " + c)) : r())); });
 

@@ -30,9 +30,9 @@
   #hudL { left:36px; } #hudR { right:36px; opacity:.7; }
   .hud b { font-weight:700; }
 
-  #glow { position:absolute; left:20px; bottom:70px; width:430px; height:430px; border-radius:50%; filter:blur(46px); }
-  #pres { position:absolute; left:60px; bottom:0; width:329px; height:620px; transform-origin:50% 100%; }
-  #pres img { width:100%; height:100%; display:block; object-fit:contain; }
+  #glow { position:absolute; left:145px; bottom:70px; width:430px; height:430px; border-radius:50%; filter:blur(46px); }
+  #pres { position:absolute; left:130px; bottom:0; width:460px; height:713px; transform-origin:50% 100%; }
+  #pres svg { width:100%; height:100%; display:block; overflow:visible; }
 
   .scene { position:absolute; inset:0; display:none; }
   .heads { position:absolute; top:112px; left:40px; right:40px; height:190px; }
@@ -68,7 +68,7 @@
   <div class="hud" id="hudR"></div>
   <div id="scenes"></div>
   <div id="glow"></div>
-  <div id="pres"><img src="assets/presenter.png" alt=""></div>
+  <div id="pres"></div>
   <div id="handle"></div>
 </div>
 <script>
@@ -220,7 +220,7 @@ const ILL = {
   follow(r) {
     const tl=gsap.timeline(); const c=el("card","",`left:110px;top:40px;width:500px;height:210px;`,r);
     c.innerHTML=`<div class="mono" style="position:absolute;left:18px;top:14px;font-size:12px;color:#9a9486">// follow</div>
-      <div style="position:absolute;left:24px;top:48px;width:72px;height:72px;border-radius:50%;overflow:hidden;background:#dfe9f5;border:3px solid #e8452c"><img src="assets/presenter.png" style="width:130%;margin:-4px 0 0 -8px"></div>
+      <div style="position:absolute;left:24px;top:48px;width:72px;height:72px;border-radius:50%;overflow:hidden;background:#dfe9f5;border:3px solid #e8452c"><svg viewBox="112 82 176 176" width="100%" height="100%" style="display:block"><use href="#head"/></svg></div>
       <div class="mono" style="position:absolute;left:112px;top:58px;font-size:24px;font-weight:700;color:#17150f">${HANDLE}</div>
       <div class="mono" style="position:absolute;left:112px;top:92px;font-size:13px;color:#9a9486">AI · explained simply</div>
       <div id="fbtn" class="mono" style="position:absolute;left:24px;right:24px;top:140px;height:48px;border-radius:10px;background:#e8452c;color:#fff;text-align:center;font:700 19px/48px Mono,monospace">Follow +</div>`;
@@ -246,6 +246,93 @@ const scenes = TL.map((b,bi) => {
   return { s, chunkEls, b };
 });
 
+
+/* ---------- cartoon presenter (flat SVG, driven by voice envelope) ---------- */
+const SKIN="#c98a5e", SKIN_D="#b3774f", HAIR="#1b1310", BLUE="#2f7fd0", BLUE_D="#2467b0";
+function curls(cx,cy,rx,ry,a0,a1,n,r,seed){ let o="",x=seed; const rnd=()=>{x=(x*9301+49297)%233280;return x/233280;};
+  for(let i=0;i<n;i++){ const a=(a0+(a1-a0)*i/(n-1))*Math.PI/180, j=rnd()*5-2.5;
+    o+=`<circle cx="${(cx+Math.cos(a)*(rx+j)).toFixed(1)}" cy="${(cy+Math.sin(a)*(ry+j)).toFixed(1)}" r="${(r+rnd()*5).toFixed(1)}"/>`; } return o; }
+const handSVG = `
+  <g class="h-open"><ellipse cx="0" cy="16" rx="19" ry="20" fill="${SKIN}"/>
+    <ellipse cx="-14" cy="38" rx="6" ry="17" fill="${SKIN}"/><ellipse cx="-5" cy="42" rx="6" ry="19" fill="${SKIN}"/><ellipse cx="5" cy="42" rx="6" ry="19" fill="${SKIN}"/><ellipse cx="14" cy="37" rx="6" ry="16" fill="${SKIN}"/>
+    <ellipse cx="-22" cy="14" rx="6" ry="14" fill="${SKIN}" transform="rotate(28 -22 14)"/></g>
+  <g class="h-point"><circle cx="0" cy="18" r="19" fill="${SKIN}"/><ellipse cx="-6" cy="42" rx="6.5" ry="22" fill="${SKIN}"/>
+    <ellipse cx="6" cy="30" rx="6" ry="10" fill="${SKIN_D}" opacity=".55"/></g>
+  <g class="h-fist"><circle cx="0" cy="18" r="21" fill="${SKIN}"/><ellipse cx="-3" cy="40" rx="9" ry="8" fill="${SKIN}"/>
+    <ellipse cx="-24" cy="4" rx="7" ry="16" fill="${SKIN}" transform="rotate(-18 -24 4)"/></g>`;
+const armSVG = (id,px,sx) => `<g transform="translate(${px} 388) scale(${sx} 1)"><g id="${id}j"><g id="${id}">
+    <rect x="-30" y="-16" width="60" height="96" rx="28" fill="${BLUE}"/><rect x="-30" y="48" width="60" height="30" rx="14" fill="${BLUE_D}" opacity=".6"/>
+    <g id="${id}f" transform="translate(0 72)"><rect x="-17" y="-4" width="34" height="86" rx="17" fill="${SKIN}"/><g id="${id}h" transform="translate(0 78)">${handSVG}</g></g>
+  </g></g></g>`;
+document.getElementById("pres").innerHTML = `<svg viewBox="0 0 400 620">
+  <g id="body">
+    ${armSVG("aL",84,-1)}
+    <path d="M62 640 L70 392 Q80 346 150 336 L250 336 Q320 346 330 392 L338 640 Z" fill="${BLUE}"/>
+    <path d="M70 392 Q76 350 118 340 L112 640 L62 640 Z" fill="${BLUE_D}" opacity=".45"/>
+    <rect x="160" y="300" width="80" height="56" fill="${SKIN_D}"/>
+    <path d="M160 336 L240 336 L200 418 Z" fill="${SKIN}"/>
+    <path d="M150 336 L200 424 L168 340 Z M250 336 L200 424 L232 340 Z" fill="${BLUE_D}"/>
+    <path d="M166 336 C158 410 186 466 206 476" stroke="#15171a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M234 336 C242 396 228 440 214 470" stroke="#15171a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <circle cx="209" cy="494" r="19" fill="#9aa0a8"/><circle cx="209" cy="494" r="13" fill="#d7dbe0"/><circle cx="209" cy="494" r="5" fill="#8b9199"/>
+    <rect x="262" y="410" width="9" height="16" rx="3" fill="#111"/>
+    ${armSVG("aR",316,1)}
+  </g>
+  <g id="head">
+   <g id="headin">
+    <g fill="${HAIR}" id="hairBack">${curls(200,172,88,102,168,372,26,22,7)}<ellipse cx="200" cy="168" rx="80" ry="80"/></g>
+    <circle cx="120" cy="204" r="17" fill="${SKIN}"/><circle cx="280" cy="204" r="17" fill="${SKIN}"/>
+    <ellipse cx="200" cy="200" rx="77" ry="92" fill="${SKIN}"/>
+    <path d="M132 212 Q138 292 200 296 Q262 292 268 212 Q248 266 200 266 Q152 266 132 212 Z" fill="#2a1d17" opacity=".62"/>
+    <path d="M178 232 Q200 226 222 232" stroke="#2a1d17" stroke-width="6" fill="none" stroke-linecap="round" opacity=".8"/>
+    <g fill="${HAIR}" id="hairFront">${curls(200,126,72,24,188,352,15,17,19)}</g>
+    <g id="brows" stroke="${HAIR}" stroke-width="8" stroke-linecap="round" fill="none"><path id="bL" d="M146 160 Q168 148 190 158"/><path id="bR" d="M210 158 Q232 148 254 160"/></g>
+    <g id="eyes"><g id="eL"><ellipse cx="168" cy="186" rx="14" ry="11" fill="#fff"/><circle id="pL" cx="168" cy="187" r="7" fill="#3a2418"/><circle cx="170" cy="184" r="2" fill="#fff"/></g>
+      <g id="eR"><ellipse cx="232" cy="186" rx="14" ry="11" fill="#fff"/><circle id="pR" cx="232" cy="187" r="7" fill="#3a2418"/><circle cx="234" cy="184" r="2" fill="#fff"/></g></g>
+    <path d="M200 192 Q192 218 198 224 Q206 228 212 222" stroke="${SKIN_D}" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="146" cy="226" rx="14" ry="9" fill="#d9774f" opacity=".28"/><ellipse cx="254" cy="226" rx="14" ry="9" fill="#d9774f" opacity=".28"/>
+    <clipPath id="mclip"><path id="mpathC" d=""/></clipPath>
+    <path id="mpath" d="" fill="#4a1a1a"/>
+    <g clip-path="url(#mclip)"><rect x="160" y="236" width="80" height="14" fill="#fff"/><ellipse id="tongue" cx="200" cy="268" rx="18" ry="9" fill="#d9605f"/></g>
+   </g>
+  </g>
+</svg>`;
+const A = { L:{u:8,f:-18,hand:"idle"}, R:{u:8,f:-18,hand:"idle"} };
+const POSE = { // [left, right]: outward arm angle, extra forearm curl, hand
+  timer:[["idle"],["point",125,35]], trend:[["idle"],["open",140,10]], apps:[["idle"],["point",112,40]], apps2:[["open",140,10],["idle"]],
+  tools:[["open",118,32],["open",118,32]], plugs:[["open",58,78],["open",58,78]], code:[["idle"],["point",118,38]], codeerr:[["open",138,22],["open",138,22]],
+  mcp:[["open",152,14],["open",152,14]], oneplug:[["idle"],["point",125,35]], hub:[["open",118,32],["open",118,32]], nope:[["idle"],["open",118,10]],
+  layers:[["open",58,78],["open",58,78]], radar:[["open",140,10],["point",112,40]], plugin:[["idle"],["point",120,38]], actions:[["open",118,32],["open",118,32]],
+  charger:[["idle"],["point",125,35]], phones_old:[["open",70,70],["open",70,70]], phones_new:[["open",150,14],["open",150,14]], follow:[["idle"],["fist",120,35]] };
+const IDLE=["idle",8,-18];
+TL.forEach(b => { const p=POSE[b.ill]||[["idle"],["idle"]];
+  [["L",p[0]],["R",p[1]]].forEach(([k,v]) => { const q=v[0]==="idle"?IDLE:v;
+    master.to(A[k],{u:q[1],f:q[2],duration:.55,ease:"power2.inOut"},b.start+0.05); }); });
+const $ = id => document.getElementById(id);
+const arms={L:{g:$("aL"),j:$("aLj"),f:$("aLf"),h:$("aLh")},R:{g:$("aR"),j:$("aRj"),f:$("aRf"),h:$("aRh")}};
+function mouth(o,t){
+  const w=28-o*7*(.5+.5*Math.sin(t*17)), top=243, depth=5+o*34, cy=top+depth;
+  const d=`M${200-w} ${top} Q200 ${top-4} ${200+w} ${top} Q200 ${cy+6} ${200-w} ${top} Z`;
+  $("mpath").setAttribute("d",d); $("mpathC").setAttribute("d",d);
+  $("tongue").setAttribute("cy",String(cy-6));
+}
+function animateChar(t,bi,e){
+  mouth(Math.min(1,e*1.25),t);
+  const raise=(()=>{ const b=TL[bi]; let st=b.start; b.chunks.forEach(c=>{ if(c.start<=t) st=c.start; }); return 7*Math.max(0,1-(t-st)/.5); })();
+  $("brows").setAttribute("transform",`translate(0 ${-raise-e*2})`);
+  const ph=(t%3.4), blink=ph<.14?Math.max(.08,Math.abs(ph-.07)/.07):1;
+  $("eyes").setAttribute("transform",`translate(0 ${186*(1-blink)}) scale(1 ${blink})`);
+  $("pL").setAttribute("cx",168+Math.sin(t*.7)*3); $("pR").setAttribute("cx",232+Math.sin(t*.7)*3);
+  gsap.set($("headin"),{ svgOrigin:"200 330", rotation:Math.sin(t*1.3)*2.2+Math.sin(t*5.1)*e*1.8, y:-e*5, x:Math.sin(t*.9)*3 });
+  ["L","R"].forEach((k,i)=>{ const ar=arms[k], p=A[k], b=TL[bi], pose=(POSE[b.ill]||[["idle"],["idle"]])[i], hand=pose[0]==="idle"?"idle":pose[0];
+    const raised=p.u>40, wob=raised?Math.sin(t*3+(i?1.7:0))*3.5*(0.5+e):Math.sin(t*1.2+i)*1.5;
+    gsap.set(ar.g,{svgOrigin:"0 0",rotation:-p.u}); gsap.set(ar.f,{svgOrigin:"0 0",rotation:-p.f});
+    gsap.set(ar.j,{rotation:wob}); 
+    ar.h.querySelector(".h-open").style.display=(hand==="open"||hand==="idle")?"":"none";
+    ar.h.querySelector(".h-point").style.display=hand==="point"?"":"none";
+    ar.h.querySelector(".h-fist").style.display=hand==="fist"?"":"none"; });
+}
+
 const bgL=document.getElementById("bgL"), bgD=document.getElementById("bgD"), glow=document.getElementById("glow"), pres=document.getElementById("pres");
 const hudL=document.getElementById("hudL"), hudR=document.getElementById("hudR");
 const SECS=["hook","the API","the problem","the MCP","the difference","remember","follow"];
@@ -265,7 +352,8 @@ function frame(t) {
   hudR.style.color = fg; document.getElementById("handle").style.color = fg;
   glow.style.background = dv>.5 ? "radial-gradient(circle,rgba(198,240,58,.55),rgba(198,240,58,0) 68%)" : "radial-gradient(circle,rgba(232,69,44,.35),rgba(232,69,44,0) 68%)";
   const e = ENV[Math.min(ENV.length-1, Math.round(t*FPS))] || 0;
-  gsap.set(pres,{ y:-e*10, scale:1+e*.018, rotation:Math.sin(t*1.7)*1.1 });
+  gsap.set(pres,{ y:Math.sin(t*1.6)*3-e*4, scale:1+e*.01 });
+  animateChar(t,bi,e);
   gsap.set(glow,{ scale:1+e*.08 });
 }
 const px={t:0};

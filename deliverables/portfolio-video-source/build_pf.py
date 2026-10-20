@@ -65,8 +65,6 @@ html,body{{width:1920px;height:1080px;overflow:hidden;background:#ececee}}
 <div class="sc light" id="s5"><div class="t" id="rolebox"></div></div>
 <div class="sc light" id="s6"><div class="t" id="basedin">based in</div></div>
 <div class="sc" id="s7" style="background:#fff">
-  <svg id="egsvg" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;inset:0"></svg>
-  <div class="t egy" id="egy" style="top:300px">EGYPT</div>
 </div>
 <div class="sc light" id="s8"><div class="t" id="nowat" style="font-size:60px">now at</div><div class="t r" id="goat" style="top:590px;font-size:140px;font-weight:800;letter-spacing:-3px">GOAT31</div></div>
 <div class="sc light" id="s9"><div class="row" id="row9"><div class="lab">I help</div><div class="slot" id="slot9"></div></div></div>
@@ -81,6 +79,7 @@ html,body{{width:1920px;height:1080px;overflow:hidden;background:#ececee}}
   <div class="ct" id="c4" style="top:760px">linkedin.com/in/amro-ismat-8667b53a5</div>
 </div>
 
+<video id="vegy" src="assets/clips/egypt.mp4" data-start="16.0" data-duration="3.0" data-media-start="0" muted playsinline></video>
 <video id="vsel" src="assets/clips/selfie.mp4" data-start="5.2" data-duration="3.8" data-media-start="0.4" muted playsinline></video>
 {audio}
 </div>
@@ -133,25 +132,9 @@ roles.forEach((r,i)=>{{const d=document.createElement("div");d.className="t";d.s
 // S6 based in
 C("#basedin");tl.fromTo("#basedin",{{opacity:0,rotation:-14,y:40,filter:"blur(8px)"}},{{opacity:1,rotation:0,y:0,filter:"blur(0px)",duration:.7,ease:"power3.out"}},14.65);
 
-// S7 Egypt collage (invented flat vector pieces)
-const svg=$("#egsvg");const NS="http://www.w3.org/2000/svg";
-function g(html){{const e=document.createElementNS(NS,"g");e.innerHTML=html;svg.appendChild(e);return e;}}
-g('<rect width="1920" height="380" fill="#ce1126"/><rect y="380" width="1920" height="320" fill="#fff"/><rect y="700" width="1920" height="380" fill="#111"/>');
-const sun=g('<circle cx="1480" cy="560" r="150" fill="#ffd25a"/>');
-const py=g('<polygon points="180,860 560,380 940,860" fill="#d8a23f"/><polygon points="560,380 940,860 760,860" fill="#b9822a"/><polygon points="620,860 960,520 1300,860" fill="#e2b25a"/><polygon points="960,520 1300,860 1130,860" fill="#c18f33"/><polygon points="1180,860 1400,640 1620,860" fill="#d8a23f"/>');
-const mos=g('<rect x="1260" y="640" width="360" height="220" fill="#c8b78a"/><path d="M1290 640a150 150 0 0 1 300 0z" fill="#e8dcb6"/><rect x="1580" y="470" width="26" height="390" fill="#d8caa0"/><polygon points="1593,420 1620,470 1566,470" fill="#b39a58"/><rect x="1262" y="700" width="356" height="12" fill="#a68f53"/>');
-const tw=g('<rect x="120" y="470" width="86" height="400" fill="#7d8791"/><ellipse cx="163" cy="470" rx="62" ry="30" fill="#9aa4ad"/><rect x="156" y="400" width="14" height="70" fill="#7d8791"/>'+[0,1,2,3,4,5,6,7].map(i=>'<rect x="132" y="'+(500+i*44)+'" width="62" height="12" fill="#4b535a"/>').join(""));
-const palm=g('<rect x="1700" y="560" width="22" height="320" fill="#6b4a22" transform="rotate(6 1711 880)"/>'+[-70,-35,0,35,70].map(a=>'<path d="M1716 560 q80 -90 190 -40 q-90 -10 -190 40z" fill="#2c8a3e" transform="rotate('+a+' 1716 560)"/>').join(""));
-const nile=g('<path d="M0 880 q120 -40 240 0 t240 0 t240 0 t240 0 t240 0 t240 0 t240 0 t240 0 v200 h-1920z" fill="#2f6fb5"/><path d="M0 930 q120 -34 240 0 t240 0 t240 0 t240 0 t240 0 t240 0 t240 0 t240 0 v150 h-1920z" fill="#1f568f"/>');
-const boat=g('<polygon points="830,700 830,880 1010,880" fill="#fff"/><polygon points="1020,740 1020,880 1130,880" fill="#f3f3f3"/><path d="M780 880 h380 l-40 40 h-300z" fill="#6b4a22"/>');
-[nile,py,tw,mos,palm,boat,sun].forEach(e=>{{gsap.set(e,{{opacity:0,transformOrigin:"50% 100%"}})}});
-gsap.set(sun,{{transformOrigin:"50% 50%"}});
-const eg=[[sun,16.15],[py,16.25],[tw,16.4],[mos,16.55],[palm,16.7],[nile,16.8],[boat,16.95]];
-eg.forEach(x=>tl.fromTo(x[0],{{opacity:0,scale:.3,y:140}},{{opacity:1,scale:1,y:0,duration:.5,ease:"back.out(1.6)"}},x[1]));
-C("#egy",{{top:260}});
-tl.fromTo("#egy",{{opacity:0,scale:1.6,rotation:-8,filter:"blur(14px)"}},{{opacity:1,scale:1,rotation:0,filter:"blur(0px)",duration:.55,ease:"expo.out"}},16.05);
-tl.to("#egy",{{rotation:2,scale:1.04,duration:2.6,ease:"sine.inOut"}},16.7);
-tl.to("#egsvg",{{scale:1.06,transformOrigin:"50% 60%",duration:2.9,ease:"none"}},16.05);
+// S7 Egypt (3D rendered clip)
+const ve=document.getElementById("vegy");ve.style.cssText="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover";$("#s7").appendChild(ve);
+tl.fromTo(ve,{{scale:1.08,filter:"blur(10px)"}},{{scale:1,filter:"blur(0px)",duration:.35,ease:"power2.out"}},16.0);
 
 // S8 now at
 C("#nowat",{{top:430}});C("#goat");gsap.set("#goat",{{top:560}});

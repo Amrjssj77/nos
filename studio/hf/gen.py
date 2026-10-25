@@ -17,6 +17,7 @@ os.makedirs(PROJ + "/compositions", exist_ok=True); os.makedirs(PROJ + "/assets/
 for f in os.listdir(EXP + "/fonts"): shutil.copy(EXP + "/fonts/" + f, PROJ + "/assets/fonts/" + f)
 shutil.copy(EXP + "/gsap.min.js", PROJ + "/assets/gsap.min.js")
 shutil.copy(WAV, PROJ + "/assets/voice.wav")
+os.system(f"python3 {HERE}/sfx.py {TLJS} {PROJ}/assets/sfx.wav")
 
 engine = open(EXP + "/engine.js").read()
 illus = open(EXP + "/illustrations.js").read().replace("gsap.timeline()", "mkT()")
@@ -40,7 +41,7 @@ const mkT = () => { const tl = gsap.timeline();
   return tl; };
 """ + icon + "\n" + ic_line + el_line + hl_line
 
-FONT_ZONE = "<style>\n" + css + "\n#root { position:absolute; inset:0; }\n.sc { position:absolute; left:0; top:0; width:720px; height:1280px; transform:scale(1.5); transform-origin:0 0; }\n</style>"
+FONT_ZONE = "<style>\n" + css + "\n#root { position:absolute; inset:0; background:transparent !important; }\n.sc { position:absolute; left:0; top:0; width:720px; height:1280px; transform:scale(1.5); transform-origin:0 0; }\n</style>"
 
 def scene(sid, body_html, script, dur):
     return f"""<template>
@@ -187,6 +188,7 @@ head = f"""<!doctype html>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{DUR}" data-width="1080" data-height="1920">
       <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="{DUR}" data-track-index="9" data-volume="1"></audio>
+      <audio id="sfx" class="clip" src="assets/sfx.wav" data-start="0" data-duration="{DUR}" data-track-index="8" data-volume="0.4"></audio>
       <div id="bg" class="clip" data-composition-id="bg" data-composition-src="compositions/bg.html" data-start="0" data-duration="{DUR}" data-track-index="0" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
       {chr(10).join('      ' + h for h in hosts)}
       <div id="char" class="clip" data-composition-id="char" data-composition-src="compositions/char.html" data-start="0" data-duration="{DUR}" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>

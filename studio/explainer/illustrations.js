@@ -20,7 +20,7 @@ const pillEl = (r, txt, css, c) => el("pill", txt, `background:${c.ac};color:${c
 const countUp = (tl, node, to, dur, at, fmt = v => Math.round(v)) => { const o = { v: 0 }; tl.to(o, { v: to, duration: dur, ease: "power2.out", onUpdate() { node.textContent = fmt(o.v); } }, at); };
 const checkRows = (r, c, rows, tl) => rows.forEach(([ico, label], i) => {
   const d = el(c.card, `${ic(ico, 28, c.fg)}<div class="rtl" style="position:absolute;right:84px;top:15px;font:700 26px/36px Plex;color:${c.fg};direction:rtl">${label}</div>
-    <div class="st" style="position:absolute;right:20px;top:14px;width:38px;height:38px;border-radius:50%;background:${c.amber};color:#fff;text-align:center;font:800 24px/38px Inter">?</div>`,
+    <div class="st" style="position:absolute;right:20px;top:14px;width:38px;height:38px;border-radius:50%;background:${c.amber};color:#17150f;text-align:center;font:800 24px/38px Inter">?</div>`,
     `left:100px;top:${10 + i * 76}px;width:520px;height:64px;padding:19px 0 0 22px;box-sizing:border-box;`, r);
   tl.from(d, { x: -70, opacity: 0, duration: .45, ease: "power3.out" }, i * .22);
   tl.fromTo(d.querySelector(".st"), { scale: 1 }, { scale: 1.18, duration: .35, repeat: 7, yoyo: true, ease: "sine.inOut" }, .8 + i * .15);
@@ -72,7 +72,7 @@ window.ILLX = {
       `position:absolute;left:20px;right:20px;top:${22 + i * 66}px;height:52px;border-radius:12px;background:${th === "dark" ? "#0b0c0b" : "#f4efe7"};padding:13px 18px;box-sizing:border-box;`, w));
     rows.forEach((x, i) => tl.from(x, { x: -50, opacity: 0, duration: .4 }, i * .15));
     [1, 3].forEach((i, k) => { tl.to(rows[i], { x: 140, opacity: .12, duration: .7, ease: "power2.in" }, 1.4 + k * .5);
-      const p = pillEl(r, "ضاع", `left:${470 + k * 20}px;top:${100 + i * 66 - 22}px;background:${c.bad};color:#fff;`, c); tl.from(p, { scale: 0, duration: .3, ease: "back.out(2.4)" }, 1.8 + k * .5); });
+      const p = pillEl(r, "ضاع", `left:${470 + k * 20}px;top:${100 + i * 66 - 22}px;background:${c.bad};color:${th === "dark" ? "#0b0c0b" : "#fff"};`, c); tl.from(p, { scale: 0, duration: .3, ease: "back.out(2.4)" }, 1.8 + k * .5); });
     const sp = el("", "", `position:absolute;left:600px;top:20px;width:54px;height:54px;border-radius:50%;border:6px solid ${c.line};border-top-color:${c.bad}`, r);
     tl.from(sp, { scale: 0, duration: .3 }, 1.0).to(sp, { rotation: 1440, duration: 5, ease: "none" }, 1.0);
     return tl;

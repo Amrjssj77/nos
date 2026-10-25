@@ -16,7 +16,7 @@ const TH = th => th === "dark"
   ? { card:"tile", fg:"#f4f1e8", ac:"#c6f03a", mute:"#8d9186", surf:"#151815", line:"#2c302a", bad:"#ff6a50", good:"#c6f03a", on:"#0b0c0b", amber:"#f2b134" }
   : { card:"card", fg:"#17150f", ac:"#e8452c", mute:"#9a9486", surf:"#ffffff", line:"#e4ded2", bad:"#e8452c", good:"#1f9d55", on:"#ffffff", amber:"#e8a21a" };
 const dots3 = () => `<i style="width:9px;height:9px;border-radius:50%;background:#ff5f57"></i><i style="width:9px;height:9px;border-radius:50%;background:#febc2e"></i><i style="width:9px;height:9px;border-radius:50%;background:#28c840"></i>`;
-const pillEl = (r, txt, css, c) => el("pill", txt, `background:${c.ac};color:${c.on};font-family:Plex;${css}`, r);
+const pillEl = (r, txt, css, c) => el("pill", txt, `background:${c.ac};color:${c.on};font-family:Plex;font-size:19px;${css}`, r);
 const countUp = (tl, node, to, dur, at, fmt = v => Math.round(v)) => { const o = { v: 0 }; tl.to(o, { v: to, duration: dur, ease: "power2.out", onUpdate() { node.textContent = fmt(o.v); } }, at); };
 const checkRows = (r, c, rows, tl) => rows.forEach(([ico, label], i) => {
   const d = el(c.card, `${ic(ico, 28, c.fg)}<div class="rtl" style="position:absolute;right:84px;top:15px;font:700 26px/36px Plex;color:${c.fg};direction:rtl">${label}</div>
@@ -31,7 +31,7 @@ window.ILLX = {
     const c = TH(th), tl = gsap.timeline();
     const w = el(c.card, "", `left:90px;top:30px;width:540px;height:310px;overflow:hidden`, r);
     w.innerHTML = `<div style="position:absolute;left:0;right:0;top:0;height:46px;background:${th === "dark" ? "#1d211c" : "#f1ece3"};display:flex;align-items:center;gap:7px;padding-left:16px">${dots3()}
-      <span class="mono url" style="margin-left:18px;flex:1;margin-right:18px;height:26px;border-radius:13px;background:${th === "dark" ? "#0b0c0b" : "#fff"};font-size:13px;line-height:26px;padding-left:14px;color:${c.mute}"></span></div>
+      <span class="mono url" data-layout-ignore style="margin-left:18px;flex:1;margin-right:18px;height:26px;border-radius:13px;background:${th === "dark" ? "#0b0c0b" : "#fff"};font-size:13px;line-height:26px;padding-left:14px;color:${c.mute}"></span></div>
       <div style="position:absolute;left:26px;top:70px;width:270px;height:150px;border-radius:12px;background:${c.line}"></div>
       <div style="position:absolute;left:316px;top:76px;width:180px;height:14px;border-radius:7px;background:${c.line}"></div><div style="position:absolute;left:316px;top:104px;width:130px;height:14px;border-radius:7px;background:${c.line}"></div>
       <div style="position:absolute;left:26px;top:244px;width:150px;height:40px;border-radius:10px;background:${c.ac}"></div>`;
@@ -55,7 +55,7 @@ window.ILLX = {
   },
   salesmyth(r, th) {
     const c = TH(th), tl = gsap.timeline();
-    const w = el(c.card, `<div class="mono" style="position:absolute;left:20px;top:14px;font-size:13px;color:${c.mute}">// sales</div>`, `left:80px;top:40px;width:560px;height:300px;`, r);
+    const w = el(c.card, `<div class="mono" data-layout-ignore style="position:absolute;left:20px;top:14px;font-size:13px;color:${c.mute}">// sales</div>`, `left:80px;top:40px;width:560px;height:300px;`, r);
     w.insertAdjacentHTML("beforeend", `<svg width="520" height="220" style="position:absolute;left:20px;top:56px"><path d="M0 200 L60 170 L120 182 L190 120 L250 138 L330 70 L400 90 L520 10" fill="none" stroke="${c.ac}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="line"/></svg>`);
     const line = w.querySelector(".line"), L = line.getTotalLength(); line.style.strokeDasharray = L;
     tl.from(w, { y: 40, opacity: 0, duration: .5, ease: "power3.out" }).fromTo(line, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 2.2, ease: "power1.inOut" }, .4);
@@ -100,9 +100,9 @@ window.ILLX = {
   },
   dashboard(r, th) {
     const c = TH(th), tl = gsap.timeline();
-    const w = el(c.card, `<div class="mono" style="position:absolute;left:20px;top:14px;font-size:13px;color:${c.mute}">// dashboard</div>`, `left:50px;top:30px;width:620px;height:336px;`, r);
+    const w = el(c.card, `<div class="mono" data-layout-ignore style="position:absolute;left:20px;top:14px;font-size:13px;color:${c.mute}">// dashboard</div>`, `left:50px;top:30px;width:620px;height:336px;`, r);
     const kpis = [["الأوردرات", 128, v => Math.round(v)], ["المخزون", 342, v => Math.round(v)], ["الإيرادات", 48.5, v => v.toFixed(1) + "K"]];
-    kpis.forEach(([l, v, f], i) => { const k = el("", `<div class="rtl" style="font:700 18px Plex;color:${c.mute};direction:rtl">${l}</div><div class="num" style="font:800 40px/1.2 Inter;color:${c.fg}">0</div>`,
+    kpis.forEach(([l, v, f], i) => { const k = el("", `<div class="rtl" style="font:700 19px Plex;color:${c.mute};direction:rtl">${l}</div><div class="num" style="font:800 40px/1.2 Inter;color:${c.fg}">0</div>`,
       `position:absolute;left:${20 + i * 198}px;top:48px;width:180px;height:92px;border-radius:14px;background:${th === "dark" ? "#0b0c0b" : "#f4efe7"};padding:10px 16px;box-sizing:border-box;text-align:right`, w);
       tl.from(k, { y: 30, opacity: 0, duration: .45, ease: "power3.out" }, .2 + i * .18); countUp(tl, k.querySelector(".num"), v, 1.6, .5 + i * .18, f); });
     w.insertAdjacentHTML("beforeend", `<svg width="580" height="150" style="position:absolute;left:20px;top:160px"><path d="M0 130 L70 100 L140 112 L220 60 L300 80 L380 30 L470 48 L580 8" fill="none" stroke="${c.ac}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="ln"/><path d="M0 140 L90 124 L180 130 L280 100 L380 110 L470 80 L580 64" fill="none" stroke="${c.mute}" stroke-width="3" stroke-dasharray="6 8" stroke-linecap="round" opacity=".7"/></svg>`);

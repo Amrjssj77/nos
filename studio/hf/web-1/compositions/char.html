@@ -1,0 +1,228 @@
+<template>
+<style>
+
+  @font-face { font-family: "Plex"; font-weight: 500; src: url(assets/fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2); unicode-range: U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+  @font-face { font-family: "Plex"; font-weight: 700; src: url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2); unicode-range: U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF; }
+  @font-face { font-family: "Plex"; font-weight: 700; src: url(assets/fonts/ibm-plex-sans-arabic-latin-700-normal.woff2); unicode-range: U+0000-00FF; }
+  @font-face { font-family: "Plex"; font-weight: 500; src: url(assets/fonts/ibm-plex-sans-arabic-latin-700-normal.woff2); unicode-range: U+0000-00FF; }
+  @font-face { font-family: "Mono"; font-weight: 500; src: url(assets/fonts/jetbrains-mono-latin-500-normal.woff2); }
+  @font-face { font-family: "Mono"; font-weight: 700; src: url(assets/fonts/jetbrains-mono-latin-700-normal.woff2); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url(assets/fonts/inter-latin-800-normal.woff2); }
+
+  :root { --ink:#17150f; --paper:#ece7df; --dot:#d8d1c5; --red:#e8452c; --lime:#c6f03a; --night:#0b0c0b; }
+  html, body { margin:0; background:#000; }
+  #stage-unused { position:relative; width:720px; height:1280px; overflow:hidden; font-family:"Plex","DejaVu Sans",sans-serif; direction:rtl; }
+  .abs { position:absolute; }
+  .bg { position:absolute; inset:0; }
+  #bgL { background:var(--paper); }
+  #bgL::before { content:""; position:absolute; inset:0; background-image:radial-gradient(var(--dot) 1.6px, transparent 1.8px); background-size:18px 18px; opacity:.9;
+     -webkit-mask-image:linear-gradient(180deg,#000 0,#000 30%,transparent 62%); mask-image:linear-gradient(180deg,#000 0,#000 30%,transparent 62%); }
+  #bgD { background:var(--night); }
+  #bgD::before { content:""; position:absolute; inset:0; background-image:radial-gradient(rgba(198,240,58,.34) 1.6px, transparent 1.8px); background-size:16px 16px;
+     -webkit-mask-image:linear-gradient(180deg,#000 0,transparent 42%,transparent 62%,#000 100%); mask-image:linear-gradient(180deg,#000 0,transparent 42%,transparent 62%,#000 100%); }
+
+  .hud { position:absolute; top:54px; font:500 15px/1 "Mono",monospace; letter-spacing:.04em; direction:ltr; }
+  #hudL { left:36px; } #hudR { right:36px; opacity:.7; }
+  .hud b { font-weight:700; }
+
+  #glow { position:absolute; left:145px; bottom:70px; width:430px; height:430px; border-radius:50%; filter:blur(46px); }
+  #pres { position:absolute; left:130px; bottom:0; width:460px; height:713px; transform-origin:50% 100%; }
+  #pres svg { width:100%; height:100%; display:block; overflow:visible; }
+
+  .scene { position:absolute; inset:0; display:none; }
+  .heads { position:absolute; top:112px; left:40px; right:40px; height:190px; }
+  .head { position:absolute; inset:0; font-weight:700; font-size:58px; line-height:1.28; text-align:right; display:none; }
+  .light .head { color:var(--ink); } .dark .head { color:#f4f1e8; }
+  .light .hl { color:var(--red); } .dark .hl { color:var(--lime); }
+  .hl { display:inline-block; }
+
+  .ill { position:absolute; left:0; top:318px; width:720px; height:400px; direction:ltr; }
+  .card { position:absolute; background:#fff; border-radius:18px; box-shadow:0 14px 34px rgba(40,30,10,.14), 0 1px 0 rgba(0,0,0,.05); }
+  .tile { position:absolute; border-radius:16px; background:#151815; border:1px solid #2c302a; color:#e9e7de; }
+  .mono { font-family:"Mono",monospace; }
+  .chip { position:absolute; border-radius:12px; padding:0 20px; height:50px; line-height:50px; font:800 24px/50px "Inter","Plex",sans-serif; white-space:nowrap; }
+  .chip.w { background:#fff; color:#17150f; box-shadow:0 10px 28px rgba(0,0,0,.18); }
+  .chip.b { background:#0b0c0b; color:#c6f03a; font-style:italic; border:1px solid #2c302a; }
+  .pill { position:absolute; border-radius:999px; font:700 15px/30px "Mono",monospace; padding:0 14px; height:30px; white-space:nowrap; }
+  .dots { position:absolute; width:100%; height:100%; }
+  svg { overflow:visible; }
+  .lbl { position:absolute; font:500 14px/1 "Mono",monospace; text-align:center; width:100%; left:0; }
+  .rtl { direction:rtl; font-family:"Plex",sans-serif; }
+  .code { position:absolute; left:60px; top:20px; width:600px; height:230px; border-radius:16px; background:#0e0f12; color:#ece9df; box-shadow:0 18px 44px rgba(0,0,0,.35); font:500 21px/1.9 "Mono",monospace; }
+  .code .bar { height:34px; border-bottom:1px solid #23262b; font-size:12px; line-height:34px; padding:0 18px; color:#7d8087; display:flex; justify-content:space-between; }
+  .code pre { margin:0; padding:14px 22px; white-space:pre; }
+  .c-fn { color:#ece9df } .c-a { color:#c6f03a } .c-r { color:#ff6a50 }
+  #handle { position:absolute; right:30px; bottom:34px; font:500 14px/1 "Mono",monospace; opacity:.65; direction:ltr; }
+
+#root { position:absolute; inset:0; }
+.sc { position:absolute; left:0; top:0; width:720px; height:1280px; transform:scale(1.5); transform-origin:0 0; }
+.glow{position:absolute;left:145px;bottom:70px;width:430px;height:430px;border-radius:50%;filter:blur(46px)}
+</style>
+<div id="root" data-composition-id="char" data-width="1080" data-height="1920">
+<div class="sc"><div id="glowL" class="glow" style="background:radial-gradient(circle,rgba(232,69,44,.35),rgba(232,69,44,0) 68%)"></div><div id="glowD" class="glow" style="background:radial-gradient(circle,rgba(198,240,58,.55),rgba(198,240,58,0) 68%);opacity:0"></div><div id="pres"></div></div>
+</div>
+<script>
+(function () {
+
+const TLB = [{"s": 0.0, "e": 3.722, "ill": "browser", "t": "light", "c": [0.285]}, {"s": 3.722, "e": 8.828, "ill": "question", "t": "light", "c": [3.722]}, {"s": 8.828, "e": 15.712, "ill": "salesmyth", "t": "light", "c": [8.828, 10.511]}, {"s": 15.712, "e": 24.963, "ill": "check_a", "t": "dark", "c": [15.712, 19.02, 20.354, 22.386]}, {"s": 24.963, "e": 31.391, "ill": "lostorders", "t": "dark", "c": [24.963, 26.853]}, {"s": 31.391, "e": 36.332, "ill": "pricetag", "t": "light", "c": [31.391, 33.304]}, {"s": 36.332, "e": 43.097, "ill": "shopify", "t": "dark", "c": [36.332, 39.39, 41.151]}, {"s": 43.097, "e": 51.836, "ill": "dashboard", "t": "dark", "c": [43.097, 46.959, 48.965]}, {"s": 51.836, "e": 59.32, "ill": "dm", "t": "light", "c": [51.836, 56.243, 57.301]}];
+const ENV = [0.002, 0.003, 0.003, 0.003, 0.003, 0.004, 0.006, 0.093, 0.31, 0.573, 0.789, 0.876, 0.749, 0.468, 0.429, 0.633, 0.511, 0.228, 0.239, 0.377, 0.565, 0.784, 0.853, 0.82, 0.756, 0.682, 0.697, 0.703, 0.586, 0.449, 0.371, 0.362, 0.326, 0.244, 0.295, 0.478, 0.599, 0.6, 0.555, 0.516, 0.459, 0.441, 0.489, 0.544, 0.628, 0.596, 0.461, 0.469, 0.539, 0.567, 0.568, 0.508, 0.453, 0.432, 0.505, 0.703, 0.763, 0.52, 0.231, 0.22, 0.376, 0.452, 0.482, 0.482, 0.394, 0.256, 0.192, 0.275, 0.36, 0.374, 0.393, 0.414, 0.428, 0.512, 0.578, 0.466, 0.361, 0.363, 0.345, 0.251, 0.125, 0.063, 0.071, 0.157, 0.275, 0.329, 0.302, 0.229, 0.167, 0.124, 0.076, 0.032, 0.009, 0.005, 0.005, 0.005, 0.004, 0.004, 0.004, 0.005, 0.006, 0.006, 0.005, 0.005, 0.006, 0.006, 0.006, 0.006, 0.005, 0.007, 0.014, 0.162, 0.444, 0.565, 0.594, 0.725, 0.82, 0.806, 0.785, 0.749, 0.632, 0.591, 0.734, 0.778, 0.63, 0.561, 0.575, 0.444, 0.203, 0.1, 0.097, 0.182, 0.497, 0.802, 0.839, 0.708, 0.598, 0.528, 0.499, 0.571, 0.622, 0.578, 0.501, 0.309, 0.132, 0.288, 0.563, 0.613, 0.571, 0.554, 0.55, 0.548, 0.463, 0.295, 0.167, 0.143, 0.286, 0.531, 0.552, 0.378, 0.302, 0.388, 0.525, 0.608, 0.629, 0.561, 0.415, 0.292, 0.327, 0.444, 0.351, 0.159, 0.145, 0.299, 0.532, 0.661, 0.631, 0.493, 0.35, 0.304, 0.325, 0.44, 0.498, 0.325, 0.14, 0.111, 0.135, 0.235, 0.37, 0.407, 0.405, 0.373, 0.308, 0.229, 0.137, 0.168, 0.274, 0.264, 0.207, 0.171, 0.127, 0.089, 0.051, 0.068, 0.131, 0.107, 0.037, 0.014, 0.012, 0.01, 0.008, 0.007, 0.007, 0.007, 0.006, 0.007, 0.007, 0.007, 0.007, 0.006, 0.007, 0.009, 0.011, 0.015, 0.021, 0.029, 0.036, 0.037, 0.034, 0.033, 0.025, 0.014, 0.186, 0.547, 0.642, 0.391, 0.145, 0.145, 0.373, 0.462, 0.291, 0.294, 0.574, 0.717, 0.579, 0.304, 0.114, 0.259, 0.541, 0.589, 0.544, 0.533, 0.497, 0.504, 0.534, 0.517, 0.53, 0.575, 0.512, 0.401, 0.366, 0.345, 0.279, 0.236, 0.353, 0.59, 0.667, 0.566, 0.504, 0.54, 0.555, 0.417, 0.218, 0.184, 0.305, 0.363, 0.252, 0.174, 0.363, 0.593, 0.539, 0.37, 0.345, 0.389, 0.391, 0.392, 0.532, 0.758, 0.784, 0.533, 0.278, 0.289, 0.366, 0.339, 0.32, 0.305, 0.284, 0.238, 0.132, 0.055, 0.051, 0.041, 0.021, 0.018, 0.02, 0.02, 0.02, 0.019, 0.019, 0.018, 0.015, 0.014, 0.01, 0.005, 0.096, 0.316, 0.48, 0.537, 0.591, 0.645, 0.615, 0.487, 0.49, 0.648, 0.651, 0.529, 0.548, 0.677, 0.674, 0.447, 0.242, 0.335, 0.513, 0.421, 0.229, 0.226, 0.313, 0.336, 0.342, 0.473, 0.585, 0.481, 0.472, 0.653, 0.661, 0.545, 0.553, 0.631, 0.665, 0.557, 0.363, 0.261, 0.249, 0.335, 0.482, 0.53, 0.491, 0.483, 0.54, 0.592, 0.575, 0.519, 0.442, 0.304, 0.162, 0.136, 0.264, 0.515, 0.727, 0.771, 0.685, 0.581, 0.571, 0.548, 0.462, 0.417, 0.48, 0.574, 0.441, 0.187, 0.233, 0.454, 0.458, 0.373, 0.341, 0.248, 0.178, 0.267, 0.298, 0.189, 0.178, 0.231, 0.291, 0.392, 0.403, 0.305, 0.193, 0.101, 0.041, 0.013, 0.007, 0.009, 0.011, 0.012, 0.013, 0.013, 0.012, 0.011, 0.01, 0.009, 0.008, 0.007, 0.005, 0.004, 0.004, 0.003, 0.002, 0.003, 0.004, 0.006, 0.008, 0.008, 0.009, 0.05, 0.137, 0.298, 0.496, 0.584, 0.536, 0.366, 0.245, 0.344, 0.51, 0.562, 0.55, 0.545, 0.549, 0.58, 0.506, 0.289, 0.233, 0.398, 0.522, 0.512, 0.376, 0.222, 0.17, 0.231, 0.31, 0.322, 0.352, 0.426, 0.426, 0.316, 0.197, 0.109, 0.075, 0.12, 0.154, 0.126, 0.065, 0.019, 0.006, 0.005, 0.005, 0.004, 0.005, 0.007, 0.007, 0.006, 0.014, 0.022, 0.015, 0.009, 0.011, 0.013, 0.015, 0.016, 0.018, 0.021, 0.025, 0.025, 0.022, 0.019, 0.018, 0.032, 0.107, 0.31, 0.577, 0.723, 0.748, 0.739, 0.699, 0.633, 0.482, 0.367, 0.541, 0.721, 0.573, 0.429, 0.488, 0.541, 0.49, 0.404, 0.342, 0.271, 0.256, 0.324, 0.278, 0.145, 0.215, 0.435, 0.558, 0.6, 0.633, 0.628, 0.591, 0.514, 0.381, 0.222, 0.083, 0.04, 0.079, 0.083, 0.035, 0.006, 0.004, 0.041, 0.118, 0.161, 0.166, 0.225, 0.347, 0.43, 0.452, 0.471, 0.492, 0.47, 0.389, 0.377, 0.46, 0.456, 0.357, 0.31, 0.262, 0.16, 0.226, 0.407, 0.412, 0.36, 0.39, 0.391, 0.331, 0.23, 0.112, 0.086, 0.205, 0.299, 0.269, 0.25, 0.337, 0.431, 0.464, 0.487, 0.511, 0.489, 0.407, 0.252, 0.086, 0.034, 0.06, 0.053, 0.032, 0.033, 0.038, 0.039, 0.038, 0.036, 0.028, 0.044, 0.132, 0.323, 0.526, 0.554, 0.421, 0.305, 0.282, 0.36, 0.49, 0.55, 0.462, 0.309, 0.261, 0.338, 0.438, 0.466, 0.448, 0.442, 0.436, 0.39, 0.281, 0.15, 0.052, 0.018, 0.021, 0.022, 0.023, 0.025, 0.028, 0.031, 0.034, 0.036, 0.031, 0.05, 0.142, 0.246, 0.367, 0.553, 0.642, 0.59, 0.524, 0.413, 0.244, 0.295, 0.52, 0.572, 0.534, 0.501, 0.426, 0.383, 0.395, 0.386, 0.29, 0.182, 0.133, 0.133, 0.186, 0.243, 0.287, 0.407, 0.56, 0.619, 0.596, 0.546, 0.485, 0.429, 0.445, 0.516, 0.464, 0.292, 0.222, 0.32, 0.441, 0.546, 0.688, 0.703, 0.513, 0.377, 0.479, 0.589, 0.507, 0.394, 0.297, 0.165, 0.063, 0.021, 0.015, 0.019, 0.021, 0.022, 0.025, 0.11, 0.249, 0.279, 0.313, 0.436, 0.48, 0.455, 0.451, 0.435, 0.402, 0.363, 0.352, 0.393, 0.468, 0.516, 0.487, 0.417, 0.29, 0.152, 0.238, 0.347, 0.239, 0.159, 0.18, 0.324, 0.448, 0.311, 0.238, 0.35, 0.381, 0.29, 0.19, 0.314, 0.542, 0.617, 0.628, 0.581, 0.548, 0.57, 0.58, 0.586, 0.432, 0.181, 0.192, 0.446, 0.621, 0.587, 0.409, 0.206, 0.062, 0.011, 0.012, 0.008, 0.004, 0.004, 0.004, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.004, 0.004, 0.004, 0.004, 0.004, 0.004, 0.005, 0.005, 0.006, 0.006, 0.019, 0.037, 0.034, 0.024, 0.027, 0.035, 0.037, 0.023, 0.067, 0.316, 0.625, 0.69, 0.547, 0.515, 0.629, 0.565, 0.369, 0.373, 0.604, 0.692, 0.607, 0.625, 0.615, 0.401, 0.132, 0.016, 0.093, 0.318, 0.419, 0.272, 0.168, 0.251, 0.481, 0.685, 0.69, 0.553, 0.359, 0.234, 0.263, 0.403, 0.554, 0.608, 0.603, 0.572, 0.487, 0.38, 0.269, 0.152, 0.058, 0.013, 0.019, 0.036, 0.023, 0.009, 0.013, 0.017, 0.019, 0.026, 0.036, 0.043, 0.042, 0.036, 0.03, 0.098, 0.34, 0.638, 0.769, 0.752, 0.701, 0.608, 0.51, 0.467, 0.497, 0.576, 0.614, 0.603, 0.587, 0.489, 0.305, 0.223, 0.311, 0.447, 0.57, 0.534, 0.32, 0.218, 0.257, 0.303, 0.441, 0.591, 0.546, 0.463, 0.516, 0.646, 0.705, 0.608, 0.489, 0.445, 0.471, 0.512, 0.488, 0.391, 0.221, 0.089, 0.177, 0.415, 0.583, 0.634, 0.647, 0.656, 0.626, 0.552, 0.568, 0.733, 0.821, 0.6, 0.246, 0.159, 0.32, 0.396, 0.407, 0.46, 0.427, 0.265, 0.101, 0.129, 0.311, 0.421, 0.426, 0.338, 0.263, 0.376, 0.47, 0.322, 0.17, 0.279, 0.507, 0.523, 0.278, 0.06, 0.128, 0.46, 0.612, 0.403, 0.306, 0.408, 0.385, 0.284, 0.297, 0.41, 0.462, 0.457, 0.515, 0.525, 0.465, 0.37, 0.225, 0.133, 0.093, 0.049, 0.019, 0.013, 0.008, 0.003, 0.003, 0.004, 0.004, 0.004, 0.004, 0.004, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.004, 0.003, 0.005, 0.012, 0.019, 0.023, 0.027, 0.034, 0.037, 0.034, 0.029, 0.023, 0.017, 0.015, 0.017, 0.032, 0.211, 0.526, 0.631, 0.523, 0.527, 0.666, 0.724, 0.679, 0.602, 0.552, 0.67, 0.8, 0.617, 0.276, 0.18, 0.344, 0.497, 0.555, 0.588, 0.531, 0.331, 0.192, 0.269, 0.363, 0.41, 0.522, 0.598, 0.574, 0.49, 0.392, 0.359, 0.368, 0.358, 0.33, 0.307, 0.39, 0.578, 0.753, 0.844, 0.841, 0.757, 0.553, 0.258, 0.065, 0.028, 0.037, 0.039, 0.035, 0.03, 0.024, 0.082, 0.267, 0.475, 0.55, 0.468, 0.279, 0.131, 0.255, 0.494, 0.518, 0.506, 0.532, 0.43, 0.32, 0.295, 0.354, 0.475, 0.521, 0.478, 0.417, 0.336, 0.234, 0.222, 0.376, 0.482, 0.443, 0.505, 0.676, 0.623, 0.372, 0.324, 0.489, 0.49, 0.267, 0.157, 0.284, 0.425, 0.445, 0.429, 0.448, 0.457, 0.423, 0.391, 0.394, 0.444, 0.535, 0.584, 0.482, 0.282, 0.205, 0.317, 0.402, 0.367, 0.329, 0.413, 0.587, 0.582, 0.454, 0.473, 0.569, 0.623, 0.583, 0.536, 0.486, 0.36, 0.326, 0.402, 0.396, 0.387, 0.539, 0.677, 0.68, 0.629, 0.576, 0.512, 0.374, 0.188, 0.057, 0.015, 0.017, 0.015, 0.008, 0.005, 0.004, 0.004, 0.004, 0.004, 0.004, 0.003, 0.003, 0.004, 0.004, 0.003, 0.003, 0.003, 0.003, 0.003, 0.007, 0.017, 0.021, 0.02, 0.026, 0.035, 0.04, 0.041, 0.041, 0.034, 0.023, 0.046, 0.13, 0.225, 0.299, 0.359, 0.379, 0.427, 0.581, 0.67, 0.583, 0.511, 0.491, 0.449, 0.439, 0.398, 0.301, 0.29, 0.366, 0.413, 0.403, 0.36, 0.269, 0.151, 0.12, 0.183, 0.232, 0.302, 0.434, 0.461, 0.356, 0.366, 0.475, 0.458, 0.367, 0.322, 0.291, 0.247, 0.235, 0.25, 0.227, 0.188, 0.21, 0.32, 0.461, 0.509, 0.369, 0.174, 0.141, 0.236, 0.315, 0.317, 0.302, 0.326, 0.344, 0.319, 0.287, 0.266, 0.245, 0.278, 0.369, 0.421, 0.364, 0.28, 0.258, 0.233, 0.169, 0.1, 0.048, 0.021, 0.012, 0.011, 0.016, 0.022, 0.027, 0.03, 0.03, 0.026, 0.019, 0.011, 0.007, 0.005, 0.065, 0.186, 0.363, 0.619, 0.707, 0.581, 0.497, 0.442, 0.282, 0.142, 0.253, 0.537, 0.674, 0.631, 0.586, 0.528, 0.391, 0.314, 0.47, 0.651, 0.64, 0.528, 0.384, 0.283, 0.299, 0.416, 0.45, 0.286, 0.206, 0.308, 0.285, 0.144, 0.144, 0.272, 0.331, 0.264, 0.167, 0.095, 0.046, 0.019, 0.009, 0.008, 0.007, 0.006, 0.007, 0.01, 0.014, 0.018, 0.021, 0.026, 0.028, 0.024, 0.017, 0.066, 0.207, 0.352, 0.442, 0.522, 0.631, 0.641, 0.54, 0.464, 0.389, 0.394, 0.465, 0.35, 0.151, 0.084, 0.056, 0.118, 0.287, 0.474, 0.656, 0.66, 0.539, 0.494, 0.477, 0.412, 0.364, 0.366, 0.448, 0.557, 0.484, 0.329, 0.367, 0.47, 0.374, 0.184, 0.202, 0.378, 0.418, 0.35, 0.269, 0.204, 0.226, 0.233, 0.184, 0.153, 0.126, 0.088, 0.048, 0.02, 0.011, 0.008, 0.006, 0.004, 0.004, 0.004, 0.004, 0.003, 0.003, 0.006, 0.018, 0.029, 0.026, 0.024, 0.03, 0.036, 0.035, 0.033, 0.03, 0.05, 0.142, 0.251, 0.318, 0.415, 0.574, 0.641, 0.454, 0.173, 0.057, 0.234, 0.536, 0.572, 0.4, 0.391, 0.538, 0.479, 0.215, 0.077, 0.116, 0.167, 0.141, 0.138, 0.166, 0.175, 0.263, 0.311, 0.178, 0.041, 0.032, 0.138, 0.32, 0.416, 0.333, 0.191, 0.087, 0.11, 0.269, 0.31, 0.149, 0.036, 0.097, 0.318, 0.561, 0.639, 0.598, 0.518, 0.443, 0.42, 0.395, 0.358, 0.369, 0.367, 0.358, 0.435, 0.477, 0.4, 0.412, 0.554, 0.575, 0.461, 0.4, 0.379, 0.335, 0.307, 0.269, 0.28, 0.385, 0.425, 0.384, 0.334, 0.312, 0.271, 0.16, 0.117, 0.284, 0.509, 0.514, 0.374, 0.255, 0.206, 0.282, 0.408, 0.412, 0.299, 0.229, 0.182, 0.127, 0.123, 0.136, 0.125, 0.081, 0.029, 0.011, 0.013, 0.015, 0.015, 0.014, 0.014, 0.013, 0.012, 0.012, 0.012, 0.013, 0.013, 0.012, 0.019, 0.104, 0.252, 0.337, 0.345, 0.322, 0.306, 0.277, 0.18, 0.14, 0.267, 0.38, 0.383, 0.414, 0.478, 0.495, 0.46, 0.4, 0.271, 0.095, 0.024, 0.061, 0.079, 0.043, 0.014, 0.014, 0.015, 0.016, 0.017, 0.017, 0.015, 0.011, 0.006, 0.05, 0.195, 0.356, 0.409, 0.364, 0.309, 0.255, 0.196, 0.174, 0.218, 0.295, 0.391, 0.49, 0.548, 0.607, 0.658, 0.659, 0.633, 0.553, 0.407, 0.232, 0.082, 0.017, 0.013, 0.014, 0.015, 0.018, 0.025, 0.036, 0.041, 0.043, 0.04, 0.033, 0.115, 0.309, 0.369, 0.214, 0.148, 0.357, 0.69, 0.884, 0.904, 0.894, 0.784, 0.617, 0.47, 0.231, 0.045, 0.052, 0.214, 0.377, 0.385, 0.328, 0.3, 0.341, 0.481, 0.603, 0.603, 0.58, 0.564, 0.464, 0.296, 0.163, 0.222, 0.455, 0.571, 0.455, 0.302, 0.294, 0.349, 0.291, 0.146, 0.04, 0.093, 0.384, 0.716, 0.806, 0.655, 0.403, 0.214, 0.232, 0.31, 0.259, 0.19, 0.266, 0.52, 0.694, 0.624, 0.517, 0.444, 0.358, 0.261, 0.155, 0.067, 0.019, 0.023, 0.044, 0.039, 0.026, 0.015, 0.007, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.004, 0.004, 0.003, 0.003, 0.003, 0.004, 0.007, 0.02, 0.032, 0.028, 0.029, 0.037, 0.04, 0.04, 0.038, 0.032, 0.073, 0.244, 0.494, 0.678, 0.716, 0.646, 0.569, 0.556, 0.52, 0.376, 0.223, 0.115, 0.211, 0.526, 0.664, 0.618, 0.597, 0.542, 0.371, 0.182, 0.273, 0.541, 0.565, 0.414, 0.404, 0.494, 0.515, 0.513, 0.6, 0.666, 0.49, 0.229, 0.211, 0.293, 0.335, 0.413, 0.397, 0.239, 0.146, 0.258, 0.439, 0.548, 0.593, 0.504, 0.325, 0.249, 0.235, 0.212, 0.232, 0.301, 0.389, 0.442, 0.469, 0.494, 0.454, 0.341, 0.342, 0.57, 0.804, 0.788, 0.625, 0.575, 0.601, 0.482, 0.27, 0.123, 0.048, 0.025, 0.034, 0.041, 0.04, 0.032, 0.028, 0.087, 0.262, 0.49, 0.667, 0.71, 0.599, 0.453, 0.328, 0.277, 0.369, 0.427, 0.358, 0.297, 0.354, 0.486, 0.489, 0.43, 0.489, 0.531, 0.488, 0.437, 0.384, 0.321, 0.196, 0.095, 0.118, 0.226, 0.306, 0.283, 0.327, 0.498, 0.591, 0.469, 0.251, 0.115, 0.057, 0.032, 0.022, 0.01, 0.007, 0.01, 0.014, 0.017, 0.021, 0.024, 0.025, 0.023, 0.021, 0.015, 0.007, 0.172, 0.461, 0.466, 0.357, 0.445, 0.513, 0.478, 0.418, 0.274, 0.142, 0.241, 0.533, 0.7, 0.63, 0.557, 0.434, 0.207, 0.172, 0.274, 0.257, 0.207, 0.275, 0.429, 0.53, 0.558, 0.539, 0.488, 0.439, 0.307, 0.138, 0.06, 0.048, 0.061, 0.124, 0.286, 0.426, 0.446, 0.476, 0.522, 0.468, 0.458, 0.634, 0.709, 0.524, 0.308, 0.3, 0.429, 0.394, 0.318, 0.372, 0.433, 0.471, 0.368, 0.17, 0.084, 0.084, 0.187, 0.353, 0.317, 0.114, 0.062, 0.244, 0.544, 0.709, 0.606, 0.459, 0.396, 0.356, 0.242, 0.093, 0.131, 0.299, 0.306, 0.194, 0.174, 0.238, 0.345, 0.46, 0.411, 0.237, 0.131, 0.093, 0.072, 0.054, 0.038, 0.026, 0.012, 0.005, 0.004, 0.003, 0.003, 0.003, 0.003, 0.003], FPS = 30, D = 59.32;
+
+const mkT = () => { const tl = gsap.timeline();
+  tl.from = function (target, vars, pos) {            // seek-safe: from() becomes fromTo() with the element's own end state
+    const meta = ["duration", "ease", "delay", "stagger", "repeat", "yoyo", "transformOrigin", "onUpdate", "onComplete", "overwrite"];
+    const fromV = {}, opts = {}; Object.keys(vars).forEach(k => (meta.includes(k) ? (opts[k] = vars[k]) : (fromV[k] = vars[k])));
+    const st = typeof opts.stagger === "number" ? opts.stagger : 0; delete opts.stagger;
+    gsap.utils.toArray(target).forEach((t, i) => { const to = {}; Object.keys(fromV).forEach(k => { to[k] = gsap.getProperty(t, k); });
+      this.fromTo(t, fromV, Object.assign({}, to, opts), typeof pos === "number" ? pos + i * st : pos); });
+    return this; };
+  return tl; };
+const ICON = {
+  sheets:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M3 15h18M9 3v18"/>',
+  gmail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  slack:'<path d="M9 3L7 21M17 3l-2 18M4 9h17M3 15h17"/>',
+  drive:'<path d="M12 4l9 15H3z"/><path d="M12 4L7.5 12M12 4l4.5 8"/>',
+  database:'<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+  phone:'<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/>',
+  plug:'<path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0zM12 17v5"/>',
+  spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',
+};
+const ic = (n, s=26, c="currentColor", w=1.8) =>
+  `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
+const el = (cls, html, css, parent) => { const d=document.createElement("div"); d.className=cls; d.innerHTML=html||""; if(css) d.style.cssText=css; if(parent) parent.appendChild(d); return d; };
+const hlText = s => s.replace(/\{([^}]+)\}/g, '<span class="hl">$1</span>');
+
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, k) => a + (b - a) * k, io = k => (k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+/* ---------- cartoon presenter (flat SVG, driven by voice envelope) ---------- */
+const SKIN="#c98a5e", SKIN_D="#a96c46", SKIN_L="#dba273", HAIR="#17100d", BLUE="#2f7fd0", BLUE_D="#2064b3", BLUE_L="#4a95e6";
+function curls(cx,cy,rx,ry,a0,a1,n,r,seed){ let o="",x=seed; const rnd=()=>{x=(x*9301+49297)%233280;return x/233280;};
+  for(let i=0;i<n;i++){ const a=(a0+(a1-a0)*i/(n-1))*Math.PI/180, j=rnd()*4-2;
+    o+=`<circle cx="${(cx+Math.cos(a)*(rx+j)).toFixed(1)}" cy="${(cy+Math.sin(a)*(ry+j)).toFixed(1)}" r="${(r+rnd()*4).toFixed(1)}"/>`; } return o; }
+const finger=(x,len,rot)=>`<rect x="${x-4.6}" y="24" width="9.2" height="${len}" rx="4.6" fill="url(#gSkin)" stroke="${SKIN_D}" stroke-opacity=".35" stroke-width="1" transform="rotate(${rot} ${x} 24)"/>`;
+const handSVG = `
+  <g class="h-open"><rect x="-19" y="-2" width="38" height="38" rx="15" fill="url(#gSkin)"/>
+    ${finger(-13.5,30,7)}${finger(-4.5,37,2)}${finger(4.5,35,-3)}${finger(13.5,27,-8)}
+    <rect x="-27" y="8" width="10" height="28" rx="5" fill="url(#gSkin)" stroke="${SKIN_D}" stroke-opacity=".35" transform="rotate(38 -22 12)"/></g>
+  <g class="h-point"><rect x="-19" y="-2" width="38" height="38" rx="16" fill="url(#gSkin)"/>
+    <rect x="-13" y="24" width="9.2" height="42" rx="4.6" fill="url(#gSkin)" stroke="${SKIN_D}" stroke-opacity=".35" transform="rotate(4 -9 24)"/>
+    <rect x="-3" y="26" width="22" height="10" rx="5" fill="${SKIN_D}" opacity=".35"/><rect x="-27" y="10" width="10" height="24" rx="5" fill="url(#gSkin)" transform="rotate(34 -22 12)"/></g>
+  <g class="h-fist"><rect x="-20" y="-2" width="40" height="42" rx="17" fill="url(#gSkin)"/>
+    <path d="M-14 34 H14 M-14 26 H14" stroke="${SKIN_D}" stroke-opacity=".4" stroke-width="2" stroke-linecap="round"/>
+    <rect x="-25" y="-10" width="11" height="40" rx="5.5" fill="url(#gSkin)" transform="rotate(-8 -20 8)"/></g>`;
+const armSVG = (id,px,sx) => `<g transform="translate(${px} 404) scale(${sx} 1)"><g id="${id}j"><g id="${id}">
+    <rect x="-17" y="24" width="34" height="62" rx="16" fill="url(#gSkin)"/>
+    <rect x="-32" y="-22" width="64" height="82" rx="30" fill="url(#gBlue)"/><path d="M-32 44 Q0 54 32 44 L32 58 Q0 68 -32 58 Z" fill="${BLUE_D}" opacity=".55"/>
+    <g id="${id}f" transform="translate(0 74)"><rect x="-16" y="-8" width="32" height="92" rx="16" fill="url(#gSkin)"/><circle r="17" fill="url(#gSkin)"/><g id="${id}h" transform="translate(0 80)">${handSVG}</g></g>
+  </g></g></g>`;
+document.getElementById("pres").innerHTML = `<svg viewBox="0 0 400 620">
+  <defs>
+    <radialGradient id="gSkin" cx=".42" cy=".38" r=".8"><stop offset="0" stop-color="${SKIN_L}"/><stop offset=".6" stop-color="${SKIN}"/><stop offset="1" stop-color="${SKIN_D}"/></radialGradient>
+    <linearGradient id="gBlue" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="${BLUE_L}"/><stop offset=".55" stop-color="${BLUE}"/><stop offset="1" stop-color="${BLUE_D}"/></linearGradient>
+    <linearGradient id="gMetal" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#eef1f4"/><stop offset="1" stop-color="#8b929b"/></linearGradient>
+    <linearGradient id="gNeck" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${SKIN_D}"/><stop offset=".5" stop-color="${SKIN}"/></linearGradient>
+    <linearGradient id="gBeard" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3b2a22" stop-opacity=".78"/><stop offset="1" stop-color="#26180f" stop-opacity=".9"/></linearGradient>
+  </defs>
+  <g id="body">
+    <path d="M30 640 L46 452 C50 402 92 362 150 352 L250 352 C308 362 350 402 354 452 L370 640 Z" fill="url(#gBlue)"/>
+    <path d="M150 352 C160 400 130 470 118 640 L30 640 L46 452 C50 402 92 362 150 352Z" fill="${BLUE_D}" opacity=".28"/>
+    <path d="M250 352 C240 420 262 500 270 640 L370 640 L354 452 C350 402 308 362 250 352Z" fill="${BLUE_D}" opacity=".18"/>
+    <path d="M120 470 C150 520 150 580 140 640 M280 470 C250 520 252 580 262 640" stroke="${BLUE_D}" stroke-opacity=".35" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M156 340 L244 340 L244 352 L156 352Z" fill="${SKIN_D}"/>
+    <path id="neck" d="M164 262 L236 262 L240 352 L160 352 Z" fill="url(#gNeck)"/>
+    <path d="M154 346 L200 430 L246 346 L236 340 L200 404 L164 340 Z" fill="${BLUE_D}"/>
+    <path d="M164 342 L236 342 L200 412 Z" fill="${SKIN}"/>
+    <path d="M176 342 L224 342 L200 388 Z" fill="${SKIN_L}" opacity=".35"/>
+    <path d="M162 334 C150 392 176 476 208 500" stroke="#15171a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M238 334 C250 392 238 468 216 498" stroke="#15171a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M212 498 C214 520 216 530 216 540" stroke="#15171a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <rect x="156" y="326" width="9" height="16" rx="4" fill="url(#gMetal)"/><rect x="235" y="326" width="9" height="16" rx="4" fill="url(#gMetal)"/>
+    <circle cx="216" cy="560" r="23" fill="#7d848d"/><circle cx="216" cy="560" r="19" fill="url(#gMetal)"/><circle cx="216" cy="560" r="8" fill="#8b929b"/>
+    <rect x="262" y="468" width="58" height="62" rx="9" fill="none" stroke="${BLUE_D}" stroke-opacity=".7" stroke-width="3"/>
+    <rect x="296" y="450" width="6" height="30" rx="3" fill="#1a1d21"/><rect x="302" y="448" width="7" height="14" rx="3" fill="#e8e8e8"/>
+    <rect x="228" y="364" width="9" height="16" rx="3" fill="#111"/>
+    ${armSVG("aL",86,-1)}${armSVG("aR",314,1)}
+  </g>
+  <g id="head">
+   <g id="headin">
+    <g fill="${HAIR}" id="hairBack">${curls(200,150,86,78,172,368,24,17,7)}<ellipse cx="200" cy="150" rx="82" ry="70"/></g>
+    <g id="ears"><ellipse cx="120" cy="196" rx="14" ry="22" fill="url(#gSkin)"/><ellipse cx="124" cy="198" rx="6" ry="12" fill="${SKIN_D}" opacity=".6"/>
+      <ellipse cx="280" cy="196" rx="14" ry="22" fill="url(#gSkin)"/><ellipse cx="276" cy="198" rx="6" ry="12" fill="${SKIN_D}" opacity=".6"/></g>
+    <path d="M122 168 C122 114 158 96 200 96 C242 96 278 114 278 168 C278 222 262 262 236 284 C224 294 212 298 200 298 C188 298 176 294 164 284 C138 262 122 222 122 168 Z" fill="url(#gSkin)"/>
+    <path d="M130 168 C132 128 162 108 200 108 C238 108 268 128 270 168 C250 142 226 132 200 132 C174 132 150 142 130 168Z" fill="${SKIN_D}" opacity=".30"/>
+    <path d="M124 186 C126 238 150 278 200 298 C250 278 274 238 276 186 C272 212 262 236 246 248 C232 242 216 241 200 241 C184 241 168 242 154 248 C138 236 128 212 124 186Z" fill="url(#gBeard)"/>
+    <path d="M168 246 C180 238 190 241 200 244 C210 241 220 238 232 246 C220 250 210 248 200 250 C190 248 180 250 168 246Z" fill="#2b1c14" opacity=".9"/>
+    <g fill="${HAIR}" id="hairFront">${curls(200,120,68,16,190,350,14,15,19)}</g>
+    <path d="M127 170 C125 184 127 196 132 203 C135 199 136 195 136 190 C134 182 134 174 137 168Z M273 170 C275 184 273 196 268 203 C265 199 264 195 264 190 C266 182 266 174 263 168Z" fill="${HAIR}" opacity=".7"/>
+    <g fill="#4a362c" opacity=".55"><circle cx="168" cy="92" r="6"/><circle cx="210" cy="86" r="7"/><circle cx="246" cy="98" r="6"/><circle cx="144" cy="108" r="5"/><circle cx="228" cy="110" r="5"/></g>
+    <g id="brows" fill="${HAIR}"><path id="bL" d="M141 164 Q165 146 192 156 L191 166 Q166 158 146 174Z"/><path id="bR" d="M259 164 Q235 146 208 156 L209 166 Q234 158 254 174Z"/></g>
+    <g id="eyes">
+      <g id="eL"><path d="M148 186 Q166 166 186 184 Q168 198 148 186Z" fill="#fff"/><circle id="pL" cx="167" cy="183" r="9" fill="#4b2c1c"/><circle cx="167" cy="183" r="4.5" fill="#150c08"/><circle cx="170" cy="180" r="2.2" fill="#fff"/><path d="M147 186 Q166 164 187 184" stroke="${HAIR}" stroke-width="3.4" fill="none" stroke-linecap="round"/></g>
+      <g id="eR"><path d="M214 184 Q234 166 252 186 Q232 198 214 184Z" fill="#fff"/><circle id="pR" cx="233" cy="183" r="9" fill="#4b2c1c"/><circle cx="233" cy="183" r="4.5" fill="#150c08"/><circle cx="236" cy="180" r="2.2" fill="#fff"/><path d="M213 184 Q234 164 253 186" stroke="${HAIR}" stroke-width="3.4" fill="none" stroke-linecap="round"/></g></g>
+    <path d="M152 194 Q166 204 182 194 M218 194 Q234 204 248 194" stroke="${SKIN_D}" stroke-opacity=".45" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M200 176 C198 200 192 214 186 224 C194 234 208 234 216 224 C210 220 206 210 206 198Z" fill="${SKIN_D}" opacity=".45"/>
+    <path d="M190 226 Q200 231 210 226" stroke="${SKIN_D}" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="192" cy="226" r="2.2" fill="#6b4126"/><circle cx="208" cy="226" r="2.2" fill="#6b4126"/>
+    <ellipse cx="148" cy="226" rx="15" ry="10" fill="#e2805a" opacity=".22"/><ellipse cx="252" cy="226" rx="15" ry="10" fill="#e2805a" opacity=".22"/>
+    <path d="M150 238 Q160 246 168 250 M250 238 Q240 246 232 250" stroke="#26180f" stroke-opacity=".5" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <clipPath id="mclip"><path id="mpathC" d=""/></clipPath>
+    <path id="mpath" d="" fill="#4a1a1a"/>
+    <g clip-path="url(#mclip)"><rect x="160" y="248" width="80" height="14" fill="#fff"/><ellipse id="tongue" cx="200" cy="278" rx="18" ry="9" fill="#d9605f"/></g>
+    <path id="mlip" d="" fill="none" stroke="#7a3326" stroke-width="3.2" stroke-linejoin="round"/>
+    <ellipse cx="190" cy="236" rx="30" ry="14" fill="#fff" opacity=".06"/>
+   </g>
+  </g>
+</svg>`;
+const POSE = { // [left, right]: outward arm angle, extra forearm curl, hand
+  timer:[["idle"],["point",125,35]], trend:[["idle"],["open",140,10]], apps:[["idle"],["point",112,40]], apps2:[["open",140,10],["idle"]],
+  tools:[["open",118,32],["open",118,32]], plugs:[["open",58,78],["open",58,78]], code:[["idle"],["point",118,38]], codeerr:[["open",138,22],["open",138,22]],
+  mcp:[["open",152,14],["open",152,14]], oneplug:[["idle"],["point",125,35]], hub:[["open",118,32],["open",118,32]], nope:[["idle"],["open",118,10]],
+  layers:[["open",58,78],["open",58,78]], radar:[["open",140,10],["point",112,40]], plugin:[["idle"],["point",120,38]], actions:[["open",118,32],["open",118,32]],
+  charger:[["idle"],["point",125,35]], phones_old:[["open",70,70],["open",70,70]], phones_new:[["open",150,14],["open",150,14]], follow:[["idle"],["fist",120,35]] };
+Object.assign(ICON, {}); Object.assign(POSE, {
+  browser:[["idle"],["point",125,35]], question:[["open",118,12],["open",118,12]], salesmyth:[["idle"],["open",118,30]],
+  check_a:[["open",58,78],["open",58,78]], check_b:[["open",58,78],["open",58,78]], lostorders:[["open",138,22],["open",138,22]],
+  pricetag:[["open",118,10],["point",112,40]], shopify:[["open",140,10],["point",120,38]], dashboard:[["open",118,32],["open",118,32]],
+  dm:[["idle"],["point",125,35]], money:[["open",138,22],["open",138,22]], manualdm:[["open",70,70],["open",70,70]],
+  autoreply:[["open",118,32],["open",118,32]], growth:[["open",150,14],["open",150,14]],
+});
+const IDLE = ["idle", 8, -18];
+const poseOf = (bi, k) => { const p = (POSE[TLB[bi].ill] || [["idle"], ["idle"]])[k]; return p[0] === "idle" ? IDLE : p; };
+const arms = { L: { g: $("aL"), j: $("aLj"), f: $("aLf"), h: $("aLh") }, R: { g: $("aR"), j: $("aRj"), f: $("aRf"), h: $("aRh") } };
+const glowL = $("glowL"), glowD = $("glowD"), pres = $("pres");
+function mouth(o, t) {
+  const w = 27 - o * 6 * (.5 + .5 * Math.sin(t * 17)), top = 259, depth = 4 + o * 32, cy = top + depth;
+  const d = `M${200 - w} ${top} Q200 ${top - 5} ${200 + w} ${top} Q200 ${cy + 7} ${200 - w} ${top} Z`;
+  $("mpath").setAttribute("d", d); $("mpathC").setAttribute("d", d); $("mlip").setAttribute("d", d); $("tongue").setAttribute("cy", String(cy - 4));
+}
+function frame(t) {
+  let bi = TLB.findIndex((b, i) => t >= b.s && (i === TLB.length - 1 || t < TLB[i + 1].s)); if (bi < 0) bi = 0;
+  const b = TLB[bi], prev = TLB[Math.max(0, bi - 1)], local = t - b.s;
+  const dark = b.t === "dark" ? 1 : 0, pd = prev.t === "dark" ? 1 : 0, dv = bi === 0 ? dark : pd + (dark - pd) * Math.min(1, local / .3);
+  glowD.style.opacity = dv; glowL.style.opacity = 1 - dv;
+  const e = ENV[Math.min(ENV.length - 1, Math.round(t * FPS))] || 0;
+  gsap.set(pres, { y: Math.sin(t * 1.6) * 3 - e * 4, scale: 1 + e * .01 }); gsap.set([glowL, glowD], { scale: 1 + e * .08 });
+  mouth(Math.min(1, e * 1.25), t);
+  let st = b.s; b.c.forEach(c => { if (c <= t) st = c; });
+  $("brows").setAttribute("transform", `translate(0 ${-7 * Math.max(0, 1 - (t - st) / .5) - e * 2})`);
+  const ph = t % 3.4, blink = ph < .14 ? Math.max(.08, Math.abs(ph - .07) / .07) : 1;
+  $("eyes").setAttribute("transform", `translate(0 ${183 * (1 - blink)}) scale(1 ${blink})`);
+  $("pL").setAttribute("cx", 167 + Math.sin(t * .7) * 3); $("pR").setAttribute("cx", 233 + Math.sin(t * .7) * 3);
+  gsap.set($("headin"), { svgOrigin: "200 320", rotation: Math.sin(t * 1.3) * 2.2 + Math.sin(t * 5.1) * e * 1.8, y: -e * 5, x: Math.sin(t * .9) * 3 });
+  ["L", "R"].forEach((k, i) => {
+    const cur = poseOf(bi, i), pre = bi > 0 ? poseOf(bi - 1, i) : IDLE, kk = io(clamp((t - (b.s + .05)) / .55));
+    const u = lerp(pre[1], cur[1], kk), f = lerp(pre[2], cur[2], kk), hand = cur[0], ar = arms[k];
+    const wob = u > 40 ? Math.sin(t * 3 + (i ? 1.7 : 0)) * 3.5 * (.5 + e) : Math.sin(t * 1.2 + i) * 1.5;
+    gsap.set(ar.g, { svgOrigin: "0 0", rotation: -u }); gsap.set(ar.f, { svgOrigin: "0 0", rotation: -f }); gsap.set(ar.j, { rotation: wob });
+    ar.h.querySelector(".h-open").style.display = hand === "open" || hand === "idle" ? "" : "none";
+    ar.h.querySelector(".h-point").style.display = hand === "point" ? "" : "none";
+    ar.h.querySelector(".h-fist").style.display = hand === "fist" ? "" : "none";
+  });
+}
+const tl = gsap.timeline({ paused: true }), px = { t: 0 };
+tl.to(px, { t: D, duration: D, ease: "none", onUpdate() { frame(px.t); } }, 0);
+frame(0);
+window.__timelines["char"] = tl;
+
+})();
+</script>
+</template>

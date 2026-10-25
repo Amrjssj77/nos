@@ -1,2 +1,5 @@
 node_modules
 studio/**/out/
+studio/hf/**/.hyperframes/
+studio/hf/**/renders/
+studio/hf/**/snapshots/
